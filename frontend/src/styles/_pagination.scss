@@ -1,0 +1,33 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 10px;
+  padding: 10px 20px;
+  background-color: $secondary;
+  color: white;
+  border-radius: 10px;
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+  }
+  a {
+    color: white;
+    &:hover {
+      color: $background;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    min-width: 20px;
+    margin-left: 5px;
+    &.active {
+      color: $cta;
+      &:hover {
+        color: $cta;
+      }
+    }
+  }
+}

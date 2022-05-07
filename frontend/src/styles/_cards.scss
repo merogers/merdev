@@ -1,0 +1,71 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin: 25px auto 0px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+
+  h2,
+  h3 {
+    margin-bottom: 20px;
+  }
+
+  button,
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+    border: none;
+    font-size: 1.2em;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    background-color: $primary;
+  }
+
+  .error {
+    color: $error;
+    text-align: center;
+  }
+
+  .warning {
+    color: $error;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+  }
+}
+
+.mini-card {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  svg {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+.hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 600px;
+  margin: 25px auto 0px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}

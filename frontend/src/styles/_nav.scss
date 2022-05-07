@@ -1,0 +1,85 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+}
+.navbar {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+  .active {
+    border-bottom: solid 5px $primary;
+    padding: 5px 10px 0px 10px;
+  }
+  li {
+    a {
+      font-size: 0.9em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 10px 5px 10px;
+      min-height: 50px;
+      text-transform: uppercase;
+      color: $background;
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+}
+
+.sidebar {
+  position: fixed;
+  bottom: 0;
+  height: 100vh;
+  right: -200px;
+  width: 200px;
+  background-color: $secondary;
+  z-index: 1;
+  transition: right 0.5s;
+  border-left: solid 5px $cta;
+
+  &.active {
+    color: $cta;
+    right: 0px !important;
+  }
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  .active {
+    color: $cta;
+  }
+  li {
+    list-style: none;
+    a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      padding: 10px 0;
+      &:hover {
+        color: $cta;
+      }
+    }
+  }
+}
+
+.toggle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  z-index: 99;
+}
