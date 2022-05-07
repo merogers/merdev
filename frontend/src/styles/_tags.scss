@@ -1,0 +1,35 @@
+.tag {
+  text-transform: uppercase;
+  padding: 2px 5px;
+  font-size: 0.8em;
+  display: flex;
+  margin: 2px;
+  border-radius: 5px;
+  &.green {
+    background-color: $greenTag;
+    color: white;
+  }
+  &.blue {
+    background-color: $blueTag;
+    color: white;
+  }
+  &.lightblue {
+    background-color: $lightBlueTag;
+    color: white;
+  }
+  &.orange {
+    background-color: $orangeTag;
+    color: white;
+  }
+  &.yellow {
+    background-color: $yellowTag;
+  }
+  &.grey {
+    background-color: $greyTag;
+    color: white;
+  }
+  &.pink {
+    background-color: $pinkTag;
+    color: white;
+  }
+}
