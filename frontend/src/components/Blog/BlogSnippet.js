@@ -19,17 +19,17 @@ const BlogSnippet = ({ blog, created, updated, deleteBlog }) => {
       </div>
       <div className="description">{blog.description}</div>
       <div className="button-container">
-        <Link className="primary" to={`/blog/${blog.slug}`}>
+        <Link className="button primary" to={`/blog/${blog.slug}`}>
           <FaReadme />
           Read More
         </Link>
         {blog.user === user._id && (
           <>
-            <Link className="cta" to={`/editblog/${blog.slug}`}>
+            <Link className="button cta" to={`/editblog/${blog.slug}`}>
               <FaEdit /> Edit
             </Link>
             <Link
-              className="delete"
+              className="button delete"
               to="/dashboard"
               onClick={() => {
                 deleteBlog(blog._id);

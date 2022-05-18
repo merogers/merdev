@@ -1,3 +1,7 @@
+/* Font */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
 /* Colors */
 
 $primary: #d6c7ff;
@@ -6,6 +10,11 @@ $cta: #c0ffe5;
 $background: #e4e4f1;
 $copy: #545353;
 $error: #a31621;
+$link: #7847ff;
+
+$errorHighlight: #ee818a;
+$primaryHighlight: #f0ebff;
+$ctaHighlight: #d6ffee;
 
 $greenTag: #254441;
 $blueTag: #2274a5;
@@ -47,14 +56,15 @@ $pinkTag: #9b5094;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+  background-color: $background;
 }
 
 .container {
   background-color: $background;
   display: flex;
   flex-direction: column;
-  padding: 60px 10px 0px 10px;
-
+  padding: 60px 10px 20px 10px;
+  flex: 1;
   width: 100%;
   h1 {
     margin: 25px 0px;
@@ -68,29 +78,56 @@ $pinkTag: #9b5094;
 }
 
 .hero {
+  margin: auto 0px;
   padding: 20px;
+  h1,
+  p {
+    color: $secondary;
+  }
+  display: flex;
+
   h1 {
-    margin-bottom: 0px;
+    margin-bottom: 20px;
+    font-weight: normal;
+    .emphasis {
+      font-weight: bold;
+    }
+  }
+
+  p {
+    margin-bottom: 30px;
   }
 
   color: $background;
-  background-image: linear-gradient(rgba(9, 10, 11, 0.9), rgba(9, 10, 11, 0.9)),
-    url("../assets/hero-code.jpg");
   display: flex;
   min-height: 400px;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  .cta-links {
+
+  .hero-section {
     display: flex;
+    flex: 1;
+    width: 100%;
+    min-width: 300px;
+    padding: 20px;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin: 20px 0px 50px 0px;
+  }
+
+  .social-media {
+    margin-top: 40px;
     svg {
-      width: 40px;
-      height: 40px;
-      margin: 0px 10px;
-      color: $background;
+      min-width: 40px;
+      min-height: 40px;
+      color: $secondary;
+      margin: 10px;
     }
+    a:hover svg {
+      color: $copy;
+    }
+  }
+
+  .profile img {
+    margin-top: 20px;
   }
 }
 
@@ -160,6 +197,15 @@ $pinkTag: #9b5094;
   }
 }
 
+.text-link {
+  color: $link;
+  text-decoration: none;
+  margin: 0px 5px;
+  &:hover {
+    color: $copy;
+  }
+}
+
 /* Media Queries */
 
 @media (max-width: 700px) {
@@ -178,5 +224,8 @@ $pinkTag: #9b5094;
     a {
       justify-content: center;
     }
+  }
+  .hero {
+    flex-direction: column;
   }
 }

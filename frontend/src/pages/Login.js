@@ -87,7 +87,7 @@ const Login = () => {
     e.preventDefault();
 
     if (validateLogin()) {
-      handleLogin("user/login");
+      handleLogin("/api/user/login");
     }
   };
 
@@ -124,7 +124,7 @@ const Login = () => {
           </label>
           {errors.login && <div className="error">{errors.login}</div>}
           <div className="button-container">
-            <button className="button" type="submit">
+            <button className="button cta" type="submit">
               Login
             </button>
           </div>

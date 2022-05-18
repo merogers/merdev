@@ -20,7 +20,10 @@ const BlogDetails = ({ blog }) => {
       </div>
       <div className="entry">{blog.entry}</div>
       <div className="button-container">
-        <Link className="primary" to={user.isAuth ? "/dashboard" : "/blog"}>
+        <Link
+          className="button primary"
+          to={user.isAuth ? "/dashboard" : "/blog"}
+        >
           <FaArrowLeft /> Back
         </Link>
       </div>

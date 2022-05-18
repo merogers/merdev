@@ -15,7 +15,7 @@ const UserBanner = () => {
     return (
       <div className="banner">
         <div>
-          <div>Hello, {user.firstName}</div>
+          <h2 className="greeting">Hello, {user.firstName}</h2>
         </div>
         <div>
           <Link className="link primary" to="/dashboard">

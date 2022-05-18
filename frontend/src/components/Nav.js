@@ -42,22 +42,27 @@ const Nav = () => {
         title: "Contact",
         path: "/contact",
       },
-      {
-        title: "Register",
-        path: "/register",
-      },
+      // Let's hide the register link for now
+      // {
+      //   title: "Register",
+      //   path: "/register",
+      // },
     ];
 
     return (
       <>
         {links.map((link, idx) => (
           <li key={idx}>
-            <NavLink to={link.path}>{link.title}</NavLink>
+            <NavLink to={link.path} className="main">
+              {link.title}
+            </NavLink>
           </li>
         ))}
         {!user.isAuth && (
-          <li>
-            <NavLink to="/login">Login</NavLink>
+          <li className="login">
+            <NavLink to="/login" className="login">
+              Login
+            </NavLink>
           </li>
         )}
       </>
@@ -82,9 +87,9 @@ const Nav = () => {
         <div className="toggle" onClick={toggleMenu}>
           {menuOpen ? <AiOutlineClose /> : <FaBars />}
         </div>
-        <div className="sidebar-links" onClick={toggleMenu}>
+        <ul className="sidebar-links" onClick={toggleMenu}>
           <Navigation />
-        </div>
+        </ul>
       </div>
     );
   };

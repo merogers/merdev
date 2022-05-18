@@ -23,7 +23,7 @@ const Dashboard = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: `blog/user/${user._id}`,
+        url: `/api/blog/user/${user._id}`,
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

@@ -71,7 +71,7 @@ const CreateBlog = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateBlog()) {
-      handleCreateBlog("blog/new");
+      handleCreateBlog("/api/blog/new");
       setIsSubmitted(true);
     }
   };
@@ -87,7 +87,9 @@ const CreateBlog = () => {
       {isSubmitted ? (
         <div className="card">
           <h3>Post created successfully!</h3>
-          <Link to="/dashboard">Back</Link>
+          <Link to="/dashboard" className="button primary">
+            Back
+          </Link>
         </div>
       ) : (
         <div className="card">
@@ -124,7 +126,9 @@ const CreateBlog = () => {
               ></textarea>
               {errors.entry && <div className="error">{errors.entry}</div>}
             </label>
-            <button type="submit">Post</button>
+            <button type="submit" className="button cta">
+              Post
+            </button>
           </form>
         </div>
       )}

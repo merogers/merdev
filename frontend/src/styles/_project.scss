@@ -1,5 +1,5 @@
 .project {
-  border-left: solid 10px $primary;
+  border-left: solid 10px $secondary;
   border-radius: 10px;
   margin: 10px;
   padding: 20px;
@@ -20,7 +20,8 @@
   }
 
   .info {
-    color: $primary;
+    color: $copy;
+    text-transform: uppercase;
     font-size: 0.8em;
     margin-bottom: 10px;
   }
@@ -44,20 +45,21 @@
     border-radius: 10px;
     display: flex;
     align-items: center;
+    background-color: $secondary;
     svg {
       margin-right: 10px;
     }
     &.site {
-      background-color: $primary;
+      color: $primary;
       &:hover {
-        background-color: $primary;
+        background-color: $copy;
       }
       margin-bottom: 15px;
     }
     &.code {
-      background-color: $cta;
+      color: $cta;
       &:hover {
-        background-color: $cta;
+        background-color: $copy;
       }
     }
   }

@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "start": "serve -s build"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.17.10",
@@ -15,7 +16,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "serve": "^13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

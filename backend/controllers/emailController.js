@@ -15,7 +15,7 @@ const sendGrid = async (req, res) => {
   `;
 
   const data = {
-    to: "michelleevarogers@gmail.com",
+    to: "michelle@merogers.dev",
     from: "mailer@merogers.dev",
     subject: "merogers.dev Contact Form Message",
     text: output,

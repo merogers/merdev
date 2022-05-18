@@ -1,13 +1,15 @@
 .banner {
   display: flex;
   padding: 20px 20px;
+  margin: 20px;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin-top: 60px;
-  background-color: $secondary;
-  border-bottom: solid 1px #cccccc;
+  margin-top: 70px;
+  background-color: white;
+  color: $secondary;
   min-height: 120px;
+  border-radius: 10px;
 }
 
 .link {
@@ -20,15 +22,17 @@
   border-radius: 10px;
 
   &.cta {
-    background-color: $cta;
+    background-color: $secondary;
+    color: $cta;
     &:hover {
-      background-color: $cta;
+      background-color: $copy;
     }
   }
   &.primary {
-    background-color: $primary;
+    background-color: $secondary;
+    color: $primary;
     &:hover {
-      background-color: $primary;
+      background-color: $copy;
     }
   }
 }

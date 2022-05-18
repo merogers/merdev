@@ -70,7 +70,6 @@ const putBlog = async (req, res) => {
   const { slug } = req.body;
   try {
     const blog = await Blog.findOne({ slug: slug });
-    console.log(blog);
     Object.assign(blog, req.body);
     blog.save();
     res.status(201).json({ message: "Post updated successfully" });

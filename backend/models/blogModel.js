@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const marked = require("marked");
 const slugify = require("slugify");
-const createDomPurify = require("dompurify");
-const { JSDOM } = require("jsdom");
-const dompurify = createDomPurify(new JSDOM().window);
 
 // Blog Post Entry Schema
 
@@ -39,10 +35,6 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    sanitizedEntry: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
@@ -50,9 +42,6 @@ const blogSchema = new mongoose.Schema(
 blogSchema.pre("validate", function (next) {
   if (this.title) {
     this.slug = slugify(this.title, { lower: true, strict: true });
-  }
-  if (this.entry) {
-    this.sanitizedEntry = dompurify.sanitize(marked.parse(this.entry));
   }
   next();
 });

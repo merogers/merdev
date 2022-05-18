@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <% if (htmlWebpackPlugin.options.author) { %>
+    <meta name="author" content="<%= htmlWebpackPlugin.options.author %>" />
+    <% } %> <% if (htmlWebpackPlugin.options.description) { %>
+    <meta
+      name="description"
+      content="<%= htmlWebpackPlugin.options.description %>"
+    />
+    <% } %> <% if (htmlWebpackPlugin.options.keywords) { %>
+    <meta name="keywords" content="<%= htmlWebpackPlugin.options.keywords %>" />
+    <% } %>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>

@@ -89,7 +89,7 @@ const EditBlog = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateBlog()) {
-      handleEditBlog(`blog/${slug}`);
+      handleEditBlog(`/api/blog/${slug}`);
       setIsSubmitted(true);
     }
   };
@@ -99,7 +99,7 @@ const EditBlog = () => {
   };
 
   useEffect(() => {
-    handleGetBlogDetails(`blog/${slug}`);
+    handleGetBlogDetails(`/api/blog/${slug}`);
   }, [handleGetBlogDetails, slug]);
 
   return (
@@ -109,7 +109,9 @@ const EditBlog = () => {
       {isSubmitted ? (
         <div className="card">
           <h3>Post edited successfully!</h3>
-          <Link to="/dashboard">Back</Link>
+          <Link to="/dashboard" className="button cta">
+            Back
+          </Link>
         </div>
       ) : (
         <div className="card">
