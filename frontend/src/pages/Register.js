@@ -43,7 +43,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateRegister()) {
-      handleRegister("user/register");
+      handleRegister("/api/user/register");
       setIsSubmitted(true);
     }
   };
@@ -183,7 +183,7 @@ const Register = () => {
               )}
             </label>
             <div className="button-container">
-              <button className="button primary" type="submit">
+              <button className="button cta" type="submit">
                 Submit
               </button>
             </div>

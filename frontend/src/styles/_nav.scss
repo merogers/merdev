@@ -9,26 +9,65 @@
   align-items: center;
   justify-content: center;
   padding-right: 10px;
-  .active {
-    border-bottom: solid 5px $primary;
-    padding: 5px 10px 0px 10px;
-  }
-  li {
-    a {
-      font-size: 0.9em;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px 10px 5px 10px;
-      min-height: 50px;
-      text-transform: uppercase;
-      color: $background;
-      &:hover {
-        color: $primary;
+
+  .login {
+    margin-left: 15px;
+    &.active {
+      background-color: $primary;
+      :hover {
+        background-color: $copy;
       }
     }
+    a:hover {
+      background-color: $primaryHighlight;
+    }
   }
+  .main {
+    &.active {
+      padding: 5px 10px 0px 10px;
+      border-bottom: solid 5px $primary;
+    }
+  }
+}
+
+a.main {
+  font-size: 0.9em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px 5px 10px;
+  min-height: 50px;
+  text-transform: uppercase;
+  color: $background;
+  &:hover {
+    color: $primary;
+  }
+}
+
+a.login {
+  font-size: 0.9em;
+  text-decoration: none;
+  display: flex;
+  padding: 3px 15px;
+  text-transform: uppercase;
+  background-color: $cta;
+  font-weight: bold;
+  border-radius: 5px;
+  color: $secondary;
+  // &:hover &.active {
+  //   background-color: $primary;
+  //   &:hover {
+  //     background-color: $primaryHighlight;
+  //   }
+  // }
+}
+
+li.login {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar {
@@ -42,8 +81,11 @@
   transition: right 0.5s;
   border-left: solid 5px $cta;
 
+  a.active {
+    color: $primary;
+  }
+
   &.active {
-    color: $cta;
     right: 0px !important;
   }
 }
@@ -53,19 +95,19 @@
   flex-direction: column;
   align-items: center;
   padding-top: 100px;
-  .active {
-    color: $cta;
+  list-style-type: none;
+  .main {
+    &.active {
+      color: $primary;
+    }
   }
-  li {
-    list-style: none;
-    a {
-      display: block;
-      text-decoration: none;
-      color: white;
-      padding: 10px 0;
-      &:hover {
-        color: $cta;
-      }
+  .login {
+    &.active {
+      color: $secondary;
+      background-color: $primary;
+    }
+    a:hover {
+      background-color: $primaryHighlight;
     }
   }
 }
@@ -74,8 +116,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -31,7 +31,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/user/Dashboard";
 import CreateBlog from "./pages/user/CreateBlog";
 import EditBlog from "./pages/user/EditBlog";
-import Footer from "./components/Footer";
 
 // --- App Component --- //
 
@@ -75,8 +74,8 @@ const App = () => {
           />
           <Route path="*" element={<Error404 />} />
         </Routes>
-        <Footer />
-        <Copyright msg="&copy; 2022 Michelle Rogers" />
+
+        <Copyright msg="&copy; 2022 merogers.dev" />
       </UserProvider>
     </Router>
   );

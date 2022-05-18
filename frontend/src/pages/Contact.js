@@ -144,7 +144,9 @@ const Contact = () => {
               {errors.message && <div className="error">{errors.message}</div>}
             </label>
             <div className="submit-container">
-              <button type="submit">Send</button>
+              <button type="submit" className="button cta">
+                Send
+              </button>
             </div>
           </form>
         </div>

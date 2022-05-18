@@ -56,6 +56,10 @@ module.exports = {
       filename: "index.html",
       template: "src/index.html",
       favicon: "src/assets/favicon.ico",
+      author: "Michelle Rogers",
+      description: "Full-Stack Web Developer",
+      keywords:
+        "web developer, fullstack, full stack, react, javascript, mongodb, google cloud, gcp",
     }),
     new MiniCssExtractPlugin({
       linkType: "text/css",

@@ -10,7 +10,7 @@ const Portfolio = () => {
       <h1>Portfolio</h1>
       <article className="project">
         <div className="project-info">
-          <h3>FetchCat.ca</h3>
+          <h3>merogers.dev</h3>
           <div className="info">Full-Stack Portfolio Site</div>
           <div className="tags">
             <span>Tags:</span>
@@ -26,7 +26,7 @@ const Portfolio = () => {
         <div className="project-links">
           <a
             className="link site"
-            href="https://fetchcat.ca"
+            href="https://merogers.dev"
             target="_blank"
             rel="noreferrer"
           >
@@ -35,7 +35,7 @@ const Portfolio = () => {
           </a>
           <a
             className="link code"
-            href="https://github.com/fetchcat/fetchcat-website"
+            href="https://github.com/fetchcat/merdev"
             target="_blank"
             rel="noreferrer"
           >
@@ -62,12 +62,12 @@ const Portfolio = () => {
         <div className="project-links">
           <a
             className="link site"
-            href="https://fetchcat.ca/apps/glareact"
+            href="https://glareact.merogers.dev/"
             target="_blank"
             rel="noreferrer"
           >
             <FaLink />
-            View Site
+            View App
           </a>
           <a
             className="link code"
@@ -98,12 +98,12 @@ const Portfolio = () => {
         <div className="project-links">
           <a
             className="link site"
-            href="https://fetchcat.ca/apps/glajs"
+            href="https://glajs.merogers.dev"
             target="_blank"
             rel="noreferrer"
           >
             <FaLink />
-            View Site
+            View App
           </a>
           <a
             className="link code"
@@ -118,7 +118,7 @@ const Portfolio = () => {
       </article>
       <article className="project">
         <div className="project-info">
-          <h3>WeatherSplash</h3>
+          <h3>WeatherSplash App</h3>
           <div className="info">Vanilla JS App - REST API</div>
           <div className="tags">
             <span>Tags:</span>
@@ -133,12 +133,12 @@ const Portfolio = () => {
         <div className="project-links">
           <a
             className="link site"
-            href="https://fetchcat.ca/apps/weathersplash"
+            href="https://weathersplash.merogers.dev/"
             target="_blank"
             rel="noreferrer"
           >
             <FaLink />
-            View Site
+            View App
           </a>
           <a
             className="link code"
