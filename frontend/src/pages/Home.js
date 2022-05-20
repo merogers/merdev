@@ -62,7 +62,7 @@ const Home = () => {
               <FaLinkedinIn />
             </a>
             <a
-              href="https://storage.googleapis.com/merdev-resume-download/WebDev%20Resume%205-14-2022.pdf"
+              href="https://storage.googleapis.com/merdev-resume-download/WebDev%20Resume%205-20-2022.pdf"
               target="_blank"
               rel="noreferrer"
             >
