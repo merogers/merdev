@@ -14,18 +14,18 @@ const Blog = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(5);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [errorState, setErrorState] = useState(false);
 
   const getBlogs = async () => {
-    setLoading(true);
     try {
       const response = await axios({
         method: "GET",
-        url: `/api/blog/latest`,
+        url: `/api/blog/latest/`,
       });
       setBlogs(response.data);
       setLoading(false);
+      console.log(response);
     } catch (error) {
       setLoading(false);
       setErrorState(true);
@@ -39,44 +39,61 @@ const Blog = () => {
 
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const currentBlogs = blogs && blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
-  const Blogs = ({ blogs, isLoading }) => {
-    if (isLoading) {
-      return <div className="msg loading" msg="Loading Blogs..." />;
-    }
+  // Show Loading Message
 
-    return blogs.map((blog) => {
-      const created = new Date(blog.updatedAt);
-      const updated = new Date(blog.updatedAt);
-      return (
-        <BlogSnippet
-          blog={blog}
-          created={created}
-          updated={updated}
-          key={blog._id}
-          id={blog._id}
-        />
-      );
-    });
-  };
+  if (isLoading) {
+    return (
+      <div className="container">
+        <div className="msg loading">Loading Blogs...</div>
+      </div>
+    );
+  }
+
+  // If fetch fails, show error message to user
+
+  if (errorState) {
+    return (
+      <div className="container">
+        <div className="msg error">Error: could not load blogs</div>
+      </div>
+    );
+  }
+
+  // If no blogs found, show message
+
+  if (blogs === null || blogs.length === 0) {
+    return (
+      <div className="container">
+        <div className="msg loading">No blogs to display</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <h1>Latest Blogs</h1>
-      <Blogs blogs={currentBlogs} isLoading={isLoading} />
-      {blogs.length > 0 && (
-        <Pagination
-          blogsPerPage={blogsPerPage}
-          totalBlogs={blogs.length}
-          setCurrentPage={setCurrentPage}
-          currentPage={currentPage}
-        />
-      )}
-      {errorState && (
-        <div className="msg error">Error: could not load blogs</div>
-      )}
-      {blogs.length === 0 && <div className="msg">No blogs to display...</div>}
+      {blogs &&
+        blogs.map((blog) => {
+          const created = new Date(blog.updatedAt);
+          const updated = new Date(blog.updatedAt);
+          return (
+            <BlogSnippet
+              blog={blog}
+              created={created}
+              updated={updated}
+              key={blog._id}
+              id={blog._id}
+            />
+          );
+        })}
+      <Pagination
+        blogsPerPage={blogsPerPage}
+        totalBlogs={blogs.length}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
