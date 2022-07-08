@@ -89,9 +89,9 @@ const Portfolio = () => {
             <div className="tag orange">HTML5</div>
             <div className="tag blue">CSS</div>
             <div className="tag green">JavaScript</div>
+            <div className="tag blue">MySQL</div>
             <div className="tag green">Node.js</div>
             <div className="tag grey">Express</div>
-            <div className="tag green">MongoDB</div>
             <div className="tag blue">WebPack</div>
           </div>
         </div>
