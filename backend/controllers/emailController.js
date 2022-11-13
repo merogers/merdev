@@ -1,9 +1,10 @@
 // const nodemailer = require("nodemailer");
+const asyncHandler = require('express-async-handler')
 const mail = require("@sendgrid/mail");
 
 mail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const sendGrid = async (req, res) => {
+const sendGrid = asyncHandler(async (req, res) => {
   const { name, email, phone, message } = req.body;
   console.log(req.body);
 
@@ -25,6 +26,6 @@ const sendGrid = async (req, res) => {
   mail.send(data);
 
   res.status(200).json({ status: "Ok" });
-};
+});
 
 module.exports = { sendGrid };

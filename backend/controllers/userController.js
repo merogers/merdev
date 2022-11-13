@@ -1,3 +1,4 @@
+const asyncHandler = require('express-async-handler')
 const { handleErrors } = require("../middleware/handleErrors");
 
 const { ObjectId } = require("mongodb");
@@ -18,7 +19,7 @@ const createToken = (id) => {
 
 // POST: Register User /user/register
 
-const postRegisterUser = async (req, res) => {
+const postRegisterUser = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
 
   try {
@@ -34,11 +35,11 @@ const postRegisterUser = async (req, res) => {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
-};
+});
 
 // POST: Login User /user/login
 
-const postLoginUser = async (req, res, next) => {
+const postLoginUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user == null) {
@@ -69,10 +70,10 @@ const postLoginUser = async (req, res, next) => {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
-};
+});
 
-const getIsAuth = async (req, res) => {
+const getIsAuth = asyncHandler(async (req, res) => {
   res.send("Auth successful");
-};
+});
 
 module.exports = { postRegisterUser, postLoginUser, getIsAuth };

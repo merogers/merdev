@@ -1,9 +1,11 @@
+const asyncHandler = require('express-async-handler')
+
 const { ObjectId } = require("mongodb");
 const Blog = require("../models/blogModel");
 
 // GET - and Sort Latest 5 Blog Posts
 
-const getLatestBlogs = async (req, res) => {
+const getLatestBlogs = asyncHandler(async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ updatedAt: -1 }).limit(5);
     res.status(201).send(blogs);
@@ -12,11 +14,11 @@ const getLatestBlogs = async (req, res) => {
       .status(500)
       .json({ message: "Error establishing database connection", error });
   }
-};
+});
 
 // GET - All blogs by user ID
 
-const getUserBlogs = async (req, res) => {
+const getUserBlogs = asyncHandler(async (req, res) => {
   const user = req.params.id;
   try {
     const blogs = await Blog.find({ user: ObjectId(user) }).sort({
@@ -28,11 +30,11 @@ const getUserBlogs = async (req, res) => {
       .status(500)
       .json({ message: "Error establishing database connection", error });
   }
-};
+});
 
 // GET - One Blog Details
 
-const getBlogDetails = async (req, res) => {
+const getBlogDetails = asyncHandler(async (req, res) => {
   try {
     const slug = req.params.slug;
     const blog = await Blog.findOne({ slug });
@@ -42,11 +44,11 @@ const getBlogDetails = async (req, res) => {
       .status(500)
       .json({ message: "Error establishing database connection", error });
   }
-};
+});
 
 // POST - Add new blog entry
 
-const postNewBlog = async (req, res) => {
+const postNewBlog = asyncHandler(async (req, res) => {
   const { title, description, entry, user, firstName, lastName } = req.body;
   try {
     const newBlog = await Blog.create({
@@ -62,11 +64,11 @@ const postNewBlog = async (req, res) => {
   } catch {
     res.status(400).json({ message: "Blog post creation failed" });
   }
-};
+});
 
 // PUT - Update Blog Entry
 
-const putBlog = async (req, res) => {
+const putBlog = asyncHandler(async (req, res) => {
   const { slug } = req.body;
   try {
     const blog = await Blog.findOne({ slug: slug });
@@ -76,11 +78,11 @@ const putBlog = async (req, res) => {
   } catch {
     res.status(400).json({ message: "Blog post update failed" });
   }
-};
+});
 
 // DELETE - Delete blog by ID
 
-const deleteBlogById = async (req, res) => {
+const deleteBlogById = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
     const blog = await Blog.deleteOne({ _id: ObjectId(id) });
@@ -90,7 +92,7 @@ const deleteBlogById = async (req, res) => {
       .status(500)
       .json({ message: "Error establishing database connection", error });
   }
-};
+});
 
 module.exports = {
   postNewBlog,
