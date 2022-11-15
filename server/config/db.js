@@ -1,6 +1,8 @@
 // Connect to Database
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
+const colors = require('colors');
 
 const connectDB = async () => {
   try {
@@ -8,7 +10,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log(`> MongoDB Connected to: ${mongoDBConnect.connection.host}`);
+    console.log(
+      colors.green(`> MongoDB Connected to: ${mongoDBConnect.connection.host}`)
+    );
   } catch (error) {
     console.log(error);
     process.exit(1);

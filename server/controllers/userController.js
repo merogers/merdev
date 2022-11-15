@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // DESC:    Registers New User
-// ROUTE:   POST with JSON to /api/user/register
+// ROUTE:   POST with JSON to /api/users/register
 // ACCESS:  Public
 const postRegisterUser = asyncHandler(async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
@@ -51,7 +51,7 @@ const postRegisterUser = asyncHandler(async (req, res) => {
 });
 
 // DESC:    User Login
-// ROUTE:   POST with JSON to /api/user/login
+// ROUTE:   POST with JSON to /api/users/login
 // ACCESS:  Public
 const postLoginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
