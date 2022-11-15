@@ -1,22 +1,8 @@
 const asyncHandler = require('express-async-handler');
 
 const Project = require('../models/projectModel');
+const User = require('../models/userModel');
 
-// ! Update endpoints in functions
-
-/*
-
-GET   /api/projects         Public
-POST  /api/projects         Private
-GET   /api/projects/:id     Public
-PUT   /api/projects/:id     Private
-DEL   /api/projects/:id     Private
-
-*/
-
-// DESC:    Get 5 Latest Projects
-// ROUTE:   GET with JSON to /api/projects/
-// ACCESS:  Private
 const getLatestProjects = asyncHandler(async (_req, res) => {
   const projects = await Project.find().sort({ updatedAt: -1 }).limit(5);
 
@@ -28,9 +14,6 @@ const getLatestProjects = asyncHandler(async (_req, res) => {
   }
 });
 
-// DESC:    Get projects by User ID
-// ROUTE:   GET with JSON to /api/projects/:userid
-// ACCESS:  Private
 const getUserProjects = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -46,13 +29,10 @@ const getUserProjects = asyncHandler(async (req, res) => {
   }
 });
 
-// DESC:    Get project Details by ID
-// ROUTE:   GET with JSON to /api/projects/details/:id
-// ACCESS:  Private
 const getProjectDetails = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const project = await Project.findOne({ id });
+  const project = await Project.findOne({ _id: id });
 
   if (project) {
     res.status(200).json(project);
@@ -62,13 +42,10 @@ const getProjectDetails = asyncHandler(async (req, res) => {
   }
 });
 
-// DESC:    Create new Project
-// ROUTE:   POST with JSON to /api/projects
-// ACCESS:  Private
 const postNewProject = asyncHandler(async (req, res) => {
-  const { screenshotUrl, user, title, description, tags } = req.body;
+  const { screenshotUrl, title, description, tags } = req.body;
 
-  if (!screenshotUrl || !user || !title || !description || !tags) {
+  if (!screenshotUrl || !title || !description || !tags) {
     res.status(400);
     throw new Error('Error creating project: missing fields');
   }
@@ -77,7 +54,7 @@ const postNewProject = asyncHandler(async (req, res) => {
 
   const newProject = await Project.create({
     screenshotUrl,
-    user,
+    userid: req.user.id,
     title,
     description,
     tags: tagsArray,
@@ -91,9 +68,6 @@ const postNewProject = asyncHandler(async (req, res) => {
   }
 });
 
-// DESC:    Update existing Project
-// ROUTE:   PUT from JSON to /api/projects/details/:projectid
-// ACCESS:  Private
 const putUpdateProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { screenshotUrl, title, description, tags } = req.body;
@@ -104,13 +78,17 @@ const putUpdateProject = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findById(req.user.id);
+  const project = await Project.findById({ _id: id });
 
   if (!user) {
     res.status(401);
-    throw new Error('Unauthorized');
+    throw new Error('Unauthorized: No user found');
   }
 
-  //! Add check so only user can delete their own projects
+  if (project.userid.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('Unauthorized: No permissions on this resource');
+  }
 
   const tagsArray = tags.split(' ');
 
@@ -128,20 +106,37 @@ const putUpdateProject = asyncHandler(async (req, res) => {
   );
 
   if (updatedProject) {
-    res.status(200).json(updatedProject);
+    // Send back updated project
+    const project = await Project.findById({ _id: id });
+    res.status(200).json(project);
   } else {
     res.status(400);
     throw new Error('Error updating project');
   }
 });
 
-// DESC:    Delete existing Project
-// ROUTE:   DELETE with PARAMS to /api/projects/:projectid
-// ACCESS:  Private
 const deleteProjectById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const deleteProject = await Project.deleteOne({ id });
+  const user = await User.findById(req.user.id);
+  const project = await Project.findById({ _id: id });
+
+  if (!user) {
+    res.status(401);
+    throw new Error('Unauthorized: No user found');
+  }
+
+  if (!project) {
+    res.status(401);
+    throw new Error('Unauthorized: Invalid Project');
+  }
+
+  if (project.userid.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error('Unauthorized: No permissions on this resource');
+  }
+
+  const deleteProject = await Project.deleteOne({ _id: id });
 
   if (deleteProject) {
     res.status(200).json({ message: 'Project deleted successfully' });

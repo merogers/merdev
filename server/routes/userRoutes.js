@@ -9,11 +9,8 @@ const {
   getMyDetails,
 } = require('../controllers/userController');
 
-// --- Public Routes --- //
 router.route('/login').post(postLoginUser);
 router.route('/register').post(postRegisterUser);
-
-// --- Private Routes --- //
 router.route('/mydetails').get(protect, getMyDetails);
 
 module.exports = router;
