@@ -1,5 +1,10 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,9 +15,13 @@ import Home from './pages/Home';
 // Private
 import Dashboard from './pages/Dashboard';
 
-const App = () => {
-  const [count, setCount] = useState(0);
+// const onLogout = () => {
+//   dispatch(logout())
+//   dispatch(reset())
+//   navigate('/')
+// }
 
+function App() {
   return (
     <>
       <Router>
@@ -35,6 +44,6 @@ const App = () => {
       />
     </>
   );
-};
+}
 
 export default App;

@@ -20,12 +20,7 @@ const imageRoutes = require('./routes/imageRoutes');
 
 // --- JSON Parsing Middleware --- //
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// ! DO I NEED THIS?
-app.get('/', (req, res) => {
-  res.status(200).send('MERDEV Backend').end();
-});
+app.use(express.urlencoded({ extended: false }));
 
 // --- Routes Paths --- //
 app.use('/api/users', userRoutes);

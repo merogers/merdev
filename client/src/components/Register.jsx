@@ -7,7 +7,7 @@ import { register, reset } from '../features/auth/authSlice';
 
 import Form from './Form/Form';
 
-const Register = () => {
+function Register() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -152,6 +152,6 @@ const Register = () => {
       </Form>
     </div>
   );
-};
+}
 
 export default Register;
