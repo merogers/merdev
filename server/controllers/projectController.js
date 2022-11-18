@@ -77,10 +77,9 @@ const putUpdateProject = asyncHandler(async (req, res) => {
     throw new Error('Error updating project: missing fields');
   }
 
-  const user = await User.findById(req.user.id);
   const project = await Project.findById({ _id: id });
 
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error('Unauthorized: No user found');
   }
@@ -118,10 +117,9 @@ const putUpdateProject = asyncHandler(async (req, res) => {
 const deleteProjectById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findById(req.user.id);
   const project = await Project.findById({ _id: id });
 
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error('Unauthorized: No user found');
   }

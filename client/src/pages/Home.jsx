@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // Components
-import Modal from '../components/Modal/Modal';
+// import Modal from '../components/Modal/Modal';
 
 import Register from '../components/Register';
 
-const Home = () => {
+function Home() {
   return (
     <div>
       Home
       <Register />
     </div>
   );
-};
+}
 
 export default Home;

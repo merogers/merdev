@@ -91,8 +91,7 @@ const generateToken = (id) => {
 
 // Test Auth Token
 const getMyDetails = asyncHandler(async (req, res) => {
-  const { _id, firstName, lastName, email } = await User.findById(req.user.id);
-  res.status(200).json({ id: _id, firstName, lastName, email });
+  res.status(200).json(req.user);
 });
 
 module.exports = { postRegisterUser, postLoginUser, getMyDetails };
