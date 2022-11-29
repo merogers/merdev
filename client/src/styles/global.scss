@@ -1,4 +1,6 @@
 @use './partials/colors' as *;
+@use './partials/font' as *;
+@use './partials/media' as *;
 
 /* --- Resets --- */
 
@@ -10,8 +12,13 @@
 
 html {
   font-size: 16px;
+  height: 100%;
 }
 
 body {
   margin: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

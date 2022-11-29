@@ -2,14 +2,14 @@ import axios from 'axios';
 
 const API_URL = '/api/projects/';
 
-const createGoal = async (projectData, token) => {
+const createProject = async (projectData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.post(API_URL, goalData, config);
+  const response = await axios.post(API_URL, projectData, config);
   return response.data;
 };
 
@@ -35,10 +35,10 @@ const deleteProject = async (projectId, token) => {
   return response.data;
 };
 
-const goalService = {
-  createGoal,
+const projectService = {
+  createProject,
   getProjects,
   deleteProject,
 };
 
-export default goalService;
+export default projectService;

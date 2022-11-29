@@ -1,0 +1,55 @@
+@use './media' as *;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin expand {
+  width: 100%;
+  height: 100%;
+}
+
+@mixin mp-zero {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin h1 {
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  @include tablet {
+    font-size: 2.5rem;
+  }
+}
+
+@mixin h2 {
+  font-size: 1.5rem;
+  width: 100%;
+  text-align: center;
+  @include mp-zero;
+  @include tablet {
+    font-size: 2rem;
+  }
+}
+
+@mixin h3 {
+  font-size: 1.2rem;
+  width: 100%;
+  text-align: center;
+  @include mp-zero;
+  @include tablet {
+    font-size: 1.5rem;
+  }
+}
+
+@mixin p {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  @include tablet {
+    font-size: 1.1rem;
+    line-height: 1.7rem;
+  }
+}
