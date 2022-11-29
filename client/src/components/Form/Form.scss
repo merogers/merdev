@@ -1,4 +1,50 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/media' as *;
+@use '../../styles/partials/utility' as *;
+
 .form {
-  background-color: #eee;
-  border: 2px solid #ccc;
+  @include flex-center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto 1rem auto;
+  box-shadow: none;
+
+  @include tablet {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 1rem 2rem 2rem 2rem;
+    width: 60%;
+    max-width: 30rem;
+    border-radius: 0.25rem;
+    margin-top: 2rem;
+    background: white;
+  }
+  &__label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    width: 100%;
+    font-weight: 500;
+    color: $secondary;
+  }
+  &__input {
+    border: none;
+    outline: 1px solid#ccc;
+    background-color: $background;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    &:focus {
+      background-color: $accent-bg;
+      outline: 1px solid $accent;
+    }
+  }
+  &__textarea {
+    height: 15rem;
+    resize: none;
+  }
+  &__button-container {
+    @include flex-center;
+    flex-direction: column;
+    margin-top: 2rem;
+    width: 100%;
+  }
 }
