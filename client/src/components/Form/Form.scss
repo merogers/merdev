@@ -5,17 +5,16 @@
 .form {
   @include flex-center;
   flex-direction: column;
-  width: 100%;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto 0 auto;
   box-shadow: none;
-
+  width: 100%;
   @include tablet {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     padding: 1rem 2rem 2rem 2rem;
-    width: 60%;
+
     max-width: 30rem;
     border-radius: 0.25rem;
-    margin-top: 2rem;
+
     background: white;
   }
   &__label {
@@ -32,6 +31,7 @@
     background-color: $background;
     border-radius: 0.25rem;
     padding: 1rem;
+    width: 100%;
     &:focus {
       background-color: $accent-bg;
       outline: 1px solid $accent;

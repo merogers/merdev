@@ -1,6 +1,6 @@
 @use '../../styles/partials/colors' as *;
 
-.button {
+@mixin button($bg, $hover) {
   border: none;
   padding: 0.75rem 1.25rem;
   color: white;
@@ -14,22 +14,8 @@
   text-align: center;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
-  &--primary {
-    background-color: $primary;
-    &:hover {
-      background-color: $primary-hover;
-    }
-  }
-  &--secondary {
-    background-color: $secondary;
-    &:hover {
-      background-color: $secondary-hover;
-    }
-  }
-  &--margin {
-    margin-right: 2rem;
-  }
-  &--mt {
-    margin-top: 1rem;
+  background-color: $bg;
+  &:hover {
+    background-color: $hover;
   }
 }
