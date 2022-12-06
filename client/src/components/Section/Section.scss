@@ -1,12 +1,12 @@
 @use '../../styles/partials/colors' as *;
 @use '../../styles/partials/utility' as *;
 @use '../../styles/partials/media' as *;
+@use '../../styles/partials/buttons' as *;
 
 .section {
   padding: 2rem;
   width: 100%;
   display: flex;
-
   &--light {
     background-color: white;
     color: $secondary;
@@ -33,6 +33,7 @@
     position: relative;
     padding-bottom: 5rem;
     @include tablet {
+      align-items: flex-start;
       width: 70%;
     }
   }
@@ -52,8 +53,16 @@
     }
   }
 
+  &__button-primary {
+    @include button($primary, $primary-hover);
+    max-width: 15rem;
+  }
+
   &__h1 {
     @include h1;
+    @include tablet {
+      text-align: left;
+    }
   }
 
   &__h2 {

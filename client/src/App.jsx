@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,8 +10,19 @@ import Container from './components/Container/Container';
 import Form from './components/Form/Form';
 import Button from './components/Button/Button';
 import Project from './components/Project/Project';
+import Modal from './components/Modal/Modal';
+import Main from './components/Main/Main';
+
+import Login from './components/Login';
+
+import projects from './projects';
 
 import { FaAngleDown, FaSmile } from 'react-icons/fa';
+
+import useLoginModal from './hooks/useLoginModal';
+
+import { Link } from 'react-scroll';
+
 // const onLogout = () => {
 //   dispatch(logout())
 //   dispatch(reset())
@@ -19,88 +30,11 @@ import { FaAngleDown, FaSmile } from 'react-icons/fa';
 // }
 
 function App() {
-  // Refs to scroll to each section
-  const refs = {
-    hero: useRef(null),
-    projects: useRef(null),
-    about: useRef(null),
-    contact: useRef(null),
-  };
-
-  const scrollTo = (ref) => {
-    ref.current?.scrollIntoView({
-      alignToTop: true,
-      behavior: 'smooth',
-    });
-  };
-
-  const projects = [
-    {
-      title: 'My Portfolio',
-      description:
-        'My portfolio site, made with React, Express, Node.js and MongoDB.',
-      imgSrc:
-        'https://storage.googleapis.com/portfolio-screenshots/wallhaven-g8qpqd.jpg',
-      demoLink: 'https://merogers.dev',
-      codeLink: 'https://github.com/fetchcat/merdev',
-      tags: [
-        'HTML5',
-        'SASS',
-        'JavaScript',
-        'React',
-        'Redux',
-        'Express.js',
-        'Node.js',
-        'MongoDB',
-        'JWT',
-        'Google Cloud',
-      ],
-    },
-    {
-      title: 'Peace of Mind',
-      description:
-        'Peace of Mind is an application meant to assist in the day-to-day self-care and mental health of the user by providing an all-in-one solution for journaling and daily gratitude.',
-      imgSrc:
-        'https://storage.googleapis.com/portfolio-screenshots/wallhaven-g8qpqd.jpg',
-      demoLink: 'https://peaceofmind.merogers.dev',
-      codeLink: 'https://github.com/fetchcat/peaceofmind',
-      tags: [
-        'HTML5',
-        'SASS',
-        'JavaScript',
-        'React',
-        'Passport.js',
-        'Express.js',
-        'Node.js',
-        'MySQL',
-        'JWT',
-        'Google Cloud',
-      ],
-    },
-    {
-      title: 'SmartBrain 2022',
-      description: 'Coming Soon...',
-      imgSrc:
-        'https://storage.googleapis.com/portfolio-screenshots/wallhaven-g8qpqd.jpg',
-      demoLink: 'https://peaceofmind.merogers.dev',
-      codeLink: 'https://github.com/fetchcat/peaceofmind',
-      tags: [
-        'HTML5',
-        'SASS',
-        'JavaScript',
-        'React',
-        'Express.js',
-        'Node.js',
-        'MySQL',
-        'JWT',
-        'Google Cloud',
-      ],
-    },
-  ];
+  const { loginModal, toggleLoginModal } = useLoginModal();
 
   return (
-    <>
-      <Header title='merogers.dev' refs={refs} scrollTo={scrollTo} />
+    <Main>
+      <Header title='merogers.dev' toggleLoginModal={toggleLoginModal} />
       <Section isDark={true} isHero={true} id='hero'>
         <Container>
           <div className='section__hero-content'>
@@ -108,13 +42,16 @@ function App() {
               Hi I'm <span className='section__accent'>Michelle</span> and I'm a
               <span className='section__accent'> Full-Stack Web Developer</span>
             </h1>
-            <div
-              className='section__scroll-indicator'
-              onClick={() => scrollTo(refs.projects)}
+
+            <Link
+              className='section__button-primary'
+              to='projects'
+              smooth={true}
+              spy={true}
+              offset={-64}
             >
-              <h3 className='section__h3'>View Projects</h3>
-              <FaAngleDown className='section-scroll-icon' size='2rem' />
-            </div>
+              View Projects
+            </Link>
           </div>
         </Container>
       </Section>
@@ -152,8 +89,8 @@ function App() {
       </Section>
       <Section id='contact'>
         <Container>
-          <h2 className='section__h2'>Contact</h2>
           <Form>
+            <h2 className='section__h2'>Contact</h2>
             <label className='form__label'>
               <span>Name</span>
               <input type='text' className='form__input' />
@@ -172,8 +109,8 @@ function App() {
           </Form>
         </Container>
       </Section>
-      <Footer />
 
+      <Footer />
       <ToastContainer
         position='top-right'
         autoClose={3000}
@@ -186,7 +123,10 @@ function App() {
         pauseOnHover
         theme='dark'
       />
-    </>
+      <Modal show={loginModal} toggle={toggleLoginModal}>
+        <Login toggleLoginModal={toggleLoginModal} />
+      </Modal>
+    </Main>
   );
 }
 
