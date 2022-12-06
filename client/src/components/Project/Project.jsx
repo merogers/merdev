@@ -2,8 +2,6 @@ import React from 'react';
 
 import './Project.scss';
 
-import '../Button/Button.scss';
-
 const Project = ({ project }) => {
   const { title, description, imgSrc, demobutton, codebutton, tags } = project;
 
@@ -14,11 +12,11 @@ const Project = ({ project }) => {
       </div>
 
       <div className='project__content'>
-        <div className='project__buttons'>
-          <button to={demobutton} className='button button--primary button--margin'>
+        <div className='project__button-container'>
+          <button to={demobutton} className='project__button-lg-primary'>
             View Demo
           </button>
-          <button to={codebutton} className='button button--secondary'>
+          <button to={codebutton} className='project__button-lg-secondary'>
             View Code
           </button>
         </div>

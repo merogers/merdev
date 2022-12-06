@@ -1,6 +1,7 @@
 @use '../../styles/partials/colors' as *;
 @use '../../styles/partials/media' as *;
 @use '../../styles/partials/utility' as *;
+@use '../../styles/partials/buttons' as *;
 
 .project {
   margin: 2rem 0 0 0;
@@ -54,5 +55,24 @@
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     margin: 0 0.25rem 0.25rem 0;
+  }
+
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    @include tablet {
+      flex-direction: row;
+    }
+  }
+
+  &__button-lg-primary {
+    @include button-lg-solid($primary, $primary-hover);
+    margin: 0 0 0.25rem 0;
+    @include tablet {
+      margin: 0 2rem 0 0;
+    }
+  }
+  &__button-lg-secondary {
+    @include button-lg-solid($secondary, $secondary-hover);
   }
 }
