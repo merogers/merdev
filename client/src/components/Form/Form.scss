@@ -1,6 +1,7 @@
 @use '../../styles/partials/colors' as *;
 @use '../../styles/partials/media' as *;
 @use '../../styles/partials/utility' as *;
+@use '../../styles/partials/buttons' as *;
 
 .form {
   @include flex-center;
@@ -43,8 +44,17 @@
   }
   &__button-container {
     @include flex-center;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 2rem;
     width: 100%;
+  }
+
+  &__button-lg-primary {
+    @include button-lg-solid($primary, $primary-hover);
+  }
+
+  &__button-lg-secondary {
+    @include button-lg-solid($secondary, $secondary-hover);
+    margin-left: 2rem;
   }
 }

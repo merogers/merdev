@@ -8,7 +8,7 @@ import Footer from './components/Footer/Footer';
 import Section from './components/Section/Section';
 import Container from './components/Container/Container';
 import Form from './components/Form/Form';
-import Button from './components/Button/Button';
+
 import Project from './components/Project/Project';
 import Modal from './components/Modal/Modal';
 import Main from './components/Main/Main';
@@ -17,7 +17,7 @@ import Login from './components/Login';
 
 import projects from './projects';
 
-import { FaAngleDown, FaSmile } from 'react-icons/fa';
+import { FaSmile } from 'react-icons/fa';
 
 import useLoginModal from './hooks/useLoginModal';
 
@@ -44,7 +44,7 @@ function App() {
             </h1>
 
             <Link
-              className='section__button-primary'
+              className='section__button-lg-primary'
               to='projects'
               smooth={true}
               spy={true}
@@ -104,7 +104,7 @@ function App() {
               <textarea className='form__input form__textarea'></textarea>
             </label>
             <div className='form__button-container'>
-              <Button />
+              <button className='form__button-lg-primary'>Submit</button>
             </div>
           </Form>
         </Container>

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import Form from './Form/Form';
 
-import './Button/Button.scss';
-
 function Login({ toggleLoginModal }) {
   const [formData, setFormData] = useState({
     email: '',
@@ -48,11 +46,11 @@ function Login({ toggleLoginModal }) {
         />
       </label>
       <div className='form__button-container'>
-        <button className='button button--primary' type='submit'>
+        <button className='form__button-lg-primary' type='submit'>
           Submit
         </button>
         <button
-          className='button button--secondary button--mt'
+          className='form__button-lg-secondary'
           onClick={toggleLoginModal}
           type='button'
         >

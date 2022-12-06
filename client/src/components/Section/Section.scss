@@ -53,9 +53,24 @@
     }
   }
 
-  &__button-primary {
-    @include button($primary, $primary-hover);
+  &__button-lg-primary {
+    @include button-lg-solid($primary, $primary-hover);
     max-width: 15rem;
+  }
+
+  &__button-lg-primary-outline {
+    @include button-lg-outline($secondary, $secondary-hover, white);
+    max-width: 15rem;
+  }
+
+  &__button-sm-primary {
+    @include button-sm-solid($primary, $primary-hover);
+    max-width: 10rem;
+  }
+
+  &__button-sm-primary-outline {
+    @include button-sm-outline($secondary, $secondary-hover, white);
+    max-width: 10rem;
   }
 
   &__h1 {
