@@ -6,11 +6,9 @@ import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
 
 import Container from '../Container/Container';
 
-import useModal from '../../hooks/useLoginModal';
-
 import { Link } from 'react-scroll';
 
-const Header = ({ title, toggleLoginModal }) => {
+const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
   const [menuClosed, setMenuClosed] = useState(true);
   const toggleMenu = () => {
     setMenuClosed((prev) => !prev);
@@ -79,7 +77,15 @@ const Header = ({ title, toggleLoginModal }) => {
               </li>
               <li className='header__nav-item'>
                 <button
-                  className='header__nav-link header__nav-link--outline'
+                  className='header__nav-link'
+                  onClick={toggleRegisterModal}
+                >
+                  Register
+                </button>
+              </li>
+              <li className='header__nav-item'>
+                <button
+                  className='header__button-sm-outline'
                   onClick={toggleLoginModal}
                 >
                   Login
