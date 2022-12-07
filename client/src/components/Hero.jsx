@@ -2,6 +2,7 @@ import React from 'react';
 
 import Section from './Section/Section';
 import Container from './Container/Container';
+import Loader from './Loader/Loader';
 
 import { Link } from 'react-scroll';
 
@@ -14,7 +15,7 @@ const Hero = () => {
             Hi I'm <span className='section__accent'>Michelle</span> and I'm a
             <span className='section__accent'> Full-Stack Web Developer</span>
           </h1>
-
+          <Loader />
           <Link
             className='section__button-lg-primary'
             to='projects'
