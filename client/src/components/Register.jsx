@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+
 import { toast } from 'react-toastify';
 
 import { register, reset } from '../features/auth/authSlice';
 
 import Form from './Form/Form';
 
-function Register() {
+function Register({ toggleRegisterModal }) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,7 +22,6 @@ function Register() {
     (state) => state.auth
   );
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -97,60 +96,74 @@ function Register() {
   // }
 
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        <label htmlFor='firstName'>
-          <span>First Name</span>
-          <input
-            name='firstName'
-            type='text'
-            onChange={handleChange}
-            value={firstName}
-            placeholder='First Name'
-          />
-        </label>
-        <label htmlFor='firstName'>
-          <span>Last Name</span>
-          <input
-            name='lastName'
-            type='text'
-            onChange={handleChange}
-            value={lastName}
-            placeholder='Last Name'
-          />
-        </label>
-        <label htmlFor='email'>
-          <span>Email</span>
-          <input
-            name='email'
-            type='text'
-            onChange={handleChange}
-            value={email}
-            placeholder='Email'
-          />
-        </label>
-        <label htmlFor='password'>
-          <span>Password</span>
-          <input
-            name='password'
-            type='password'
-            onChange={handleChange}
-            value={password}
-          />
-        </label>
-        <label htmlFor='password'>
-          <span>Confirm Password</span>
-          <input
-            name='confirmPassword'
-            type='password'
-            onChange={handleChange}
-            value={confirmPassword}
-          />
-        </label>
-        <button type='submit'>Submitty</button>
-      </Form>
-    </div>
+    <Form onSubmit={handleSubmit}>
+      <h1>Register</h1>
+      <label htmlFor='firstName' className='form__label'>
+        <span>First Name</span>
+        <input
+          name='firstName'
+          type='text'
+          onChange={handleChange}
+          value={firstName}
+          placeholder='First Name'
+          className='form__input'
+        />
+      </label>
+      <label htmlFor='firstName' className='form__label'>
+        <span>Last Name</span>
+        <input
+          name='lastName'
+          type='text'
+          onChange={handleChange}
+          value={lastName}
+          placeholder='Last Name'
+          className='form__input'
+        />
+      </label>
+      <label htmlFor='email' className='form__label'>
+        <span>Email</span>
+        <input
+          name='email'
+          type='text'
+          onChange={handleChange}
+          value={email}
+          placeholder='Email'
+          className='form__input'
+        />
+      </label>
+      <label htmlFor='password' className='form__label'>
+        <span>Password</span>
+        <input
+          name='password'
+          type='password'
+          onChange={handleChange}
+          value={password}
+          className='form__input'
+        />
+      </label>
+      <label htmlFor='password' className='form__label'>
+        <span>Confirm Password</span>
+        <input
+          name='confirmPassword'
+          type='password'
+          onChange={handleChange}
+          value={confirmPassword}
+          className='form__input'
+        />
+      </label>
+      <div className='form__button-container'>
+        <button className='form__button-lg-primary' type='submit'>
+          Submit
+        </button>
+        <button
+          className='form__button-lg-secondary'
+          onClick={toggleRegisterModal}
+          type='button'
+        >
+          Cancel
+        </button>
+      </div>
+    </Form>
   );
 }
 

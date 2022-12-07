@@ -1,6 +1,7 @@
 @use '../../styles/partials/colors' as *;
 @use '../../styles/partials/media' as *;
 @use '../../styles/partials/utility' as *;
+@use '../../styles/partials/buttons' as *;
 
 .header {
   background-color: $secondary;
@@ -85,7 +86,7 @@
   }
   &__nav-link {
     color: $background;
-
+    background-color: $secondary-hover;
     display: block;
     text-decoration: none;
     line-height: 2rem;
@@ -107,6 +108,7 @@
     @include tablet {
       font-size: 1rem;
       padding: 0 1rem;
+      background-color: $secondary;
       &:hover {
         background-color: $secondary-hover;
       }
@@ -141,5 +143,9 @@
       background-color: $secondary-hover;
       border-radius: 0.25rem;
     }
+  }
+
+  &__button-sm-outline {
+    @include button-sm-outline($secondary, $secondary-hover, white);
   }
 }

@@ -28,7 +28,7 @@ export const register = createAsyncThunk(
     try {
       return await authService.register(user);
     } catch (error) {
-      handleErrorMsg(error);
+      const message = handleErrorMsg(error);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -39,7 +39,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
     return await authService.login(user);
   } catch (error) {
-    handleErrorMsg(error);
+    const message = handleErrorMsg(error);
     return thunkAPI.rejectWithValue(message);
   }
 });

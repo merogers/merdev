@@ -21,19 +21,15 @@
 @mixin button-sm {
   font-weight: 400;
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   width: fit-content;
-}
-
-@mixin button-solid {
-  border: none;
-  color: white;
 }
 
 @mixin button-lg-solid($bg, $hover) {
   @include button;
   @include button-lg;
-  @include button-solid;
+  border: none;
+  color: white;
   background-color: $bg;
   &:hover {
     background-color: $hover;
@@ -44,7 +40,8 @@
 @mixin button-sm-solid($bg, $hover) {
   @include button;
   @include button-sm;
-  @include button-solid;
+  border: none;
+  color: white;
   background-color: $bg;
   &:hover {
     background-color: $hover;
@@ -72,6 +69,5 @@
   background-color: $bg;
   &:hover {
     background-color: $hover;
-    transform: scale(1.2);
   }
 }
