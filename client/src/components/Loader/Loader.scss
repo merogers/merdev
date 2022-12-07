@@ -1,0 +1,26 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/media' as *;
+
+.loader {
+  border: 0.5rem solid $background;
+  border-top: 0.5rem solid $primary;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  animation: spin 1.5s linear infinite;
+  @include tablet {
+    width: 5rem;
+    height: 5rem;
+    border: 0.75rem solid $background;
+    border-top: 0.75rem solid $primary;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

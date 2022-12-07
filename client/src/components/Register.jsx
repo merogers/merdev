@@ -18,22 +18,24 @@ function Register({ toggleRegisterModal }) {
 
   const { firstName, lastName, email, password, confirmPassword } = formData;
 
+  const dispatch = useDispatch();
+
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(message);
-  //   }
-  //   if (isSuccess || user) {
-  //     navigate('/dashboard');
-  //   }
-  //   // Reset state
-  //   dispatch(reset());
-  // }, [user, isError, isSuccess, message, navigate, dispatch]);
+    if(isSuccess || user) {
+      console.log(user)
+    }
+    // Reset state
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, dispatch]);
+
 
   const handleChange = (e) => {
     setFormData({
@@ -75,25 +77,21 @@ function Register({ toggleRegisterModal }) {
 
     if (ready) {
       toast.success('Registered user successfully');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
+      const userData = {
+        firstName,
+        lastName,
+        email, 
+        password,
+      }
+      dispatch(register(userData))
     }
   };
 
   //! need password checks
 
-  const userData = {};
-
-  // dispatch(register(userData));
-
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
