@@ -25,6 +25,15 @@
     width: 100%;
     font-weight: 500;
     color: $secondary;
+    &--mr {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+      width: 100%;
+      font-weight: 500;
+      color: $secondary;
+      margin-right: 2rem;
+    }
   }
   &__input {
     border: none;
@@ -33,6 +42,10 @@
     border-radius: 0.25rem;
     padding: 1rem;
     width: 100%;
+    &--error {
+      outline: 1px solid $error;
+      background-color: $error-bg;
+    }
     &:focus {
       background-color: $accent-bg;
       outline: 1px solid $accent;
@@ -46,6 +59,11 @@
     @include flex-center;
     flex-direction: row;
     margin-top: 2rem;
+    width: 100%;
+  }
+
+  &__field-container {
+    display: flex;
     width: 100%;
   }
 

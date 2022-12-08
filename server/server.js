@@ -2,6 +2,8 @@ const port = process.env.PORT || 5000;
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
 require('dotenv').config();
 
 const colors = require('colors');
@@ -17,6 +19,13 @@ const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const emailRoutes = require('./routes/emailRoutes');
 const imageRoutes = require('./routes/imageRoutes');
+
+// --- CORS --- //
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  })
+);
 
 // --- JSON Parsing Middleware --- //
 app.use(express.json());

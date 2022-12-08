@@ -7,12 +7,16 @@ import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
 import Container from '../Container/Container';
 
 import { Link } from 'react-scroll';
+import useScroll from '../../hooks/useScroll';
 
 const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
   const [menuClosed, setMenuClosed] = useState(true);
   const toggleMenu = () => {
     setMenuClosed((prev) => !prev);
   };
+
+  // Disallow scroll when menu is open
+  useScroll(!menuClosed);
 
   return (
     <header className='header'>
