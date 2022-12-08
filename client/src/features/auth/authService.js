@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = '/api/users/';
+const baseUrl = import.meta.env.VITE_SERVER_URL;
+
+const API_URL = `${baseUrl}/api/users/`;
 
 // Register
 const register = async (userData) => {

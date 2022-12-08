@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import useScroll from '../../hooks/useScroll';
+
 import './Modal.scss';
 
 function Modal({ children, show, toggle }) {
+  // Disables scrolling if model is showing
+  useScroll(show);
+
   // Only allows toggle on parent element
   const stopProp = (e) => {
     e.stopPropagation();

@@ -9,8 +9,8 @@ const {
   getMyDetails,
 } = require('../controllers/userController');
 
+router.route('/').post(postRegisterUser);
 router.route('/login').post(postLoginUser);
-router.route('/register').post(postRegisterUser);
 router.route('/mydetails').get(protect, getMyDetails);
 
 module.exports = router;
