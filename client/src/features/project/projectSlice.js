@@ -3,7 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import projectService from './projectService';
 
 const initialState = {
-  projects: [],
+  userProjects: [],
+  latestProjects: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -24,6 +25,7 @@ export const createProject = createAsyncThunk(
   async (projectData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
+      console.log('project slice', projectData);
       return await projectService.createProject(projectData, token);
     } catch (error) {
       handleErrorMsg(error);
@@ -39,6 +41,19 @@ export const getProjects = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await projectService.getProjects(token);
+    } catch (error) {
+      handleErrorMsg(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get Latestprojects
+export const getLatestProjects = createAsyncThunk(
+  'projects/getLatest',
+  async (_, thunkAPI) => {
+    try {
+      return await projectService.getLatestProjects();
     } catch (error) {
       handleErrorMsg(error);
       return thunkAPI.rejectWithValue(message);
@@ -74,7 +89,7 @@ export const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.projects.push(action.payload);
+        state.userProjects.push(action.payload);
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoading = false;
@@ -88,9 +103,23 @@ export const projectSlice = createSlice({
       .addCase(getProjects.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.projects = action.payload;
+        state.userPprojects = action.payload;
       })
       .addCase(getProjects.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      .addCase(getLatestProjects.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getLatestProjects.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.latestProjects = action.payload;
+      })
+      .addCase(getLatestProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

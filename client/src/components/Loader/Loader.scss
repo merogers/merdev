@@ -1,18 +1,26 @@
 @use '../../styles/partials/colors' as *;
 @use '../../styles/partials/media' as *;
+@use '../../styles/partials/utility' as *;
 
 .loader {
-  border: 0.5rem solid $background;
-  border-top: 0.5rem solid $primary;
-  border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  animation: spin 1.5s linear infinite;
-  @include tablet {
-    width: 5rem;
-    height: 5rem;
-    border: 0.75rem solid $background;
-    border-top: 0.75rem solid $primary;
+  width: 100%;
+  @include flex-center;
+  margin: 2rem auto;
+
+  &__spinner {
+    border: 0.5rem solid white;
+    border-top: 0.5rem solid $secondary-hover;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    animation: spin 1.25s linear infinite;
+
+    @include tablet {
+      width: 5rem;
+      height: 5rem;
+      border: 0.75rem solid white;
+      border-top: 0.75rem solid $secondary-hover;
+    }
   }
 }
 

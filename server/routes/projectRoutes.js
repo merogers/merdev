@@ -3,6 +3,8 @@ const router = express.Router();
 
 const { protect } = require('../middleware/authMiddleware');
 
+const { multer } = require('../middleware/imageMiddleware');
+
 const {
   postNewProject,
   getLatestProjects,
@@ -11,8 +13,10 @@ const {
   putUpdateProject,
 } = require('../controllers/projectController');
 
-router.route('/').get(getLatestProjects).post(protect, postNewProject);
-
+router
+  .route('/')
+  .get(getLatestProjects)
+  .post(protect, multer.single('screenshot'), postNewProject);
 router
   .route('/:id')
   .get(getProjectDetails)

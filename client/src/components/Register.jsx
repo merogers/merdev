@@ -149,7 +149,7 @@ function Register({ toggleRegisterModal }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h1>Register</h1>
+      <h1 className='form__h1'>Register</h1>
       <div className='form__field-container'>
         <label htmlFor='firstName' className='form__label--mr'>
           <span>First Name</span>

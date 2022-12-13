@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './Header.scss';
 
@@ -9,14 +10,26 @@ import Container from '../Container/Container';
 import { Link } from 'react-scroll';
 import useScroll from '../../hooks/useScroll';
 
+import { logout, reset } from '../../features/auth/authSlice';
+
 const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
   const [menuClosed, setMenuClosed] = useState(true);
   const toggleMenu = () => {
     setMenuClosed((prev) => !prev);
   };
 
+  const { user } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   // Disallow scroll when menu is open
   useScroll(!menuClosed);
+
+  // Logout user, reset auth state to initial, delete localStorage
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+  };
 
   return (
     <header className='header'>
@@ -88,12 +101,21 @@ const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
                 </button>
               </li>
               <li className='header__nav-item'>
-                <button
-                  className='header__button-sm-outline'
-                  onClick={toggleLoginModal}
-                >
-                  Login
-                </button>
+                {user ? (
+                  <button
+                    className='header__button-sm-outline'
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    className='header__button-sm-outline'
+                    onClick={toggleLoginModal}
+                  >
+                    Login
+                  </button>
+                )}
               </li>
             </ul>
             <div className='header__nav-toggle' onClick={toggleMenu}>
