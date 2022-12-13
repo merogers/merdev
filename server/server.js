@@ -1,11 +1,9 @@
+require('dotenv').config();
 const port = process.env.PORT || 5000;
 
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
-require('dotenv').config();
-
 const colors = require('colors');
 
 const { errorMiddleware } = require('./middleware/errorMiddleware');
@@ -18,14 +16,19 @@ connectDB();
 const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const emailRoutes = require('./routes/emailRoutes');
-const imageRoutes = require('./routes/imageRoutes');
 
-// --- CORS --- //
+// --- CORS - Allow from Client-Side Only --- //
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
   })
 );
+
+app.use((req, res, next) => {
+  console.log('Request Body:', req.body);
+  console.log('Request URL:', req.originalUrl);
+  next();
+});
 
 // --- JSON Parsing Middleware --- //
 app.use(express.json());
@@ -35,7 +38,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 
-app.use('/api/image', imageRoutes);
 app.use('/api/email', emailRoutes);
 
 // --- Error Handler --- //

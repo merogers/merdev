@@ -3,6 +3,14 @@ const asyncHandler = require('express-async-handler');
 const Project = require('../models/projectModel');
 const User = require('../models/userModel');
 
+const { Storage } = require('@google-cloud/storage');
+
+const storage = new Storage({
+  projectId: process.env.PROJECT_ID,
+  keyFilename: process.env.KEYFILE_NAME,
+});
+const bucket = storage.bucket(process.env.BUCKET);
+
 const getLatestProjects = asyncHandler(async (_req, res) => {
   const projects = await Project.find().sort({ updatedAt: -1 }).limit(5);
 
@@ -43,29 +51,56 @@ const getProjectDetails = asyncHandler(async (req, res) => {
 });
 
 const postNewProject = asyncHandler(async (req, res) => {
-  const { screenshotUrl, title, description, tags } = req.body;
+  const { title, description, tags, codeUrl, demoUrl } = req.body;
 
-  if (!screenshotUrl || !title || !description || !tags) {
+  // Abort if no project details
+  if (!title || !description || !tags || !codeUrl || !demoUrl) {
     res.status(400);
     throw new Error('Error creating project: missing fields');
   }
 
+  // Abort if no screenshot file submitted
+  if (!req.file) {
+    res.status(400);
+    throw new Error('Error creating project: no screenshot file found');
+  }
+
+  // Split tags string into array
   const tagsArray = tags.split(' ');
 
-  const newProject = await Project.create({
-    screenshotUrl,
+  // Define GCP Storage Bucket Details
+  const blob = bucket.file(req.file.originalname);
+  const blobStream = blob.createWriteStream();
+
+  const newProject = {
+    screenshotUrl: process.env.STORAGE_URL + blob.id,
     userid: req.user.id,
     title,
     description,
     tags: tagsArray,
+    codeUrl,
+    demoUrl,
+  };
+
+  const project = await Project.create(newProject);
+
+  // If Error, return message.
+  blobStream.on('error', () => {
+    res.status(500);
+    throw new Error('Error uploading image to GCP Storage');
   });
 
-  if (newProject) {
-    res.status(201).json(newProject);
-  } else {
-    res.status(400);
-    throw new Error('Error creating project');
-  }
+  // When finished writing image file, create DB project
+  blobStream.on('finish', () => {
+    if (project) {
+      res.status(201).json(project);
+    } else {
+      res.status(400);
+      throw new Error('Error creating project');
+    }
+  });
+
+  blobStream.end(req.file.buffer);
 });
 
 const putUpdateProject = asyncHandler(async (req, res) => {

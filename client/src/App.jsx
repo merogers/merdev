@@ -15,12 +15,7 @@ import Register from './components/Register';
 
 import useLoginModal from './hooks/useLoginModal';
 import useRegisterModal from './hooks/useRegisterModal';
-
-// const onLogout = () => {
-//   dispatch(logout())
-//   dispatch(reset())
-//   navigate('/')
-// }
+import Dashboard from './components/Dashboard';
 
 function App() {
   const { loginModal, toggleLoginModal } = useLoginModal();
@@ -33,6 +28,7 @@ function App() {
         toggleLoginModal={toggleLoginModal}
         toggleRegisterModal={toggleRegisterModal}
       />
+      <Dashboard />
       <Hero />
       <Projects />
       <About />

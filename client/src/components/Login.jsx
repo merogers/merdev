@@ -18,14 +18,14 @@ function Login({ toggleLoginModal }) {
 
   const { email, password, emailError, passwordError } = formData;
 
-  const onChange = (e) => {
+  const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const onSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     setFormData((prev) => ({
@@ -93,14 +93,14 @@ function Login({ toggleLoginModal }) {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
-      <h1>Login</h1>
+    <Form onSubmit={handleSubmit}>
+      <h1 className='form__h1'>Login</h1>
       <label className='form__label'>
         <span>Email</span>
         <input
           type='text'
           value={email}
-          onChange={onChange}
+          onChange={handleChange}
           name='email'
           className={`form__input${emailError ? ' form__input--error' : ''}`}
         />
@@ -110,7 +110,7 @@ function Login({ toggleLoginModal }) {
         <input
           type='password'
           value={password}
-          onChange={onChange}
+          onChange={handleChange}
           name='password'
           className={`form__input${passwordError ? ' form__input--error' : ''}`}
         />

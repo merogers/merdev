@@ -75,4 +75,12 @@
     @include button-lg-solid($secondary, $secondary-hover);
     margin-left: 2rem;
   }
+
+  &__button-icon {
+    margin-right: 1rem;
+  }
+
+  &__h1 {
+    @include h1;
+  }
 }

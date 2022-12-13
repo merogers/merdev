@@ -2,14 +2,13 @@ import React from 'react';
 
 import './Section.scss';
 
-const Section = ({ children, isDark, isHero, id }) => {
+const Section = ({ children, isDark, isHero, isDash, id }) => {
+  const hero = isHero ? ' section--hero' : '';
+  const dash = isDash ? ' section--dash' : '';
+  const dark = isDark ? ' section--dark' : ' section--light';
+
   return (
-    <section
-      className={`section${isDark ? ' section--dark' : ' section--light'}${
-        isHero ? ' section--hero' : ''
-      }`}
-     id={id}
-    >
+    <section className={`section${hero}${dark}${dash}`} id={id}>
       {children}
     </section>
   );

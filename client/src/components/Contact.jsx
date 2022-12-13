@@ -4,6 +4,8 @@ import Section from './Section/Section';
 import Container from './Container/Container';
 import Form from './Form/Form';
 
+import { FaEnvelope } from 'react-icons/fa';
+
 const Contact = () => {
   return (
     <Section id='contact'>
@@ -23,7 +25,9 @@ const Contact = () => {
             <textarea className='form__input form__textarea'></textarea>
           </label>
           <div className='form__button-container'>
-            <button className='form__button-lg-primary'>Submit</button>
+            <button className='form__button-lg-primary'>
+              <FaEnvelope className='form__button-icon' /> Submit
+            </button>
           </div>
         </Form>
       </Container>
