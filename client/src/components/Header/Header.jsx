@@ -7,12 +7,12 @@ import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
 
 import Container from '../Container/Container';
 
-import { Link } from 'react-scroll';
+import { Link, animateScroll as scroll } from 'react-scroll';
 import useScroll from '../../hooks/useScroll';
 
 import { logout, reset } from '../../features/auth/authSlice';
 
-const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
+const Header = ({ title, setLoginModal, setRegisterModal }) => {
   const [menuClosed, setMenuClosed] = useState(true);
   const toggleMenu = () => {
     setMenuClosed((prev) => !prev);
@@ -29,6 +29,7 @@ const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
+    scroll.scrollToTop();
   };
 
   return (
@@ -95,7 +96,7 @@ const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
               <li className='header__nav-item'>
                 <button
                   className='header__nav-link'
-                  onClick={toggleRegisterModal}
+                  onClick={() => setRegisterModal((prev) => !prev)}
                 >
                   Register
                 </button>
@@ -111,7 +112,7 @@ const Header = ({ title, toggleLoginModal, toggleRegisterModal }) => {
                 ) : (
                   <button
                     className='header__button-sm-outline'
-                    onClick={toggleLoginModal}
+                    onClick={() => setLoginModal((prev) => !prev)}
                   >
                     Login
                   </button>

@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { animateScroll as scroll } from 'react-scroll';
+
 import Form from './Form/Form';
 import Loader from './Loader/Loader';
+
+import Modal from './Modal/Modal';
+
+import useForm from '../hooks/useForm';
 
 import { toast } from 'react-toastify';
 
 import { login, reset } from '../features/auth/authSlice';
 
-function Login({ toggleLoginModal }) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    emailError: false,
-    passwordError: false,
-  });
+export const initialLoginState = {
+  email: '',
+  password: '',
+  emailError: false,
+  passwordError: false,
+};
+
+function Login({ loginModal, setLoginModal }) {
+  const [formData, setFormData] = useState(initialLoginState);
 
   const { email, password, emailError, passwordError } = formData;
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const { handleChange, validateEmailField, validateMinLengthField } =
+    useForm(setFormData);
+
+  const handleLoginCancel = () => {
+    setLoginModal((prev) => !prev);
+    setFormData(initialLoginState);
   };
 
   const handleSubmit = (e) => {
@@ -34,32 +43,26 @@ function Login({ toggleLoginModal }) {
       passwordError: false,
     }));
 
-    let ready = true;
+    const emailIsValid = validateEmailField({
+      field: email,
+      error: 'emailError',
+      message: 'Must be a valid email',
+    });
 
-    if (email.length === 0) {
-      toast.error('Email cannot be blank');
-      setFormData((prev) => ({
-        ...prev,
-        emailError: true,
-      }));
-      ready = false;
-    }
+    const passwordIsValid = validateMinLengthField({
+      field: password,
+      minLength: 6,
+      error: 'passwordError',
+      message: 'Password must be at least 6 characters',
+    });
 
-    if (password.length < 6) {
-      toast.error('Password cannot be blank');
-      setFormData((prev) => ({
-        ...prev,
-        passwordError: true,
-      }));
-      ready = false;
-    }
-
-    if (ready) {
+    if (emailIsValid && passwordIsValid) {
       const userData = {
         email,
         password,
       };
       dispatch(login(userData));
+      scroll.scrollToTop();
     }
   };
 
@@ -93,41 +96,49 @@ function Login({ toggleLoginModal }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h1 className='form__h1'>Login</h1>
-      <label className='form__label'>
-        <span>Email</span>
-        <input
-          type='text'
-          value={email}
-          onChange={handleChange}
-          name='email'
-          className={`form__input${emailError ? ' form__input--error' : ''}`}
-        />
-      </label>
-      <label className='form__label'>
-        <span>Password</span>
-        <input
-          type='password'
-          value={password}
-          onChange={handleChange}
-          name='password'
-          className={`form__input${passwordError ? ' form__input--error' : ''}`}
-        />
-      </label>
-      <div className='form__button-container'>
-        <button className='form__button-lg-primary' type='submit'>
-          Submit
-        </button>
-        <button
-          className='form__button-lg-secondary'
-          onClick={toggleLoginModal}
-          type='button'
-        >
-          Cancel
-        </button>
-      </div>
-    </Form>
+    <Modal
+      modal={loginModal}
+      setModal={setLoginModal}
+      handleCancel={handleLoginCancel}
+    >
+      <Form onSubmit={handleSubmit}>
+        <h1 className='form__h1'>Login</h1>
+        <label className='form__label'>
+          <span>Email</span>
+          <input
+            type='text'
+            value={email}
+            onChange={handleChange}
+            name='email'
+            className={`form__input${emailError ? ' form__input--error' : ''}`}
+          />
+        </label>
+        <label className='form__label'>
+          <span>Password</span>
+          <input
+            type='password'
+            value={password}
+            onChange={handleChange}
+            name='password'
+            className={`form__input${
+              passwordError ? ' form__input--error' : ''
+            }`}
+          />
+        </label>
+        <div className='form__button-container'>
+          <button className='form__button-lg-primary' type='submit'>
+            Submit
+          </button>
+          <button
+            className='form__button-lg-secondary'
+            onClick={handleLoginCancel}
+            type='button'
+          >
+            Cancel
+          </button>
+        </div>
+      </Form>
+    </Modal>
   );
 }
 
