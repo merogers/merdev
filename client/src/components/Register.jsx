@@ -8,19 +8,24 @@ import { register, reset } from '../features/auth/authSlice';
 import Form from './Form/Form';
 import Loader from './Loader/Loader';
 
-function Register({ toggleRegisterModal }) {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstNameError: false,
-    lastNameError: false,
-    emailError: false,
-    passwordError: false,
-    confirmPasswordError: false,
-  });
+import useForm from '../hooks/useForm';
+import Modal from './Modal/Modal';
+
+const initialRegisterState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  firstNameError: false,
+  lastNameError: false,
+  emailError: false,
+  passwordError: false,
+  confirmPasswordError: false,
+};
+
+function Register({ registerModal, setRegisterModal }) {
+  const [formData, setFormData] = useState(initialRegisterState);
 
   const {
     firstName,
@@ -35,6 +40,19 @@ function Register({ toggleRegisterModal }) {
     confirmPasswordError,
   } = formData;
 
+  const {
+    handleChange,
+    validateEmailField,
+    validateMinLengthField,
+    validateEmptyField,
+    validatePasswordsMatch,
+  } = useForm(setFormData);
+
+  const handleRegisterCancel = () => {
+    setRegisterModal((prev) => !prev);
+    setFormData(initialRegisterState);
+  };
+
   const dispatch = useDispatch();
 
   const { user, isLoading, isError, isRegisterSuccess, message } = useSelector(
@@ -48,30 +66,12 @@ function Register({ toggleRegisterModal }) {
 
     if (isRegisterSuccess) {
       toast.success('Registered user successfully');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        firstNameError: false,
-        lastNameError: false,
-        emailError: false,
-        passwordError: false,
-        confirmPasswordError: false,
-      });
+      setFormData(initialRegisterState);
       toggleRegisterModal();
     }
     // Reset state
     dispatch(reset());
   }, [user, isError, isRegisterSuccess, message, dispatch]);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,54 +85,45 @@ function Register({ toggleRegisterModal }) {
       confirmPasswordError: false,
     }));
 
-    let ready = true;
+    const firstNameIsValid = validateEmptyField({
+      field: firstName,
+      error: 'firstNameError',
+      message: 'You must enter a first name',
+    });
 
-    if (firstName.length === 0) {
-      toast.error('First Name cannot be blank');
-      setFormData((prev) => ({
-        ...prev,
-        firstNameError: true,
-      }));
-      ready = false;
-    }
+    const lastNameIsValid = validateEmptyField({
+      field: lastName,
+      error: 'lastNameError',
+      message: 'You must enter a last name',
+    });
 
-    if (lastName.length === 0) {
-      toast.error('Last Name cannot be blank');
-      setFormData((prev) => ({
-        ...prev,
-        lastNameError: true,
-      }));
-      ready = false;
-    }
+    const emailIsValid = validateEmailField({
+      field: email,
+      error: 'emailError',
+      message: 'Must be a valid email',
+    });
 
-    if (email.length === 0 || !email.includes('@')) {
-      toast.error('Email must be valid');
-      setFormData((prev) => ({
-        ...prev,
-        emailError: true,
-      }));
-      ready = false;
-    }
+    const passwordIsValid = validateMinLengthField({
+      field: password,
+      minLength: 6,
+      error: 'passwordError',
+      message: 'Password must be longer than 6 characters',
+    });
 
-    if (password.length < 6) {
-      toast.error('Password must be longer than 6 characters');
-      setFormData((prev) => ({
-        ...prev,
-        passwordError: true,
-      }));
-      ready = false;
-    }
+    const passwordsMatch = validatePasswordsMatch({
+      password,
+      confirmPassword,
+      error: 'confirmPasswordError',
+      message: 'Passwords do not match, or are blank',
+    });
 
-    if (password !== confirmPassword || confirmPassword.length === 0) {
-      toast.error('Passwords must match');
-      setFormData((prev) => ({
-        ...prev,
-        confirmPasswordError: true,
-      }));
-      ready = false;
-    }
-
-    if (ready) {
+    if (
+      firstNameIsValid &&
+      lastNameIsValid &&
+      emailIsValid &&
+      passwordIsValid &&
+      passwordsMatch
+    ) {
       const userData = {
         firstName,
         lastName,
@@ -148,81 +139,89 @@ function Register({ toggleRegisterModal }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h1 className='form__h1'>Register</h1>
-      <div className='form__field-container'>
-        <label htmlFor='firstName' className='form__label--mr'>
-          <span>First Name</span>
+    <Modal
+      modal={registerModal}
+      setModal={setRegisterModal}
+      handleCancel={handleRegisterCancel}
+    >
+      <Form onSubmit={handleSubmit}>
+        <h1 className='form__h1'>Register</h1>
+        <div className='form__field-container'>
+          <label htmlFor='firstName' className='form__label--mr'>
+            <span>First Name</span>
+            <input
+              name='firstName'
+              type='text'
+              onChange={handleChange}
+              value={firstName}
+              className={`form__input${
+                firstNameError ? ' form__input--error' : ''
+              }`}
+            />
+          </label>
+          <label htmlFor='firstName' className='form__label'>
+            <span>Last Name</span>
+            <input
+              name='lastName'
+              type='text'
+              onChange={handleChange}
+              value={lastName}
+              className={`form__input${
+                lastNameError ? ' form__input--error' : ''
+              }`}
+            />
+          </label>
+        </div>
+        <label htmlFor='email' className='form__label'>
+          <span>Email</span>
           <input
-            name='firstName'
+            name='email'
             type='text'
             onChange={handleChange}
-            value={firstName}
+            value={email}
+            className={`form__input${emailError ? ' form__input--error' : ''}`}
+          />
+        </label>
+
+        <label htmlFor='password' className='form__label'>
+          <span>Password</span>
+          <input
+            name='password'
+            type='password'
+            onChange={handleChange}
+            value={password}
             className={`form__input${
-              firstNameError ? ' form__input--error' : ''
+              passwordError ? ' form__input--error' : ''
             }`}
           />
         </label>
-        <label htmlFor='firstName' className='form__label'>
-          <span>Last Name</span>
+        <label htmlFor='password' className='form__label'>
+          <span>Confirm Password</span>
           <input
-            name='lastName'
-            type='text'
+            name='confirmPassword'
+            type='password'
             onChange={handleChange}
-            value={lastName}
+            value={confirmPassword}
             className={`form__input${
-              lastNameError ? ' form__input--error' : ''
+              confirmPasswordError ? ' form__input--error' : ''
             }`}
           />
         </label>
-      </div>
-      <label htmlFor='email' className='form__label'>
-        <span>Email</span>
-        <input
-          name='email'
-          type='text'
-          onChange={handleChange}
-          value={email}
-          className={`form__input${emailError ? ' form__input--error' : ''}`}
-        />
-      </label>
 
-      <label htmlFor='password' className='form__label'>
-        <span>Password</span>
-        <input
-          name='password'
-          type='password'
-          onChange={handleChange}
-          value={password}
-          className={`form__input${passwordError ? ' form__input--error' : ''}`}
-        />
-      </label>
-      <label htmlFor='password' className='form__label'>
-        <span>Confirm Password</span>
-        <input
-          name='confirmPassword'
-          type='password'
-          onChange={handleChange}
-          value={confirmPassword}
-          className={`form__input${
-            confirmPasswordError ? ' form__input--error' : ''
-          }`}
-        />
-      </label>
-
-      <div className='form__button-container'>
-        <button className='form__button-lg-primary' type='submit'>
-          Submit
-        </button>
-        <button
-          className='form__button-lg-secondary'
-          onClick={toggleRegisterModal}
-          type='button'
-        >
-          Cancel
-        </button>
-      </div>
-    </Form>
+        <div className='form__button-container'>
+          <button className='form__button-lg-primary' type='submit'>
+            Submit
+          </button>
+          <button
+            className='form__button-lg-secondary'
+            onClick={handleRegisterCancel}
+            type='button'
+          >
+            Cancel
+          </button>
+        </div>
+      </Form>
+    </Modal>
   );
 }
 

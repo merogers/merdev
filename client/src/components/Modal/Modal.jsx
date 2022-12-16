@@ -1,13 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import useScroll from '../../hooks/useScroll';
 
 import './Modal.scss';
 
-function Modal({ children, show, toggle }) {
+function Modal({ children, modal, handleCancel }) {
   // Disables scrolling if model is showing
-  useScroll(show);
+  useScroll(modal);
 
   // Only allows toggle on parent element
   const stopProp = (e) => {
@@ -16,8 +13,8 @@ function Modal({ children, show, toggle }) {
 
   return (
     <div
-      onClick={() => toggle()}
-      className={`modal${show ? ' modal--open' : ''}`}
+      onClick={handleCancel}
+      className={`modal${modal ? ' modal--open' : ''}`}
     >
       <div className='modal__content' onClick={stopProp}>
         {children}
@@ -25,19 +22,5 @@ function Modal({ children, show, toggle }) {
     </div>
   );
 }
-
-Modal.propTypes = {
-  children: PropTypes.node,
-  show: PropTypes.bool,
-  toggle: PropTypes.func,
-};
-
-Modal.defaultProps = {
-  children: {},
-  show: false,
-  toggle: function () {
-    console.log('click');
-  },
-};
 
 export default Modal;

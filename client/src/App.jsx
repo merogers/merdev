@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import Modal from './components/Modal/Modal';
 import Main from './components/Main/Main';
 
 import Hero from './components/Hero';
@@ -13,20 +12,18 @@ import Toast from './components/Toast';
 import Login from './components/Login';
 import Register from './components/Register';
 
-import useLoginModal from './hooks/useLoginModal';
-import useRegisterModal from './hooks/useRegisterModal';
 import Dashboard from './components/Dashboard';
 
 function App() {
-  const { loginModal, toggleLoginModal } = useLoginModal();
-  const { registerModal, toggleRegisterModal } = useRegisterModal();
+  const [loginModal, setLoginModal] = useState(false);
+  const [registerModal, setRegisterModal] = useState(false);
 
   return (
     <Main>
       <Header
         title='merogers.dev'
-        toggleLoginModal={toggleLoginModal}
-        toggleRegisterModal={toggleRegisterModal}
+        setLoginModal={setLoginModal}
+        setRegisterModal={setRegisterModal}
       />
       <Dashboard />
       <Hero />
@@ -35,12 +32,12 @@ function App() {
       <Contact />
       <Footer />
       <Toast />
-      <Modal show={loginModal} toggle={toggleLoginModal}>
-        <Login toggleLoginModal={toggleLoginModal} />
-      </Modal>
-      <Modal show={registerModal} toggle={toggleRegisterModal}>
-        <Register toggleRegisterModal={toggleRegisterModal} />
-      </Modal>
+
+      <Login loginModal={loginModal} setLoginModal={setLoginModal} />
+      <Register
+        registerModal={registerModal}
+        setRegisterModal={setRegisterModal}
+      />
     </Main>
   );
 }
