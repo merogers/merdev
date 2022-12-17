@@ -3,12 +3,9 @@ import React, { useEffect } from 'react';
 import Section from './Section/Section';
 import Container from './Container/Container';
 import Project from './Project/Project';
+import Loader from './Loader/Loader';
 
 import { toast } from 'react-toastify';
-
-// import useGetProjects from '../hooks/useGetProjects';
-
-import Loader from './Loader/Loader';
 
 import { getLatestProjects } from '../features/project/projectSlice';
 
@@ -18,8 +15,6 @@ const Projects = () => {
   const { latestProjects, isError, isLoading, message } = useSelector(
     (state) => state.projects
   );
-
-  console.log(latestProjects);
 
   const dispatch = useDispatch();
 

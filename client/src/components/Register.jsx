@@ -7,9 +7,9 @@ import { register, reset } from '../features/auth/authSlice';
 
 import Form from './Form/Form';
 import Loader from './Loader/Loader';
+import Modal from './Modal/Modal';
 
 import useForm from '../hooks/useForm';
-import Modal from './Modal/Modal';
 
 const initialRegisterState = {
   firstName: '',
@@ -67,7 +67,7 @@ function Register({ registerModal, setRegisterModal }) {
     if (isRegisterSuccess) {
       toast.success('Registered user successfully');
       setFormData(initialRegisterState);
-      toggleRegisterModal();
+      setRegisterModal((prev) => !prev);
     }
     // Reset state
     dispatch(reset());

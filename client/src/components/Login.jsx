@@ -5,7 +5,6 @@ import { animateScroll as scroll } from 'react-scroll';
 
 import Form from './Form/Form';
 import Loader from './Loader/Loader';
-
 import Modal from './Modal/Modal';
 
 import useForm from '../hooks/useForm';
@@ -85,7 +84,7 @@ function Login({ loginModal, setLoginModal }) {
         emailError: false,
         passwordError: false,
       });
-      toggleLoginModal();
+      setLoginModal((prev) => !prev);
     }
     // Reset state
     dispatch(reset());

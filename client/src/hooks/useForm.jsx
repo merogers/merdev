@@ -18,7 +18,7 @@ const useForm = (setState) => {
 
   // Check state for type ie. NULL
   const validateField = ({ field, value, error, message }) => {
-    if (field !== value) {
+    if (field === value) {
       toast.error(message);
       setState((prev) => ({
         ...prev,
@@ -71,11 +71,11 @@ const useForm = (setState) => {
   // Check passwords match
   const validatePasswordsMatch = ({
     password,
-    checkPassword,
+    confirmPassword,
     error,
     message,
   }) => {
-    if (password !== checkPassword || checkPassword.length === 0) {
+    if (password !== confirmPassword || confirmPassword.length === 0) {
       toast.error(message);
       setState((prev) => ({
         ...prev,

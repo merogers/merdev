@@ -8,14 +8,17 @@ const { multer } = require('../middleware/imageMiddleware');
 const {
   postNewProject,
   getLatestProjects,
+  getUserProjects,
   getProjectDetails,
   deleteProjectById,
   putUpdateProject,
 } = require('../controllers/projectController');
 
+router.route('/latest').get(getLatestProjects);
+
 router
   .route('/')
-  .get(getLatestProjects)
+  .get(getUserProjects)
   .post(protect, multer.single('screenshot'), postNewProject);
 router
   .route('/:id')

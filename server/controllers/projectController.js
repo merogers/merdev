@@ -25,7 +25,7 @@ const getLatestProjects = asyncHandler(async (_req, res) => {
 const getUserProjects = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const projects = await Projects.find({ user: id }).sort({
+  const projects = await Project.find({ user: id }).sort({
     updatedAt: -1,
   });
 

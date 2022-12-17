@@ -11,7 +11,6 @@ import Contact from './components/Contact';
 import Toast from './components/Toast';
 import Login from './components/Login';
 import Register from './components/Register';
-
 import Dashboard from './components/Dashboard';
 
 function App() {
@@ -32,7 +31,6 @@ function App() {
       <Contact />
       <Footer />
       <Toast />
-
       <Login loginModal={loginModal} setLoginModal={setLoginModal} />
       <Register
         registerModal={registerModal}
