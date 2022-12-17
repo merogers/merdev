@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import './Header.scss';
 
-import { FaBars, FaTimes, FaCode } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 import Container from '../Container/Container';
 
@@ -37,7 +37,7 @@ const Header = ({ title, setLoginModal, setRegisterModal }) => {
       <Container>
         <div className='header__content'>
           <Link className='header__logo' to='hero' smooth={true}>
-            <FaCode className='header__icon' /> {title}
+            {title}
           </Link>
           <nav className='header__nav'>
             <ul

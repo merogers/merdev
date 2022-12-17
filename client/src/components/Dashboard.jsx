@@ -4,10 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import Section from './Section/Section';
 import Container from './Container/Container';
 import Form from './Form/Form';
+import ProjectListing from './ProjectListing/ProjectListing';
 
-import { createProject, getProjects } from '../features/project/projectSlice';
+import {
+  createProject,
+  getUserProjects,
+  deleteProject,
+} from '../features/project/projectSlice';
 
 import useValidate from '../hooks/useForm';
+import { toast } from 'react-toastify';
 
 const initialProjectState = {
   title: '',
@@ -30,6 +36,8 @@ const Dashboard = () => {
 
   const [formData, setFormData] = useState(initialProjectState);
 
+  const [editMode, setEditMode] = useState(false);
+
   const {
     title,
     description,
@@ -51,21 +59,7 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  // Submit Project
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Reset Errors
-    setFormData((prev) => ({
-      ...prev,
-      titleError: false,
-      descriptionError: false,
-      screenshotError: false,
-      tagsError: false,
-      codeUrlError: false,
-      demoUrlError: false,
-    }));
-
+  const validateProject = () => {
     // Validate Fields
     const titleIsValid = validateEmptyField({
       field: title,
@@ -113,6 +107,28 @@ const Dashboard = () => {
       tagsIsValid &&
       screenshotIsValid
     ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // Submit Project
+  const handleSubmitCreate = (e) => {
+    e.preventDefault();
+
+    // Reset Errors
+    setFormData((prev) => ({
+      ...prev,
+      titleError: false,
+      descriptionError: false,
+      screenshotError: false,
+      tagsError: false,
+      codeUrlError: false,
+      demoUrlError: false,
+    }));
+
+    if (validateProject()) {
       const newProject = {
         screenshot,
         title,
@@ -121,13 +137,36 @@ const Dashboard = () => {
         codeUrl,
         demoUrl,
       };
+      toast.success('New Project Created Successfully');
       dispatch(createProject(newProject));
       setFormData(initialProjectState);
     }
   };
 
+  const handleSubmitEdit = (e) => {
+    e.preventDefault();
+    // if (validateProject()) {
+    //   const updatedProject = {
+    //     screenshot,
+    //     title,
+    //     description,
+    //     tags,
+    //     codeUrl,
+    //     demoUrl,
+    //   };
+    //   dispatch(updateProject(newProject));
+    //   setFormData(initialProjectState);
+    // }
+    console.log('Edit');
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setFormData(initialProjectState);
+  };
+
   useEffect(() => {
-    dispatch(getProjects());
+    dispatch(getUserProjects());
   }, []);
 
   return (
@@ -138,11 +177,27 @@ const Dashboard = () => {
             Hi, {user.firstName}
           </h1>
           <p className='section__p section__p--centered'>
-            Total Projects: {userProjects.length}
+            Your Projects: {userProjects.length}
           </p>
+
+          <ul className='section__project-list'>
+            {userProjects &&
+              userProjects.map((project) => (
+                <ProjectListing
+                  key={project._id}
+                  project={project}
+                  setFormData={setFormData}
+                  setEditMode={setEditMode}
+                  deleteProject={deleteProject}
+                />
+              ))}
+          </ul>
+
           <div className='dashboard__container'>
-            <Form onSubmit={handleSubmit}>
-              <h2 className='form__h2'>Create New Project</h2>
+            <Form onSubmit={editMode ? handleSubmitEdit : handleSubmitCreate}>
+              <h2 className='form__h2'>
+                {editMode ? 'Edit Project' : 'Create New Project'}
+              </h2>
 
               <label className='form__label'>
                 <span>Title</span>
@@ -217,8 +272,17 @@ const Dashboard = () => {
               </label>
               <div className='form__button-container'>
                 <button className='form__button-lg-primary' type='submit'>
-                  Create
+                  {editMode ? 'Edit' : 'Create'}
                 </button>
+                {editMode ? (
+                  <button
+                    className='form__button-lg-secondary'
+                    type='submit'
+                    onClick={handleCancelEdit}
+                  >
+                    Cancel
+                  </button>
+                ) : null}
               </div>
             </Form>
           </div>

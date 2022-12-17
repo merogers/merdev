@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
-const API_URL = `${baseUrl}/api/projects`;
+const API_URL = `${baseUrl}/api/projects/latest`;
 
 const useGetProjects = () => {
   const [projectData, setProjectData] = useState({

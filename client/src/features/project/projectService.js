@@ -19,7 +19,26 @@ const createProject = async (projectData, token) => {
   return response.data;
 };
 
-const getProjects = async (token) => {
+const updateProject = async (projectData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  console.log('updateproject', projectData);
+
+  const response = await axios.put(
+    API_URL + '/' + projectData._id,
+    projectData,
+    config
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+const getUserProjects = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -31,26 +50,28 @@ const getProjects = async (token) => {
 };
 
 const getLatestProjects = async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(API_URL + '/latest');
+  console.log(response.data);
   return response.data;
 };
 
-const deleteProject = async (projectId, token) => {
+const deleteProject = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.delete(API_URL + projectId, config);
+  const response = await axios.delete(API_URL + '/' + id, config);
   return response.data;
 };
 
 const projectService = {
   createProject,
-  getProjects,
+  getUserProjects,
   deleteProject,
   getLatestProjects,
+  updateProject,
 };
 
 export default projectService;

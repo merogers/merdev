@@ -2,6 +2,7 @@
 @use '../../styles/partials/media' as *;
 @use '../../styles/partials/utility' as *;
 @use '../../styles/partials/buttons' as *;
+@use '../../styles/partials/font' as *;
 
 .form {
   @include flex-center;
@@ -42,6 +43,8 @@
     border-radius: 0.25rem;
     padding: 1rem;
     width: 100%;
+    font-family: $font-stack;
+    font-size: 1rem;
     &--error {
       outline: 1px solid $error;
       background-color: $error-bg;
@@ -54,6 +57,7 @@
   &__textarea {
     height: 15rem;
     resize: none;
+    font-family: $font-stack;
   }
   &__button-container {
     @include flex-center;

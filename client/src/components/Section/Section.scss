@@ -102,11 +102,22 @@
   &__button-sm-primary {
     @include button-sm-solid($primary, $primary-hover);
     max-width: 10rem;
+    padding: 0.75rem;
+  }
+
+  &__button-sm-primary--mr {
+    margin-right: 0.5rem;
   }
 
   &__button-sm-primary-outline {
     @include button-sm-outline($secondary, $secondary-hover, white);
     max-width: 10rem;
+  }
+
+  &__button-sm-secondary {
+    @include button-sm-solid($secondary, $secondary-hover);
+    max-width: 10rem;
+    padding: 0.75rem;
   }
 
   &__button-icon {
@@ -122,6 +133,16 @@
       text-align: center;
       margin: 2rem 0 0 0;
     }
+  }
+
+  &__project-list {
+    @include flex-center;
+    flex-direction: column;
+    list-style-type: none;
+
+    width: 30rem;
+    margin: 0 auto 2rem auto;
+    padding: 0;
   }
 
   &__h2 {
