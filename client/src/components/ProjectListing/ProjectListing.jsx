@@ -6,14 +6,9 @@ import { FaPen, FaTrash } from 'react-icons/fa';
 import './ProjectListing.scss';
 import { toast } from 'react-toastify';
 
-const ProjectListing = ({
-  project,
-  setFormData,
-  setEditMode,
-  deleteProject,
-}) => {
-  const { userProjects } = useSelector((state) => state.projects);
+import { deleteUserProject } from '../../features/project/userProjectSlice';
 
+const ProjectListing = ({ project, setFormData }) => {
   const formatDate = (date) => {
     let newDate = new Date(date).toLocaleDateString();
     return newDate;
@@ -22,20 +17,17 @@ const ProjectListing = ({
   const dispatch = useDispatch();
 
   const handleEdit = () => {
-    setEditMode(true);
     setFormData({
+      _id: project._id,
       title: project.title,
       description: project.description,
       demoUrl: project.demoUrl,
       codeUrl: project.codeUrl,
-      tags: project.tags.join(' '),
+      tags: project.tags.join(','),
       screenshot: project.screenshot,
+      screenshotUrl: project.screenshotUrl,
+      replaceScreenshot: false,
     });
-  };
-
-  const handleDelete = () => {
-    dispatch(deleteProject(project._id));
-    toast.success('Project deleted successfully');
   };
 
   return (
@@ -56,7 +48,7 @@ const ProjectListing = ({
         </button>
         <button
           className='project-listing__button-sm-secondary'
-          onClick={handleDelete}
+          onClick={() => dispatch(deleteUserProject(project._id))}
         >
           <FaTrash />
         </button>

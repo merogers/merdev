@@ -6,6 +6,10 @@ const ProjectSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    screenshotFile: {
+      type: String,
+      required: true,
+    },
     userid: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

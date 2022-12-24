@@ -12,18 +12,21 @@ import useScroll from '../../hooks/useScroll';
 
 import { logout, reset } from '../../features/auth/authSlice';
 
-const Header = ({ title, setLoginModal, setRegisterModal }) => {
-  const [menuClosed, setMenuClosed] = useState(true);
-  const toggleMenu = () => {
-    setMenuClosed((prev) => !prev);
-  };
+import { toggleMenu } from '../../features/menu/menuSlice';
 
+import {
+  toggleLoginModal,
+  toggleRegisterModal,
+} from '../../features/modal/modalSlice';
+
+const Header = ({ title }) => {
   const { user } = useSelector((state) => state.auth);
+  const { isOpen } = useSelector((state) => state.menu);
 
   const dispatch = useDispatch();
 
   // Disallow scroll when menu is open
-  useScroll(!menuClosed);
+  useScroll(isOpen);
 
   // Logout user, reset auth state to initial, delete localStorage
   const handleLogout = () => {
@@ -42,7 +45,7 @@ const Header = ({ title, setLoginModal, setRegisterModal }) => {
           <nav className='header__nav'>
             <ul
               className={`header__nav-list${
-                menuClosed ? ' header__nav-list--close' : ''
+                isOpen ? '' : ' header__nav-list--close'
               }`}
             >
               <li className='header__nav-item'>
@@ -96,7 +99,7 @@ const Header = ({ title, setLoginModal, setRegisterModal }) => {
               <li className='header__nav-item'>
                 <button
                   className='header__nav-link'
-                  onClick={() => setRegisterModal((prev) => !prev)}
+                  onClick={() => dispatch(toggleRegisterModal())}
                 >
                   Register
                 </button>
@@ -112,15 +115,18 @@ const Header = ({ title, setLoginModal, setRegisterModal }) => {
                 ) : (
                   <button
                     className='header__button-sm-outline'
-                    onClick={() => setLoginModal((prev) => !prev)}
+                    onClick={() => dispatch(toggleLoginModal())}
                   >
                     Login
                   </button>
                 )}
               </li>
             </ul>
-            <div className='header__nav-toggle' onClick={toggleMenu}>
-              {menuClosed ? <FaBars /> : <FaTimes />}
+            <div
+              className='header__nav-toggle'
+              onClick={() => dispatch(toggleMenu())}
+            >
+              {isOpen ? <FaTimes /> : <FaBars />}
             </div>
           </nav>
         </div>

@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import Section from './Section/Section';
-import Container from './Container/Container';
-import Form from './Form/Form';
-import ProjectListing from './ProjectListing/ProjectListing';
+import Section from '../Section/Section';
+import Container from '../Container/Container';
+import Form from '../Form/Form';
+import ProjectListing from '../ProjectListing/ProjectListing';
+import Loader from '../Loader/Loader';
 
 import {
-  createProject,
+  reset,
   getUserProjects,
-  deleteProject,
-} from '../features/project/projectSlice';
+  deleteUserProject,
+} from '../../features/project/userProjectSlice';
 
-import useValidate from '../hooks/useForm';
+import useValidate from '../../hooks/useForm';
 import { toast } from 'react-toastify';
 
 const initialProjectState = {
@@ -22,6 +23,8 @@ const initialProjectState = {
   codeUrl: '',
   demoUrl: '',
   tags: '',
+  _id: '',
+  replaceScreenshot: true,
   titleError: false,
   descriptionError: false,
   tagsError: false,
@@ -32,7 +35,10 @@ const initialProjectState = {
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
-  const { userProjects } = useSelector((state) => state.projects);
+
+  const { userProjects, isLoading, isError, message } = useSelector(
+    (state) => state.userProjects
+  );
 
   const [formData, setFormData] = useState(initialProjectState);
 
@@ -45,6 +51,9 @@ const Dashboard = () => {
     codeUrl,
     demoUrl,
     tags,
+    _id,
+    screenshotUrl,
+    replaceScreenshot,
     titleError,
     descriptionError,
     screenshotError,
@@ -138,26 +147,41 @@ const Dashboard = () => {
         demoUrl,
       };
       toast.success('New Project Created Successfully');
-      dispatch(createProject(newProject));
+      dispatch(createUserProject(newProject));
       setFormData(initialProjectState);
     }
   };
 
   const handleSubmitEdit = (e) => {
     e.preventDefault();
-    // if (validateProject()) {
-    //   const updatedProject = {
-    //     screenshot,
-    //     title,
-    //     description,
-    //     tags,
-    //     codeUrl,
-    //     demoUrl,
-    //   };
-    //   dispatch(updateProject(newProject));
-    //   setFormData(initialProjectState);
-    // }
-    console.log('Edit');
+
+    // Reset Errors
+    setFormData((prev) => ({
+      ...prev,
+      titleError: false,
+      descriptionError: false,
+      screenshotError: false,
+      tagsError: false,
+      codeUrlError: false,
+      demoUrlError: false,
+    }));
+
+    if (validateProject()) {
+      const updatedProject = {
+        _id,
+        screenshot,
+        screenshotUrl,
+        title,
+        description,
+        tags,
+        codeUrl,
+        demoUrl,
+      };
+      toast.success('Project Updated Successfully');
+      dispatch(updateProject(updatedProject));
+      setFormData(initialProjectState);
+    }
+    console.log(formData);
   };
 
   const handleCancelEdit = () => {
@@ -166,8 +190,26 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
     dispatch(getUserProjects());
-  }, []);
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, isError, message, dispatch]);
+
+  if (isLoading) {
+    return (
+      <Section id='dashboard' isDash={true}>
+        <Container>
+          <Loader />
+        </Container>
+      </Section>
+    );
+  }
 
   return (
     user && (
@@ -180,18 +222,22 @@ const Dashboard = () => {
             Your Projects: {userProjects.length}
           </p>
 
-          <ul className='section__project-list'>
-            {userProjects &&
-              userProjects.map((project) => (
-                <ProjectListing
-                  key={project._id}
-                  project={project}
-                  setFormData={setFormData}
-                  setEditMode={setEditMode}
-                  deleteProject={deleteProject}
-                />
-              ))}
-          </ul>
+          {userProjects.length > 0 ? (
+            <ul className='section__project-list'>
+              {userProjects &&
+                userProjects.map((project) => (
+                  <ProjectListing
+                    key={project._id}
+                    project={project}
+                    setFormData={setFormData}
+                    setEditMode={setEditMode}
+                    deleteProject={deleteUserProject}
+                  />
+                ))}
+            </ul>
+          ) : (
+            <h3 className='section__h3'>You have no projects...</h3>
+          )}
 
           <div className='dashboard__container'>
             <Form onSubmit={editMode ? handleSubmitEdit : handleSubmitCreate}>
@@ -261,14 +307,46 @@ const Dashboard = () => {
               </label>
               <label className='form__label'>
                 <span>Screenshot</span>
-                <input
-                  type='file'
-                  onChange={handleFileChange}
-                  name='screenshot'
-                  className={`form__input${
-                    screenshotError ? ' form__input--error' : ''
-                  }`}
-                />
+                {replaceScreenshot ? (
+                  <input
+                    type='file'
+                    onChange={handleFileChange}
+                    name='screenshot'
+                    className={`form__input${
+                      screenshotError ? ' form__input--error' : ''
+                    }`}
+                  />
+                ) : null}
+                {editMode ? (
+                  <div>
+                    <input
+                      type='radio'
+                      value={false}
+                      checked={replaceScreenshot === false}
+                      className='form__radio'
+                      onChange={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          replaceScreenshot: false,
+                        }))
+                      }
+                    />
+                    <span>Keep Existing</span>
+                    <input
+                      type='radio'
+                      value={true}
+                      className='form__radio'
+                      checked={replaceScreenshot === true}
+                      onChange={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          replaceScreenshot: true,
+                        }))
+                      }
+                    />
+                    <span>Replace</span>
+                  </div>
+                ) : null}
               </label>
               <div className='form__button-container'>
                 <button className='form__button-lg-primary' type='submit'>

@@ -2,7 +2,7 @@ import useScroll from '../../hooks/useScroll';
 
 import './Modal.scss';
 
-function Modal({ children, modal, handleCancel }) {
+function Modal({ children, modal, closeModal }) {
   // Disables scrolling if model is showing
   useScroll(modal);
 
@@ -12,10 +12,7 @@ function Modal({ children, modal, handleCancel }) {
   };
 
   return (
-    <div
-      onClick={handleCancel}
-      className={`modal${modal ? ' modal--open' : ''}`}
-    >
+    <div onClick={closeModal} className={`modal${modal ? ' modal--open' : ''}`}>
       <div className='modal__content' onClick={stopProp}>
         {children}
       </div>

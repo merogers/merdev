@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const crypto = require('crypto');
 
 const Project = require('../models/projectModel');
 const User = require('../models/userModel');
@@ -66,14 +67,21 @@ const postNewProject = asyncHandler(async (req, res) => {
   }
 
   // Split tags string into array
-  const tagsArray = tags.split(' ');
+  const tagsArray = tags.split(',');
+
+  // Get original file extension, and append it to unique filename
+  const fileName = req.file.originalname.split('.');
+  const newFileName = `${crypto.randomBytes(12).toString('hex')}.${
+    fileName[1]
+  }`;
 
   // Define GCP Storage Bucket Details
-  const blob = bucket.file(req.file.originalname);
+  const blob = bucket.file(newFileName);
   const blobStream = blob.createWriteStream();
 
   const newProject = {
     screenshotUrl: process.env.STORAGE_URL + blob.id,
+    screenshotFile: newFileName,
     userid: req.user.id,
     title,
     description,
@@ -105,7 +113,11 @@ const postNewProject = asyncHandler(async (req, res) => {
 
 const putUpdateProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { screenshotUrl, title, description, tags } = req.body;
+  const { screenshotUrl, title, description, tags, codeUrl, demoUrl, _id } =
+    req.body;
+
+  console.log(req.params);
+  console.log(req.body);
 
   if (!id || !screenshotUrl || !title || !description || !tags) {
     res.status(400);
@@ -119,33 +131,35 @@ const putUpdateProject = asyncHandler(async (req, res) => {
     throw new Error('Unauthorized: No user found');
   }
 
-  if (project.userid.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error('Unauthorized: No permissions on this resource');
-  }
+  // if (project.userid.toString() !== req.user._id.toString()) {
+  //   res.status(401);
+  //   throw new Error('Unauthorized: No permissions on this resource');
+  // }
 
-  const tagsArray = tags.split(' ');
+  const tagsArray = tags.split(',');
 
   const updatedProjectBody = {
+    _id,
+    codeUrl,
+    demoUrl,
     screenshotUrl,
-    user,
+    userid: project.userid,
     title,
     description,
     tags: tagsArray,
   };
 
-  const updatedProject = await Project.findOneAndUpdate(
-    { id },
+  const updatedProject = await Project.findByIdAndUpdate(
+    { _id: id },
     updatedProjectBody
   );
 
   if (updatedProject) {
-    // Send back updated project
     const project = await Project.findById({ _id: id });
     res.status(200).json(project);
   } else {
     res.status(400);
-    throw new Error('Error updating project');
+    throw new Error('Project update failed');
   }
 });
 
@@ -169,10 +183,15 @@ const deleteProjectById = asyncHandler(async (req, res) => {
     throw new Error('Unauthorized: No permissions on this resource');
   }
 
+  // Delete Project from DB
   const deleteProject = await Project.deleteOne({ _id: id });
 
   if (deleteProject) {
-    res.status(200).json({ message: 'Project deleted successfully' });
+    // Delete Screenshot from GCP Storage
+    const screenshot = bucket.file(project.screenshotFile);
+    screenshot.delete();
+    // Return ID
+    res.status(200).json({ id });
   } else {
     res.status(400);
     throw new Error('Project deletion failed');

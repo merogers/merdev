@@ -67,14 +67,12 @@ const postLoginUser = asyncHandler(async (req, res) => {
 
   // Check User Exists and Passwords match
   if (user && result) {
-    const projects = await Project.find({ _id: user._id });
     res.status(200).json({
       _id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       token: generateToken(user._id),
-      projects: projects,
     });
   } else {
     res.status(400);

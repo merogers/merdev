@@ -12,6 +12,7 @@ import useForm from '../hooks/useForm';
 import { toast } from 'react-toastify';
 
 import { login, reset } from '../features/auth/authSlice';
+import { closeModals } from '../features/modal/modalSlice';
 
 export const initialLoginState = {
   email: '',
@@ -20,8 +21,10 @@ export const initialLoginState = {
   passwordError: false,
 };
 
-function Login({ loginModal, setLoginModal }) {
+function Login() {
   const [formData, setFormData] = useState(initialLoginState);
+
+  const { loginModalOpen } = useSelector((state) => state.modals);
 
   const { email, password, emailError, passwordError } = formData;
 
@@ -29,7 +32,7 @@ function Login({ loginModal, setLoginModal }) {
     useForm(setFormData);
 
   const handleLoginCancel = () => {
-    setLoginModal((prev) => !prev);
+    dispatch(closeModals());
     setFormData(initialLoginState);
   };
 
@@ -84,7 +87,7 @@ function Login({ loginModal, setLoginModal }) {
         emailError: false,
         passwordError: false,
       });
-      setLoginModal((prev) => !prev);
+      dispatch(closeModals());
     }
     // Reset state
     dispatch(reset());
@@ -95,11 +98,7 @@ function Login({ loginModal, setLoginModal }) {
   }
 
   return (
-    <Modal
-      modal={loginModal}
-      setModal={setLoginModal}
-      handleCancel={handleLoginCancel}
-    >
+    <Modal modal={loginModalOpen} closeModal={handleLoginCancel}>
       <Form onSubmit={handleSubmit}>
         <h1 className='form__h1'>Login</h1>
         <label className='form__label'>

@@ -59,6 +59,9 @@
     resize: none;
     font-family: $font-stack;
   }
+  &__radio {
+    margin: 0.5rem;
+  }
   &__button-container {
     @include flex-center;
     flex-direction: row;

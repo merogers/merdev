@@ -11,6 +11,8 @@ import Modal from './Modal/Modal';
 
 import useForm from '../hooks/useForm';
 
+import { closeModals } from '../features/modal/modalSlice';
+
 const initialRegisterState = {
   firstName: '',
   lastName: '',
@@ -26,6 +28,8 @@ const initialRegisterState = {
 
 function Register({ registerModal, setRegisterModal }) {
   const [formData, setFormData] = useState(initialRegisterState);
+
+  const { registerModalOpen } = useSelector((state) => state.modals);
 
   const {
     firstName,
@@ -49,7 +53,7 @@ function Register({ registerModal, setRegisterModal }) {
   } = useForm(setFormData);
 
   const handleRegisterCancel = () => {
-    setRegisterModal((prev) => !prev);
+    dispatch(closeModals());
     setFormData(initialRegisterState);
   };
 
@@ -139,11 +143,7 @@ function Register({ registerModal, setRegisterModal }) {
   }
 
   return (
-    <Modal
-      modal={registerModal}
-      setModal={setRegisterModal}
-      handleCancel={handleRegisterCancel}
-    >
+    <Modal modal={registerModalOpen} closeModal={handleRegisterCancel}>
       <Form onSubmit={handleSubmit}>
         <h1 className='form__h1'>Register</h1>
         <div className='form__field-container'>

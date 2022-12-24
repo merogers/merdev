@@ -20,11 +20,11 @@
   }
   &--hero {
     height: 100vh;
-    padding-top: 4rem;
+    margin-top: 3rem;
   }
 
   &--dash {
-    padding-top: 4rem;
+    margin-top: 3rem;
   }
 
   &__portrait-container {
@@ -139,10 +139,12 @@
     @include flex-center;
     flex-direction: column;
     list-style-type: none;
-
-    width: 30rem;
+    width: 100%;
     margin: 0 auto 2rem auto;
     padding: 0;
+    @include tablet {
+      width: 30rem;
+    }
   }
 
   &__h2 {
@@ -150,6 +152,7 @@
   }
   &__h3 {
     @include h3;
+    margin: 2rem auto 2rem auto;
   }
   &__p {
     @include p;

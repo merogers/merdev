@@ -7,23 +7,34 @@ import Loader from './Loader/Loader';
 
 import { toast } from 'react-toastify';
 
-import { getLatestProjects } from '../features/project/projectSlice';
+import {
+  getLatestProjects,
+  reset,
+} from '../features/project/latestProjectSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 const Projects = () => {
-  const { latestProjects, isError, isLoading, message } = useSelector(
-    (state) => state.projects
+  const { latestProjects, isLoading, isError, message } = useSelector(
+    (state) => state.latestProjects
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
     dispatch(getLatestProjects());
-  }, []);
+
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error('Cannot fetch latest projects');
+      console.error(message);
+    }
+  }, [isError]);
 
   if (isLoading) {
     return (
@@ -40,10 +51,13 @@ const Projects = () => {
     <Section id='projects'>
       <Container>
         <h2 className='section__h2'>Latest Projects</h2>
-        {latestProjects &&
+        {latestProjects.length > 0 ? (
           latestProjects.map((project) => (
             <Project project={project} key={project.title} />
-          ))}
+          ))
+        ) : (
+          <h3 className='section__h3'>Projects coming soon...</h3>
+        )}
       </Container>
     </Section>
   );
