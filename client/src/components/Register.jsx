@@ -26,7 +26,7 @@ const initialRegisterState = {
   confirmPasswordError: false,
 };
 
-function Register({ registerModal, setRegisterModal }) {
+function Register() {
   const [formData, setFormData] = useState(initialRegisterState);
 
   const { registerModalOpen } = useSelector((state) => state.modals);
@@ -71,7 +71,7 @@ function Register({ registerModal, setRegisterModal }) {
     if (isRegisterSuccess) {
       toast.success('Registered user successfully');
       setFormData(initialRegisterState);
-      setRegisterModal((prev) => !prev);
+      dispatch(closeModals());
     }
     // Reset state
     dispatch(reset());

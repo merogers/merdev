@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
-
 import useValidate from '../../hooks/useForm';
 
 import Form from '../Form/Form';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import {
   createUserProject,
   updateUserProject,
 } from '../../features/project/userProjectSlice';
-import { getLatestProjects } from '../../features/project/latestProjectSlice';
 
 const ProjectForm = ({ formData, setFormData, handleCancel }) => {
   const { handleChange, handleFileChange, validateEmptyField, validateField } =
     useValidate(setFormData);
-
-  const { isSuccess } = useSelector((state) => state.userProjects);
 
   const dispatch = useDispatch();
 
@@ -133,12 +127,6 @@ const ProjectForm = ({ formData, setFormData, handleCancel }) => {
       dispatch(createUserProject(newProject));
     }
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(getLatestProjects());
-    }
-  }, [isSuccess]);
 
   return (
     <Form onSubmit={handleSubmit}>

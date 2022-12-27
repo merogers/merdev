@@ -15,7 +15,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 const Projects = () => {
-  const { latestProjects, isLoading, isError, message } = useSelector(
+  const { latestProjects, isLoading, isError } = useSelector(
     (state) => state.latestProjects
   );
 
@@ -27,12 +27,11 @@ const Projects = () => {
     return () => {
       dispatch(reset());
     };
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     if (isError) {
       toast.error('Cannot fetch latest projects');
-      console.error(message);
     }
   }, [isError]);
 

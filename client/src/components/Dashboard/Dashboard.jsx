@@ -9,10 +9,15 @@ import ProjectListing from '../ProjectListing/ProjectListing';
 import Loader from '../Loader/Loader';
 import { toast } from 'react-toastify';
 
+import { animateScroll as scroll } from 'react-scroll';
+
 import {
   getUserProjects,
   deleteUserProject,
+  reset,
 } from '../../features/project/userProjectSlice';
+
+import { getLatestProjects } from '../../features/project/latestProjectSlice';
 
 const initialProjectState = {
   title: '',
@@ -36,22 +41,53 @@ const Dashboard = () => {
 
   const { user } = useSelector((state) => state.auth);
 
-  const { userProjects, isLoading, isError, message } = useSelector(
-    (state) => state.userProjects
-  );
+  const {
+    userProjects,
+    isLoading,
+    isError,
+    message,
+    isUpdateSuccess,
+    isCreateSuccess,
+    isDeleteSuccess,
+  } = useSelector((state) => state.userProjects);
 
   const dispatch = useDispatch();
 
   const handleCancel = () => {
     setFormData(initialProjectState);
   };
+
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
-
+    if (isUpdateSuccess) {
+      toast.success('Project updated successfully');
+      setFormData(initialProjectState);
+    }
+    if (isCreateSuccess) {
+      toast.success('Project created successfully');
+      setFormData(initialProjectState);
+    }
+    if (isDeleteSuccess) {
+      toast.success('Project deleted successfully');
+    }
+    scroll.scrollToTop();
     dispatch(getUserProjects());
-  }, [user, message, dispatch, isError]);
+    return () => {
+      // Cleanup Functions
+      dispatch(reset());
+      dispatch(getLatestProjects());
+    };
+  }, [
+    user,
+    message,
+    dispatch,
+    isError,
+    isUpdateSuccess,
+    isCreateSuccess,
+    isDeleteSuccess,
+  ]);
 
   if (isLoading) {
     return (
@@ -92,6 +128,7 @@ const Dashboard = () => {
         <div className='dashboard__container'>
           <ProjectForm
             formData={formData}
+            initialProjectState={initialProjectState}
             setFormData={setFormData}
             handleCancel={handleCancel}
           />

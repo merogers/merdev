@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-  Link,
-  Button,
-  Element,
-  Events,
-  animateScroll as scroll,
-  scrollSpy,
-  scroller,
-} from 'react-scroll';
+import { Link } from 'react-scroll';
 
 import { FaGithub, FaLinkedin, FaPhone, FaEnvelope } from 'react-icons/fa';
 

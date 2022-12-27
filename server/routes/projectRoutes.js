@@ -18,7 +18,7 @@ router.route('/latest').get(getLatestProjects);
 
 router
   .route('/')
-  .get(getUserProjects)
+  .get(protect, getUserProjects)
   .post(protect, multer.single('screenshot'), postNewProject);
 router
   .route('/:id')

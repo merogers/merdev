@@ -19,7 +19,7 @@ const initialState = {
 // Register
 export const register = createAsyncThunk(
   'auth/register',
-  async (_user, thunkAPI) => {
+  async (userData, thunkAPI) => {
     try {
       const response = await axios.post(API_URL, userData);
 
@@ -29,8 +29,7 @@ export const register = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      const message = handleErrorMsg(error);
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

@@ -21,6 +21,10 @@ const Contact = () => {
             <input type='text' className='form__input' />
           </label>
           <label className='form__label'>
+            <span>Phone</span>
+            <input type='text' className='form__input' />
+          </label>
+          <label className='form__label'>
             <span>Message</span>
             <textarea className='form__input form__textarea'></textarea>
           </label>

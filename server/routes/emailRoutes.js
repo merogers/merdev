@@ -3,6 +3,6 @@ const router = express.Router();
 
 const { sendGrid } = require('../controllers/emailController');
 
-router.route('/send').post(sendGrid);
+router.route('/').post(sendGrid);
 
 module.exports = router;

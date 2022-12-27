@@ -9,6 +9,9 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isUpdateSuccess: false,
+  isCreateSuccess: false,
+  isDeleteSuccess: false,
   message: '',
 };
 
@@ -108,6 +111,7 @@ export const userProjectSlice = createSlice({
       .addCase(createUserProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isCreateSuccess = true;
         state.userProjects.unshift(action.payload);
       })
       .addCase(createUserProject.rejected, (state, action) => {
@@ -136,6 +140,7 @@ export const userProjectSlice = createSlice({
       .addCase(deleteUserProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isDeleteSuccess = true;
         state.userProjects = state.userProjects.filter(
           (project) => project._id !== action.payload.id
         );
@@ -152,6 +157,7 @@ export const userProjectSlice = createSlice({
       .addCase(updateUserProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isUpdateSuccess = true;
         state.userProjects = state.userProjects.map((project) => {
           if (project._id === action.payload._id) {
             return action.payload;

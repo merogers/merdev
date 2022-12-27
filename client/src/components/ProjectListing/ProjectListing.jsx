@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { FaPen, FaTrash } from 'react-icons/fa';
 
 import './ProjectListing.scss';
-import { toast } from 'react-toastify';
 
 import { deleteUserProject } from '../../features/project/userProjectSlice';
 

@@ -11,7 +11,7 @@ import useForm from '../hooks/useForm';
 
 import { toast } from 'react-toastify';
 
-import { login, reset } from '../features/auth/authSlice';
+import { login } from '../features/auth/authSlice';
 import { closeModals } from '../features/modal/modalSlice';
 
 export const initialLoginState = {
@@ -89,8 +89,6 @@ function Login() {
       });
       dispatch(closeModals());
     }
-    // Reset state
-    dispatch(reset());
   }, [user, isError, isLoginSuccess, message, dispatch]);
 
   if (isLoading) {

@@ -83,7 +83,7 @@ const postLoginUser = asyncHandler(async (req, res) => {
 // Generat JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '7d',
+    expiresIn: '1d',
   });
 };
 
