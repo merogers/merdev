@@ -5,7 +5,7 @@ import axios from 'axios';
 const API_URL = `${import.meta.env.VITE_SERVER_URL}/api/users/`;
 
 // Get user from LocalStorage
-const user = await JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   user: user ? user : null,

@@ -2,7 +2,7 @@
 FROM node:lts-slim
 WORKDIR /server
 COPY package*.json ./
-RUN npm i
+RUN yarn install
 COPY . .
 EXPOSE 5000
 CMD [ "node", "server.js" ]

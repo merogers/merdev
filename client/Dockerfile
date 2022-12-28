@@ -3,9 +3,9 @@ FROM node:lts-slim as build
 WORKDIR /client
 ENV PATH /client/node_modules/.bin:$PATH
 COPY ./package*.json ./
-RUN npm i
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn run build
 
 # Frontend Stage 2 - Take Vite build folder and copy to NGINX
 FROM nginx:stable
