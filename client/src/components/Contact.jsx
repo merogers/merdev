@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-import axios from 'axios';
-
-const API_URL = `${import.meta.env.VITE_SERVER_URL}/api/email`;
+import server from '../axios/server';
 
 import useValidate from '../hooks/useForm';
 
@@ -11,7 +9,6 @@ import Container from './Container/Container';
 import Form from './Form/Form';
 
 import { FaEnvelope } from 'react-icons/fa';
-import Loader from './Loader/Loader';
 
 import { toast } from 'react-toastify';
 
@@ -99,7 +96,7 @@ const Contact = () => {
       message: emailMessage,
     };
 
-    const response = await axios.post(API_URL, emailBody);
+    const response = await server.post('/api/email', emailBody);
 
     if (response.status === 200) {
       toast.success('Message sent successfully');

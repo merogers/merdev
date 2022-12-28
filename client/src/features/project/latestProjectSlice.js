@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import axios from 'axios';
-
-const API_URL = `${import.meta.env.VITE_SERVER_URL}/api/projects`;
+import server from '../../axios/server';
 
 const initialState = {
   latestProjects: [],
@@ -18,7 +16,7 @@ export const getLatestProjects = createAsyncThunk(
   'latestProjects/getLatestProjects',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(API_URL + '/latest');
+      const response = await server.get('/api/projects/latest');
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
