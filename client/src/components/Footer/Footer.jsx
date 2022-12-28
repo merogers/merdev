@@ -71,12 +71,6 @@ const Footer = () => {
                 </a>
               </li>
               <li className='footer__item'>
-                <div className='footer__non-link'>
-                  <FaPhone className='footer__icon' size='1.5rem' />
-                  (250) 551-8872
-                </div>
-              </li>
-              <li className='footer__item'>
                 <a
                   href='https://www.linkedin.com/in/michelleerogers/'
                   rel='noreferrer'

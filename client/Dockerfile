@@ -1,5 +1,5 @@
 # Frontend Stage 1 - Run Vite Build for Production
-FROM node:lts-alpine as build
+FROM node:lts-slim as build
 WORKDIR /client
 ENV PATH /client/node_modules/.bin:$PATH
 COPY ./package*.json ./
@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # Frontend Stage 2 - Take Vite build folder and copy to NGINX
-FROM nginx:alpine
+FROM nginx:stable
 COPY --from=build /client/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d

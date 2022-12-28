@@ -64,6 +64,13 @@
       border: solid 1px #fff;
     }
   }
+  &__link-styled {
+    text-decoration: none;
+    color: $background;
+    &:hover {
+      background-color: $secondary-hover;
+    }
+  }
   &__non-link {
     color: $background;
     font-size: 1.2rem;

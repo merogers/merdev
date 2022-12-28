@@ -100,7 +100,7 @@ export const userProjectSlice = createSlice({
   name: 'userProjects',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    reset: (_state) => initialState,
   },
   extraReducers: (builder) => {
     builder

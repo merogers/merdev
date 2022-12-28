@@ -30,7 +30,7 @@ export const latestProjectSlice = createSlice({
   name: 'latestProjects',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    reset: (_state) => initialState,
   },
   extraReducers: (builder) => {
     builder
