@@ -1,6 +1,6 @@
 # My Portfolio Site
 
-![Screenshot](https://storage.googleapis.com/portfolio-screenshots/7a23f039b937325771542693.png 'My Portfolio Site Screenshot')
+![Screenshot](https://storage.googleapis.com/portfolio-screenshots/14e8e591bbb1a084f4ddd4de.png 'My Portfolio Site Screenshot')
 
 ## Description
 
