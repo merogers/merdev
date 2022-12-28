@@ -1,0 +1,75 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/font' as *;
+
+@mixin button {
+  width: 100%;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-stack;
+  cursor: pointer;
+}
+
+@mixin button-lg {
+  font-weight: 500;
+  font-size: 1.2rem;
+  padding: 0.75rem 1.25rem;
+  text-transform: uppercase;
+}
+
+@mixin button-sm {
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 0.25rem 1rem;
+  width: fit-content;
+}
+
+@mixin button-lg-solid($bg, $hover) {
+  @include button;
+  @include button-lg;
+  border: none;
+  color: white;
+  background-color: $bg;
+  &:hover {
+    background-color: $hover;
+    transform: scale(1.01);
+  }
+}
+
+@mixin button-sm-solid($bg, $hover) {
+  @include button;
+  @include button-sm;
+  border: none;
+  color: white;
+  background-color: $bg;
+  &:hover {
+    background-color: $hover;
+    transform: scale(1.2);
+  }
+}
+
+@mixin button-lg-outline($bg, $hover, $fg) {
+  @include button;
+  @include button-lg;
+  color: $fg;
+  border: solid 1px $fg;
+  background-color: $bg;
+  &:hover {
+    background-color: $hover;
+    transform: scale(1.01);
+  }
+}
+
+@mixin button-sm-outline($bg, $hover, $fg) {
+  @include button;
+  @include button-sm;
+  color: $fg;
+  border: solid 1px $fg;
+  background-color: $bg;
+  &:hover {
+    background-color: $hover;
+  }
+}
