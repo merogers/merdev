@@ -24,11 +24,15 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  console.log('Request Body:', req.body);
-  console.log('Request URL:', req.originalUrl);
-  next();
-});
+// --- Log requests in development mode only --- //
+
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, _res, next) => {
+    console.log('Request Body:', req.body);
+    console.log('Request URL:', req.originalUrl);
+    next();
+  });
+}
 
 // --- JSON Parsing Middleware --- //
 app.use(express.json());
@@ -47,23 +51,3 @@ app.use(errorMiddleware);
 app.listen(port, () => {
   console.log(colors.blue(`> Server listening on port: ${port}...`));
 });
-
-/* Endpoints
-
-GET   /                     Public
-
-POST  /api/users/login      Public
-POST  /api/users/register   Public
-GET   /api/users/mydetails  Private
-
-GET   /api/projects         Public
-POST  /api/projects         Private
-GET   /api/projects/:id     Public
-PUT   /api/projects/:id     Private
-DEL   /api/projects/:id     Private
-
-POST  /api/image/upload     Public
-
-POST  /api/email/send       Public
-
-*/

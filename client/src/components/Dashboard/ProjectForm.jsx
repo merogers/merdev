@@ -87,7 +87,6 @@ const ProjectForm = ({ formData, setFormData, handleCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     setFormData((prev) => ({
       ...prev,
       titleError: false,

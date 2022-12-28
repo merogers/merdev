@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import axios from 'axios';
-
-const API_URL = `${import.meta.env.VITE_SERVER_URL}/api/projects`;
+import server from '../../axios/server';
 
 const initialState = {
   userProjects: [],
@@ -22,7 +20,7 @@ export const createUserProject = createAsyncThunk(
   async (projectData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const response = await axios.post(API_URL, projectData, {
+      const response = await server.post('/api/projects', projectData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -42,8 +40,8 @@ export const updateUserProject = createAsyncThunk(
   async (projectData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const response = await axios.patch(
-        API_URL + '/' + projectData._id,
+      const response = await server.patch(
+        `/api/projects/${projectData._id}`,
         projectData,
         {
           headers: {
@@ -65,7 +63,7 @@ export const getUserProjects = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const response = await axios.get(API_URL, {
+      const response = await server.get('/api/projects', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,7 +82,7 @@ export const deleteUserProject = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const response = await axios.delete(`${API_URL}/${id}`, {
+      const response = await server.delete(`/api/projects/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

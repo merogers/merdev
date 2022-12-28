@@ -28,7 +28,7 @@ Full-Stack portfolio app utilizing the popular MERN stack (MongoDB, Express, Rea
 
 ### Client
 
-1. Rename client/example.env to client/.env and update if necessary.
+1. Update baseURL in client/axios/server.js to point to Server (eg. http://localhost:5000)
 2. Run Vite development server with `yarn run dev`. Runs on default port 5173.
 
 ## Deployment

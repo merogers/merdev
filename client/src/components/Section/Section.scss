@@ -40,6 +40,7 @@
 
   &__portrait {
     display: none;
+    border-radius: 50%;
     @include tablet {
       display: block;
       max-width: 12rem;
@@ -91,12 +92,30 @@
 
   &__button-lg-primary {
     @include button-lg-solid($primary, $primary-hover);
-    max-width: 15rem;
+    width: 100%;
+    @include tablet {
+      max-width: fit-content;
+    }
+
+    &--margin {
+      margin: 0 0 1rem 0;
+      @include tablet {
+        margin: 0 1rem 0 0;
+      }
+    }
   }
 
   &__button-lg-primary-outline {
     @include button-lg-outline($secondary, $secondary-hover, white);
     max-width: 15rem;
+  }
+
+  &__button-lg-outline {
+    @include button-lg-outline($secondary, $secondary-hover, white);
+    width: 100%;
+    @include tablet {
+      max-width: fit-content;
+    }
   }
 
   &__button-sm-primary {
@@ -118,6 +137,17 @@
     @include button-sm-solid($secondary, $secondary-hover);
     max-width: 10rem;
     padding: 0.75rem;
+  }
+
+  &__button-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2rem;
+    @include tablet {
+      flex-direction: row;
+      margin-top: 0;
+    }
   }
 
   &__button-icon {

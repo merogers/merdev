@@ -5,7 +5,7 @@ import Container from './Container/Container';
 
 import { Link } from 'react-scroll';
 
-import { FaArrowDown } from 'react-icons/fa';
+import { FaAngleDoubleDown, FaFileDownload } from 'react-icons/fa';
 
 import Portrait from '../assets/ud_programmer.svg';
 
@@ -19,16 +19,27 @@ const Hero = () => {
               Hi I'm <span className='section__accent'>Michelle</span> and I'm a
               <span className='section__accent'> Full-Stack Web Developer</span>
             </h1>
-            <Link
-              className='section__button-lg-primary'
-              to='projects'
-              smooth={true}
-              spy={true}
-              offset={-64}
-            >
-              <FaArrowDown className='section__button-icon' />
-              View Projects
-            </Link>
+            <div className='section__button-container'>
+              <Link
+                className='section__button-lg-primary section__button-lg-primary--margin'
+                to='projects'
+                smooth={true}
+                spy={true}
+                offset={-64}
+              >
+                <FaAngleDoubleDown className='section__button-icon' />
+                Projects
+              </Link>
+              <a
+                className='section__button-lg-outline'
+                href='https://storage.googleapis.com/portfolio-misc/michelle_rogers_resume_latest.pdf'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FaFileDownload className='section__button-icon' />
+                Resume
+              </a>
+            </div>
           </div>
           <div className='section__portrait-container'>
             <img src={Portrait} className='section__portrait' />

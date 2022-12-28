@@ -117,9 +117,6 @@ const putUpdateProject = asyncHandler(async (req, res) => {
   const { screenshotUrl, title, description, tags, codeUrl, demoUrl, _id } =
     req.body;
 
-  console.log(req.params);
-  console.log(req.body);
-
   if (!id || !screenshotUrl || !title || !description || !tags) {
     res.status(400);
     throw new Error('Error updating project: missing fields');

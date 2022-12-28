@@ -12,7 +12,7 @@ const Project = ({ project }) => {
     codeUrl,
     demoUrl,
     tags,
-    createdAt,
+    updatedAt,
   } = project;
 
   const formatDate = (date) => {
@@ -51,7 +51,7 @@ const Project = ({ project }) => {
           <h2 className='project__h2'>{title}</h2>
 
           <p className='project__p'>{description}</p>
-          <p className='project__date'>Posted: {formatDate(createdAt)}</p>
+          <p className='project__date'>Last Updated: {formatDate(updatedAt)}</p>
         </div>
 
         <ul className='project__tag-list'>
