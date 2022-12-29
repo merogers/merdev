@@ -20,7 +20,7 @@ const emailRoutes = require('./routes/emailRoutes');
 // --- CORS - Allow from Client-Side Only --- //
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, process.env.CLIENT_URL_WWW],
   })
 );
 
