@@ -1,5 +1,6 @@
 require('dotenv').config();
 const port = process.env.PORT || 5000;
+const path = require('path');
 
 const express = require('express');
 const app = express();
@@ -43,6 +44,20 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 
 app.use('/api/email', emailRoutes);
+
+// --- Serve Static Frontend Files - Node.js Deployment Only --- //
+if (process.env.NODE_DEPLOY === 'true') {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('*', (_req, res) =>
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (_req, res) => {
+    res.send('MERDEV Portfolio API');
+  });
+}
 
 // --- Error Handler --- //
 app.use(errorMiddleware);
