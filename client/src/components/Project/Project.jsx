@@ -56,6 +56,7 @@ const Project = ({ project }) => {
 
         <ul className='project__tag-list'>
           {tags &&
+            tags.length &&
             tags.map((tag) => {
               return (
                 <li className='project__tag' key={tag}>
