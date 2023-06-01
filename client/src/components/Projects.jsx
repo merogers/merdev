@@ -50,8 +50,7 @@ const Projects = () => {
     <Section id='projects'>
       <Container>
         <h2 className='section__h2'>Latest Projects</h2>
-        {latestProjects.length > 0 ? (
-          latestProjects &&
+        {latestProjects && latestProjects.length > 0 ? (
           latestProjects.map((project) => (
             <Project project={project} key={project.title} />
           ))

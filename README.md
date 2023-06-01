@@ -24,26 +24,32 @@ Full-Stack portfolio app utilizing the popular MERN stack (MongoDB, Express, Rea
 
 1. Rename server/example.env to server/.env and add in credentials for MongoDB, SendGrid API, Google Cloud Storage
 2. Generate your JWT secret eg. `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
-3. Run development server with `yarn run server`. Runs on default port 5000.
+3. Run development server with `yarn run server`. Runs on default port 5000 unless otherwise specified in .env file.
 
 ### Client
 
-1. Update baseURL in client/axios/server.js to point to Server (eg. http://localhost:5000)
-2. Run Vite development server with `yarn run dev`. Runs on default port 5173.
+Run Vite development server with `yarn run dev`. Runs on default port 5173.
 
 ## Deployment
 
 This application can be deployed to production via docker containers to Google Cloud Run or any container service.
 
-### Build Server Image (Single-Stage, Node.js LTS)
+### Docker
+
+#### Build Server Image (Single-Stage, Node.js LTS)
 
 1. `cd server`
 2. `docker build -t server .`
 
-### Build Client Image (Multi-Stage, Node.js LTS + Nginx Stable)
+#### Build Client Image (Multi-Stage, Node.js LTS + Nginx Stable)
 
 1. `cd ../client`
 2. `docker build -t client .`
+
+### Node.js
+
+1. To deploy via Node.js, use .env file from development or rename server/.env.example to server/.env and add all credentials. Change NODE_DEPLOY to true.
+2. From /server/, run `yarn run node-deploy` to generate a production build of the client directory and start the server. Client is served from backend.
 
 ## Tags
 
