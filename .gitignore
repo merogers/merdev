@@ -24,3 +24,6 @@ yarn-error.log*
 
 db*.json
 key.json
+
+docker-compose.yml
+build

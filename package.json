@@ -1,0 +1,13 @@
+{
+  "name": "merdev",
+  "version": "4.2.0",
+  "description": "My Developer Portfolio",
+  "main": "src/server.js",
+  "repository": "git@github.com:fetchcat/merdev.git",
+  "author": "Michelle Rogers <michelle@merogers.dev>",
+  "license": "MIT",
+  "scripts": {
+    "install-dependencies": "cd backend && yarn install && cd ../frontend && yarn install",
+    "deploy": "docker compose up -d"
+  }
+}
