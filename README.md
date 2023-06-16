@@ -4,7 +4,7 @@
 
 ## Description
 
-Full-Stack portfolio app utilizing the popular MERN stack (MongoDB, Express, React, Node), JWT Tokens, SendGrid API for sending contact form emails, and Google Cloud Storage for storing project screenshots. Users can register and then login to create, edit and delete projects. Learned about implementing a true state management solution with Redux Toolkit. Main pain point was contending with scope creep and asynchronous lifecycles in Redux.
+Full-Stack portfolio app utilizing the popular MERN stack (MongoDB, Express, React, Node), JWT Tokens, SendGrid API for sending contact form emails, and Google Cloud Storage for storing project screenshots. Users can register and then login to create, edit and delete projects. Learned about implementing a true state management solution with Redux Toolkit. Main pain point was contending with scope creep and asynchronous lifecycles in Redux. Deployed to AWS.
 
 ## Core Features
 
@@ -22,9 +22,9 @@ Full-Stack portfolio app utilizing the popular MERN stack (MongoDB, Express, Rea
 
 ### Server
 
-1. Rename server/example.env to server/.env and add in credentials for MongoDB, SendGrid API, Google Cloud Storage
+1. Rename backend/example.env to backend/.env and add in credentials for MongoDB, SendGrid API, Google Cloud Storage
 2. Generate your JWT secret eg. `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`
-3. Run development server with `yarn run server`. Runs on default port 5000 unless otherwise specified in .env file.
+3. Run development server with `yarn run dev`. Runs on default port 5000 unless otherwise specified in .env file.
 
 ### Client
 
@@ -32,24 +32,10 @@ Run Vite development server with `yarn run dev`. Runs on default port 5173.
 
 ## Deployment
 
-This application can be deployed to production via docker containers to Google Cloud Run or any container service.
+This application can be deployed to production via docker compose
 
-### Docker
-
-#### Build Server Image (Single-Stage, Node.js LTS)
-
-1. `cd server`
-2. `docker build -t server .`
-
-#### Build Client Image (Multi-Stage, Node.js LTS + Nginx Stable)
-
-1. `cd ../client`
-2. `docker build -t client .`
-
-### Node.js
-
-1. To deploy via Node.js, use .env file from development or rename server/.env.example to server/.env and add all credentials. Change NODE_DEPLOY to true.
-2. From /server/, run `yarn run node-deploy` to generate a production build of the client directory and start the server. Client is served from backend.
+1. Rename example.docker-compose.yml to docker-compose.yml and add in the environment variables from backend/.env.
+2. Deploy with `yarn run deploy`.
 
 ## Tags
 
@@ -65,3 +51,4 @@ This application can be deployed to production via docker containers to Google C
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)

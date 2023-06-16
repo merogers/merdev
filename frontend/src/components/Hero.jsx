@@ -32,7 +32,7 @@ const Hero = () => {
               </Link>
               <a
                 className='section__button-lg-outline'
-                href='https://storage.googleapis.com/portfolio-misc/michelle_rogers_resume_latest.pdf'
+                href='https://merdev-resumes.s3.ca-central-1.amazonaws.com/michelle-rogers-resume-full-dev-current.pdf'
                 target='_blank'
                 rel='noopener noreferrer'
               >

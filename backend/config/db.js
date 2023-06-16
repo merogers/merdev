@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const colors = require('colors');
+const pc = require('picocolors');
 
 const connectDB = async () => {
   try {
@@ -11,7 +11,7 @@ const connectDB = async () => {
       useUnifiedTopology: true,
     });
     console.log(
-      colors.green(`> MongoDB Connected to: ${mongoDBConnect.connection.host}`)
+      pc.green(`> MongoDB Connected to: ${mongoDBConnect.connection.host}`)
     );
   } catch (error) {
     console.log(error);
