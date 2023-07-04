@@ -1,4 +1,4 @@
-FROM node:18.16.0 as frontend
+FROM node:lts-alpine as frontend
 ENV NODE_ENV=production
 
 WORKDIR /frontend
@@ -7,7 +7,7 @@ RUN yarn install
 COPY frontend .
 RUN yarn run build
 
-FROM node:18.16.0 as backend
+FROM node:lts-alpine as backend
 ENV NODE_ENV=production
 WORKDIR /backend
 COPY backend/package*.json .
