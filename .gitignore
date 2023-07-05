@@ -27,3 +27,4 @@ key.json
 
 docker-compose.yml
 build
+service.yaml
