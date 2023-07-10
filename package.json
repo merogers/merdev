@@ -1,9 +1,9 @@
 {
-  "name": "merdev",
+  "name": "michellerogers",
   "version": "4.2.0",
   "description": "My Developer Portfolio",
   "main": "src/server.js",
-  "repository": "git@github.com:fetchcat/merdev.git",
+  "repository": "git@github.com:merogersdev/michellerogers.git",
   "author": "Michelle Rogers <michelle@merogers.dev>",
   "license": "MIT",
   "scripts": {
