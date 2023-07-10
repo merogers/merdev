@@ -1,6 +1,6 @@
 # My Portfolio Site
 
-![Screenshot](https://storage.googleapis.com/portfolio-screenshots/14e8e591bbb1a084f4ddd4de.png 'My Portfolio Site Screenshot')
+![Screenshot](https://storage.googleapis.com/my-screenshots-391716/michellerogers-screen-lg.png 'My Portfolio Site Screenshot')
 
 ## Description
 
@@ -51,4 +51,3 @@ This application can be deployed to production via docker compose
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)

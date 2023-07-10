@@ -17,7 +17,7 @@ function App() {
   const { user } = useSelector((state) => state.auth);
   return (
     <Main>
-      <Header title='merogers.dev' />
+      <Header title="michellerogers.ca" />
       {user && <Dashboard />}
       <Hero />
       <Projects />
