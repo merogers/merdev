@@ -2,15 +2,16 @@
   "name": "backend",
   "version": "4.2.0",
   "main": "server.js",
-  "author": "Michelle Rogers",
+  "repository": "git@github.com:merogersdev/michellerogers.git",
+  "author": "Michelle Rogers <michelle@merogers.dev>",
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.363.0",
     "@google-cloud/storage": "^6.10.1",
-    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.1.3",
