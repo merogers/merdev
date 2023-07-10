@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: merdev-portfolio
+    container_name: michellerogers
     restart: unless-stopped
     environment:
       - MONGO_URI=
