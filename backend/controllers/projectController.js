@@ -1,10 +1,8 @@
-const asyncHandler = require('express-async-handler');
-const crypto = require('crypto');
+const asyncHandler = require("express-async-handler");
+const crypto = require("crypto");
 
-const Project = require('../models/projectModel');
-const User = require('../models/userModel');
-
-const { Storage } = require('@google-cloud/storage');
+const { Storage } = require("@google-cloud/storage");
+const Project = require("../models/projectModel");
 
 const storage = new Storage({
   projectId: process.env.PROJECT_ID,
@@ -19,7 +17,7 @@ const getLatestProjects = asyncHandler(async (_req, res) => {
     res.status(200).json(projects);
   } else {
     res.status(500);
-    throw new Error('Cannot get projects');
+    throw new Error("Cannot get projects");
   }
 });
 
@@ -34,7 +32,7 @@ const getUserProjects = asyncHandler(async (req, res) => {
     res.status(200).json(projects);
   } else {
     res.status(400);
-    throw new Error('Cannot get projects for that user');
+    throw new Error("Cannot get projects for that user");
   }
 });
 
@@ -47,7 +45,7 @@ const getProjectDetails = asyncHandler(async (req, res) => {
     res.status(200).json(project);
   } else {
     res.status(400);
-    throw new Error('No project with that ID exists');
+    throw new Error("No project with that ID exists");
   }
 });
 
@@ -57,24 +55,22 @@ const postNewProject = asyncHandler(async (req, res) => {
   // Abort if no project details
   if (!title || !description || !tags || !codeUrl || !demoUrl) {
     res.status(400);
-    throw new Error('Error creating project: missing fields');
+    throw new Error("Error creating project: missing fields");
   }
 
   // Abort if no screenshot file submitted
   if (!req.file) {
     res.status(400);
-    throw new Error('Error creating project: no screenshot file found');
+    throw new Error("Error creating project: no screenshot file found");
   }
 
   // Split tags string into array
-  const tagsArray = tags.split(',');
+  const tagsArray = tags.split(",");
   tagsArray.map((tag) => tag.trim());
 
   // Get original file extension, and append it to unique filename
-  const fileName = req.file.originalname.split('.');
-  const newFileName = `${crypto.randomBytes(12).toString('hex')}.${
-    fileName[1]
-  }`;
+  const fileName = req.file.originalname.split(".");
+  const newFileName = `${crypto.randomBytes(12).toString("hex")}.${fileName[1]}`;
 
   // Define GCP Storage Bucket Details
   const blob = bucket.file(newFileName);
@@ -94,18 +90,18 @@ const postNewProject = asyncHandler(async (req, res) => {
   const project = await Project.create(newProject);
 
   // If Error, return message.
-  blobStream.on('error', () => {
+  blobStream.on("error", () => {
     res.status(500);
-    throw new Error('Error uploading image to GCP Storage');
+    throw new Error("Error uploading image to GCP Storage");
   });
 
   // When finished writing image file, create DB project
-  blobStream.on('finish', () => {
+  blobStream.on("finish", () => {
     if (project) {
       res.status(201).json(project);
     } else {
       res.status(400);
-      throw new Error('Error creating project');
+      throw new Error("Error creating project");
     }
   });
 
@@ -114,27 +110,21 @@ const postNewProject = asyncHandler(async (req, res) => {
 
 const putUpdateProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { screenshotUrl, title, description, tags, codeUrl, demoUrl, _id } =
-    req.body;
+  const { screenshotUrl, title, description, tags, codeUrl, demoUrl, _id } = req.body;
 
   if (!id || !screenshotUrl || !title || !description || !tags) {
     res.status(400);
-    throw new Error('Error updating project: missing fields');
+    throw new Error("Error updating project: missing fields");
   }
 
   const project = await Project.findById({ _id: id });
 
   if (!req.user) {
     res.status(401);
-    throw new Error('Unauthorized: No user found');
+    throw new Error("Unauthorized: No user found");
   }
 
-  // if (project.userid.toString() !== req.user._id.toString()) {
-  //   res.status(401);
-  //   throw new Error('Unauthorized: No permissions on this resource');
-  // }
-
-  const tagsArray = tags.split(',');
+  const tagsArray = tags.split(",");
 
   const updatedProjectBody = {
     _id,
@@ -147,17 +137,14 @@ const putUpdateProject = asyncHandler(async (req, res) => {
     tags: tagsArray,
   };
 
-  const updatedProject = await Project.findByIdAndUpdate(
-    { _id: id },
-    updatedProjectBody
-  );
+  const updatedProject = await Project.findByIdAndUpdate({ _id: id }, updatedProjectBody);
 
   if (updatedProject) {
-    const project = await Project.findById({ _id: id });
-    res.status(200).json(project);
+    const checkProject = await Project.findById({ _id: id });
+    res.status(200).json(checkProject);
   } else {
     res.status(400);
-    throw new Error('Project update failed');
+    throw new Error("Project update failed");
   }
 });
 
@@ -168,17 +155,17 @@ const deleteProjectById = asyncHandler(async (req, res) => {
 
   if (!req.user) {
     res.status(401);
-    throw new Error('Unauthorized: No user found');
+    throw new Error("Unauthorized: No user found");
   }
 
   if (!project) {
     res.status(401);
-    throw new Error('Unauthorized: Invalid Project');
+    throw new Error("Unauthorized: Invalid Project");
   }
 
   if (project.userid.toString() !== req.user.id) {
     res.status(401);
-    throw new Error('Unauthorized: No permissions on this resource');
+    throw new Error("Unauthorized: No permissions on this resource");
   }
 
   // Delete Project from DB
@@ -192,7 +179,7 @@ const deleteProjectById = asyncHandler(async (req, res) => {
     res.status(200).json({ id });
   } else {
     res.status(400);
-    throw new Error('Project deletion failed');
+    throw new Error("Project deletion failed");
   }
 });
 
