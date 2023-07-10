@@ -1,32 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import ProjectForm from './ProjectForm';
-import Section from '../Section/Section';
-import Container from '../Container/Container';
+import { toast } from "react-toastify";
 
-import ProjectListing from '../ProjectListing/ProjectListing';
-import Loader from '../Loader/Loader';
-import { toast } from 'react-toastify';
+import { animateScroll as scroll } from "react-scroll";
 
-import { animateScroll as scroll } from 'react-scroll';
+import ProjectForm from "./ProjectForm";
+import Section from "../Section/Section";
+import Container from "../Container/Container";
 
-import {
-  getUserProjects,
-  deleteUserProject,
-  reset,
-} from '../../features/project/userProjectSlice';
+import ProjectListing from "../ProjectListing/ProjectListing";
+import Loader from "../Loader/Loader";
 
-import { getLatestProjects } from '../../features/project/latestProjectSlice';
+import { getUserProjects, deleteUserProject, reset } from "../../features/project/userProjectSlice";
+
+import { getLatestProjects } from "../../features/project/latestProjectSlice";
 
 const initialProjectState = {
-  title: '',
-  description: '',
+  title: "",
+  description: "",
   screenshot: null,
   screenshotUrl: null,
-  codeUrl: '',
-  demoUrl: '',
-  tags: '',
+  codeUrl: "",
+  demoUrl: "",
+  tags: "",
   _id: null,
   titleError: false,
   descriptionError: false,
@@ -41,15 +38,9 @@ const Dashboard = () => {
 
   const { user } = useSelector((state) => state.auth);
 
-  const {
-    userProjects,
-    isLoading,
-    isError,
-    message,
-    isUpdateSuccess,
-    isCreateSuccess,
-    isDeleteSuccess,
-  } = useSelector((state) => state.userProjects);
+  const { userProjects, isLoading, isError, message, isUpdateSuccess, isCreateSuccess, isDeleteSuccess } = useSelector(
+    (state) => state.userProjects
+  );
 
   const dispatch = useDispatch();
 
@@ -62,15 +53,15 @@ const Dashboard = () => {
       toast.error(message);
     }
     if (isUpdateSuccess) {
-      toast.success('Project updated successfully');
+      toast.success("Project updated successfully");
       setFormData(initialProjectState);
     }
     if (isCreateSuccess) {
-      toast.success('Project created successfully');
+      toast.success("Project created successfully");
       setFormData(initialProjectState);
     }
     if (isDeleteSuccess) {
-      toast.success('Project deleted successfully');
+      toast.success("Project deleted successfully");
     }
     scroll.scrollToTop();
     dispatch(getUserProjects());
@@ -79,19 +70,11 @@ const Dashboard = () => {
       dispatch(reset());
       dispatch(getLatestProjects());
     };
-  }, [
-    user,
-    message,
-    dispatch,
-    isError,
-    isUpdateSuccess,
-    isCreateSuccess,
-    isDeleteSuccess,
-  ]);
+  }, [user, message, dispatch, isError, isUpdateSuccess, isCreateSuccess, isDeleteSuccess]);
 
   if (isLoading) {
     return (
-      <Section id='dashboard' isDash={true}>
+      <Section id="dashboard" isDash={true}>
         <Container>
           <Loader />
         </Container>
@@ -100,17 +83,13 @@ const Dashboard = () => {
   }
 
   return (
-    <Section id='dashboard' isDash={true}>
+    <Section id="dashboard" isDash={true}>
       <Container>
-        <h1 className='section__h1 section__h1--centered'>
-          Hi, {user.firstName}
-        </h1>
-        <p className='section__p section__p--centered'>
-          Your Projects: {userProjects.length}
-        </p>
+        <h1 className="section__h1 section__h1--centered">Hi, {user.firstName}</h1>
+        <p className="section__p section__p--centered">Your Projects: {userProjects.length}</p>
 
         {userProjects.length > 0 ? (
-          <ul className='section__project-list'>
+          <ul className="section__project-list">
             {userProjects &&
               userProjects.map((project) => (
                 <ProjectListing
@@ -122,10 +101,10 @@ const Dashboard = () => {
               ))}
           </ul>
         ) : (
-          <h3 className='section__h3'>You have no projects...</h3>
+          <h3 className="section__h3">You have no projects...</h3>
         )}
 
-        <div className='dashboard__container'>
+        <div className="dashboard__container">
           <ProjectForm
             formData={formData}
             initialProjectState={initialProjectState}

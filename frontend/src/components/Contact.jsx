@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import server from '../axios/server';
+import { FaEnvelope } from "react-icons/fa";
+import { toast } from "react-toastify";
+import server from "../axios/server";
 
-import useValidate from '../hooks/useForm';
+import useValidate from "../hooks/useForm";
 
-import Section from './Section/Section';
-import Container from './Container/Container';
-import Form from './Form/Form';
-
-import { FaEnvelope } from 'react-icons/fa';
-
-import { toast } from 'react-toastify';
+import Section from "./Section/Section";
+import Container from "./Container/Container";
+import Form from "./Form/Form";
 
 const initialContactState = {
-  name: '',
-  email: '',
-  phone: '',
-  emailMessage: '',
+  name: "",
+  email: "",
+  phone: "",
+  emailMessage: "",
   nameError: false,
   emailError: false,
   phoneError: false,
@@ -26,52 +24,41 @@ const initialContactState = {
 const Contact = () => {
   const [formData, setFormData] = useState(initialContactState);
 
-  const { handleChange, validateEmptyField, validateEmailField } =
-    useValidate(setFormData);
+  const { handleChange, validateEmptyField, validateEmailField } = useValidate(setFormData);
 
-  const {
-    name,
-    email,
-    phone,
-    emailMessage,
-    nameError,
-    emailError,
-    phoneError,
-    emailMessageError,
-  } = formData;
+  const { name, email, phone, emailMessage, nameError, emailError, phoneError, emailMessageError } = formData;
 
   const validateContactEmail = () => {
     // Validate Fields
     const nameIsValid = validateEmptyField({
       field: name,
-      error: 'nameError',
-      message: 'Name cannot be blank',
+      error: "nameError",
+      message: "Name cannot be blank",
     });
 
     const emailIsValid = validateEmailField({
       field: email,
-      error: 'emailError',
-      message: 'Must be a valid email',
+      error: "emailError",
+      message: "Must be a valid email",
     });
 
     const phoneIsValid = validateEmptyField({
       field: phone,
-      error: 'phoneError',
-      message: 'Phone cannot be blank',
+      error: "phoneError",
+      message: "Phone cannot be blank",
     });
 
     const messageIsValid = validateEmptyField({
       field: emailMessage,
-      error: 'emailMessageError',
-      message: 'Message cannot be blank',
+      error: "emailMessageError",
+      message: "Message cannot be blank",
     });
 
     // If no errors, create project
     if (nameIsValid && emailIsValid && phoneIsValid && messageIsValid) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
 
   const handleSubmit = async (e) => {
@@ -96,69 +83,63 @@ const Contact = () => {
       message: emailMessage,
     };
 
-    const response = await server.post('/api/email', emailBody);
+    const response = await server.post("/api/email", emailBody);
 
     if (response.status === 200) {
-      toast.success('Message sent successfully');
+      toast.success("Message sent successfully");
       setFormData(initialContactState);
     } else {
-      toast.error('Failed to send message. Please notify admin');
+      toast.error("Failed to send message. Please notify admin");
     }
   };
 
   return (
-    <Section id='contact'>
+    <Section id="contact">
       <Container>
         <Form onSubmit={handleSubmit}>
-          <h2 className='section__h2'>Contact</h2>
-          <label className='form__label'>
+          <h2 className="section__h2">Contact</h2>
+          <label className="form__label">
             <span>Name</span>
             <input
-              type='text'
+              type="text"
               value={name}
               onChange={handleChange}
-              name='name'
-              className={`form__input${nameError ? ' form__input--error' : ''}`}
+              name="name"
+              className={`form__input${nameError ? " form__input--error" : ""}`}
             />
           </label>
-          <label className='form__label'>
+          <label className="form__label">
             <span>Email</span>
             <input
-              type='text'
+              type="text"
               value={email}
               onChange={handleChange}
-              name='email'
-              className={`form__input${
-                emailError ? ' form__input--error' : ''
-              }`}
+              name="email"
+              className={`form__input${emailError ? " form__input--error" : ""}`}
             />
           </label>
-          <label className='form__label'>
+          <label className="form__label">
             <span>Phone</span>
             <input
-              type='text'
+              type="text"
               value={phone}
               onChange={handleChange}
-              name='phone'
-              className={`form__input${
-                phoneError ? ' form__input--error' : ''
-              }`}
+              name="phone"
+              className={`form__input${phoneError ? " form__input--error" : ""}`}
             />
           </label>
-          <label className='form__label'>
+          <label className="form__label">
             <span>Message</span>
             <textarea
-              name='emailMessage'
+              name="emailMessage"
               value={emailMessage}
               onChange={handleChange}
-              className={`form__textarea form__input${
-                emailMessageError ? ' form__input--error' : ''
-              }`}
+              className={`form__textarea form__input${emailMessageError ? " form__input--error" : ""}`}
             ></textarea>
           </label>
-          <div className='form__button-container'>
-            <button className='form__button-lg-primary'>
-              <FaEnvelope className='form__button-icon' /> Submit
+          <div className="form__button-container">
+            <button className="form__button-lg-primary">
+              <FaEnvelope className="form__button-icon" /> Submit
             </button>
           </div>
         </Form>

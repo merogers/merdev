@@ -15,90 +15,74 @@ const initialState = {
 
 // --- Create new User Project --- //
 
-export const createUserProject = createAsyncThunk(
-  'projects/create',
-  async (projectData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      const response = await server.post('/api/projects', projectData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const createUserProject = createAsyncThunk('projects/create', async (projectData, thunkAPI) => {
+  try {
+    const { token } = thunkAPI.getState().auth.user;
+    const response = await server.post('/api/projects', projectData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 // --- Update User Project --- //
 
-export const updateUserProject = createAsyncThunk(
-  'projects/update',
-  async (projectData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      const response = await server.patch(
-        `/api/projects/${projectData._id}`,
-        projectData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const updateUserProject = createAsyncThunk('projects/update', async (projectData, thunkAPI) => {
+  try {
+    const { token } = thunkAPI.getState().auth.user;
+    const response = await server.patch(`/api/projects/${projectData._id}`, projectData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 // --- Get User Projects --- //
 
-export const getUserProjects = createAsyncThunk(
-  'projects/getUser',
-  async (_, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      const response = await server.get('/api/projects', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const getUserProjects = createAsyncThunk('projects/getUser', async (_, thunkAPI) => {
+  try {
+    const { token } = thunkAPI.getState().auth.user;
+    const response = await server.get('/api/projects', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 // --- Delete User Project --- //
 
-export const deleteUserProject = createAsyncThunk(
-  'projects/delete',
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      const response = await server.delete(`/api/projects/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const deleteUserProject = createAsyncThunk('projects/delete', async (id, thunkAPI) => {
+  try {
+    const { token } = thunkAPI.getState().auth.user;
+    const response = await server.delete(`/api/projects/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 export const userProjectSlice = createSlice({
   name: 'userProjects',
   initialState,
   reducers: {
-    reset: (_state) => initialState,
+    reset: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -139,9 +123,7 @@ export const userProjectSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isDeleteSuccess = true;
-        state.userProjects = state.userProjects.filter(
-          (project) => project._id !== action.payload.id
-        );
+        state.userProjects = state.userProjects.filter((project) => project._id !== action.payload.id);
       })
       .addCase(deleteUserProject.rejected, (state, action) => {
         state.isLoading = false;

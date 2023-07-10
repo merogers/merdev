@@ -12,23 +12,20 @@ const initialState = {
 
 // --- Get Latest Projects --- //
 
-export const getLatestProjects = createAsyncThunk(
-  'latestProjects/getLatestProjects',
-  async (_, thunkAPI) => {
-    try {
-      const response = await server.get('/api/projects/latest');
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const getLatestProjects = createAsyncThunk('latestProjects/getLatestProjects', async (_, thunkAPI) => {
+  try {
+    const response = await server.get('/api/projects/latest');
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 export const latestProjectSlice = createSlice({
   name: 'latestProjects',
   initialState,
   reducers: {
-    reset: (_state) => initialState,
+    reset: () => initialState,
   },
   extraReducers: (builder) => {
     builder
