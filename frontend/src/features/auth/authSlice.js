@@ -6,7 +6,7 @@ import server from '../../axios/server';
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
-  user: user ? user : null,
+  user: user || null,
   isError: false,
   isRegisterSuccess: false,
   isLoginSuccess: false,
@@ -29,7 +29,7 @@ export const register = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Login
@@ -45,7 +45,7 @@ export const login = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const logout = createAsyncThunk('auth/logout', async () => {

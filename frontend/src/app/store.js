@@ -6,7 +6,7 @@ import userProjectReducer from '../features/project/userProjectSlice';
 import menuReducer from '../features/menu/menuSlice';
 import modalReducer from '../features/modal/modalSlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     auth: authReducer,
     userProjects: userProjectReducer,
@@ -15,3 +15,5 @@ export const store = configureStore({
     modals: modalReducer,
   },
 });
+
+export default store;

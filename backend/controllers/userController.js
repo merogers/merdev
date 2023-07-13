@@ -1,8 +1,14 @@
-const asyncHandler = require('express-async-handler');
+const asyncHandler = require("express-async-handler");
 
-const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
+
+// Generat JWT Token
+const generateToken = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
 
 // DESC:    Registers New User
 // ROUTE:   POST with JSON to /api/users/register
@@ -13,7 +19,7 @@ const postRegisterUser = asyncHandler(async (req, res) => {
   // Check for Blank fields
   if (!email || !password || !firstName || !lastName) {
     res.status(400);
-    throw new Error('Cannot register user: missing fields');
+    throw new Error("Cannot register user: missing fields");
   }
 
   // Check if user exists before trying to create new one
@@ -21,7 +27,7 @@ const postRegisterUser = asyncHandler(async (req, res) => {
 
   if (userExists !== null) {
     res.status(400);
-    throw new Error('Cannot register user: user already exists');
+    throw new Error("Cannot register user: user already exists");
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -45,7 +51,7 @@ const postRegisterUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Cannot register user: invalid data');
+    throw new Error("Cannot register user: invalid data");
   }
 });
 
@@ -58,14 +64,14 @@ const postLoginUser = asyncHandler(async (req, res) => {
   // Check for required fields
   if (!email || !password) {
     res.status(400);
-    throw new Error('Invalid Request');
+    throw new Error("Invalid Request");
   }
 
   const user = await User.findOne({ email });
 
   if (user === null) {
     res.status(404);
-    throw new Error('User Not Found');
+    throw new Error("User Not Found");
   }
 
   const result = await bcrypt.compare(password, user.password);
@@ -81,16 +87,9 @@ const postLoginUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Invalid Credenials');
+    throw new Error("Invalid Credenials");
   }
 });
-
-// Generat JWT Token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
-  });
-};
 
 // Test Auth Token
 const getMyDetails = asyncHandler(async (req, res) => {

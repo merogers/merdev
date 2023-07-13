@@ -9,32 +9,28 @@ export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openLoginModal: (state, _action) => {
+    openLoginModal: (state) => {
       state.loginModalOpen = true;
       state.registerModalOpen = false;
     },
-    toggleLoginModal: (state, _action) => {
+    toggleLoginModal: (state) => {
       state.loginModalOpen = !state.loginModalOpen;
       state.registerModalOpen = false;
     },
-    openRegisterModal: (state, _action) => {
+    openRegisterModal: (state) => {
       state.registerModalOpen = true;
       state.loginModalOpen = false;
     },
-    toggleRegisterModal: (state, _action) => {
+    toggleRegisterModal: (state) => {
       state.registerModalOpen = !state.loginModalOpen;
       state.loginModalOpen = false;
     },
-    closeModals: (_state, _action) => initialState,
+    closeModals: () => initialState,
   },
 });
 
 export const {
-  openLoginModal,
-  toggleLoginModal,
-  openRegisterModal,
-  toggleRegisterModal,
-  closeModals,
+  openLoginModal, toggleLoginModal, openRegisterModal, toggleRegisterModal, closeModals,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

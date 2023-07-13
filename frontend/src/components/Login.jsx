@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from "react-scroll";
+import { toast } from "react-toastify";
 
-import Form from './Form/Form';
-import Loader from './Loader/Loader';
-import Modal from './Modal/Modal';
+import Form from "./Form/Form";
+import Loader from "./Loader/Loader";
+import Modal from "./Modal/Modal";
 
-import useForm from '../hooks/useForm';
+import useForm from "../hooks/useForm";
 
-import { toast } from 'react-toastify';
-
-import { login } from '../features/auth/authSlice';
-import { closeModals } from '../features/modal/modalSlice';
+import { login } from "../features/auth/authSlice";
+import { closeModals } from "../features/modal/modalSlice";
 
 export const initialLoginState = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
   emailError: false,
   passwordError: false,
 };
@@ -28,8 +27,9 @@ function Login() {
 
   const { email, password, emailError, passwordError } = formData;
 
-  const { handleChange, validateEmailField, validateMinLengthField } =
-    useForm(setFormData);
+  const { handleChange, validateEmailField, validateMinLengthField } = useForm(setFormData);
+
+  const dispatch = useDispatch();
 
   const handleLoginCancel = () => {
     dispatch(closeModals());
@@ -47,15 +47,15 @@ function Login() {
 
     const emailIsValid = validateEmailField({
       field: email,
-      error: 'emailError',
-      message: 'Must be a valid email',
+      error: "emailError",
+      message: "Must be a valid email",
     });
 
     const passwordIsValid = validateMinLengthField({
       field: password,
       minLength: 6,
-      error: 'passwordError',
-      message: 'Password must be at least 6 characters',
+      error: "passwordError",
+      message: "Password must be at least 6 characters",
     });
 
     if (emailIsValid && passwordIsValid) {
@@ -68,11 +68,7 @@ function Login() {
     }
   };
 
-  const dispatch = useDispatch();
-
-  const { user, isLoading, isError, isLoginSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isLoading, isError, isLoginSuccess, message } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isError) {
@@ -82,8 +78,8 @@ function Login() {
     if (isLoginSuccess) {
       toast.success(`User ${user.firstName} logged in!`);
       setFormData({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         emailError: false,
         passwordError: false,
       });
@@ -98,38 +94,32 @@ function Login() {
   return (
     <Modal modal={loginModalOpen} closeModal={handleLoginCancel}>
       <Form onSubmit={handleSubmit}>
-        <h1 className='form__h1'>Login</h1>
-        <label className='form__label'>
+        <h1 className="form__h1">Login</h1>
+        <label className="form__label">
           <span>Email</span>
           <input
-            type='text'
+            type="text"
             value={email}
             onChange={handleChange}
-            name='email'
-            className={`form__input${emailError ? ' form__input--error' : ''}`}
+            name="email"
+            className={`form__input${emailError ? " form__input--error" : ""}`}
           />
         </label>
-        <label className='form__label'>
+        <label className="form__label">
           <span>Password</span>
           <input
-            type='password'
+            type="password"
             value={password}
             onChange={handleChange}
-            name='password'
-            className={`form__input${
-              passwordError ? ' form__input--error' : ''
-            }`}
+            name="password"
+            className={`form__input${passwordError ? " form__input--error" : ""}`}
           />
         </label>
-        <div className='form__button-container'>
-          <button className='form__button-lg-primary' type='submit'>
+        <div className="form__button-container">
+          <button className="form__button-lg-primary" type="submit">
             Submit
           </button>
-          <button
-            className='form__button-lg-secondary'
-            onClick={handleLoginCancel}
-            type='button'
-          >
+          <button className="form__button-lg-secondary" onClick={handleLoginCancel} type="button">
             Cancel
           </button>
         </div>
