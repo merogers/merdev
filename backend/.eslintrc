@@ -1,0 +1,13 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["airbnb-base", "airbnb-typescript/base", "plugin:@typescript-eslint/recommended"],
+  "parserOptions": { "project": "./tsconfig.json" },
+  "rules": {
+    "@typescript-eslint/no-namespace": "warn",
+    "implicit-arrow-linebreak": 0,
+    "object-curly-newline": "warn",
+    "consistent-return": "warn",
+    "max-len": "warn",
+    "no-console": ["error", { "allow": ["error", "info"] }]
+  }
+}
