@@ -1,8 +1,9 @@
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import { RequestHandler } from 'express';
 
 const ses = new SESClient(process.env.AWS_REGION);
 
-const sendSES = async (req, res) => {
+const sendSES: RequestHandler = async (req, res) => {
   const { name, email, phone, message, jobRole } = req.body;
 
   if (!name || !email || !phone || !message) {

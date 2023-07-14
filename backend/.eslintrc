@@ -5,7 +5,7 @@
   "rules": {
     "@typescript-eslint/no-namespace": "warn",
     "implicit-arrow-linebreak": 0,
-    "object-curly-newline": "warn",
+    "object-curly-newline": "off",
     "consistent-return": "warn",
     "max-len": "warn",
     "no-console": ["error", { "allow": ["error", "info"] }]

@@ -25,7 +25,7 @@ const isAuthenticated = (req: TokenRequest, res: TokenResponse, next: NextFuncti
 
     res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' });
     res.header('Authorization', newAccessToken);
-    next();
+    return next();
   } catch (error) {
     return next(createError(400, 'Invalid Tokens'));
   }

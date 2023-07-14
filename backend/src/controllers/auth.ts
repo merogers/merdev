@@ -33,7 +33,8 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
     const userData = {
       id: sessionUser.id,
-      name: sessionUser.name,
+      firstName: sessionUser.firstName,
+      lastName: sessionUser.lastName,
       email: sessionUser.email,
       sessionToken: sessionUser.sessionToken,
     };
@@ -55,14 +56,20 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
 // --- Register User --- //
 export const registerUser: RequestHandler = async (req, res, next) => {
-  const { email, name, password } = req.body;
+  const { email, firstName, lastName, password } = req.body;
 
   try {
     if (email === undefined || email.length < 6 || !email.includes('@')) {
       return next(createError(400, 'Missing or invalid email'));
     }
 
-    if (name === undefined || name.length < 1) return next(createError(400, 'Name must be longer than 1 character'));
+    if (firstName === undefined || firstName.length < 1) {
+      return next(createError(400, 'First Name must be longer than 1 character'));
+    }
+
+    if (lastName === undefined || lastName.length < 1) {
+      return next(createError(400, 'Last Name must be longer than 1 character'));
+    }
 
     if (password === undefined || password.length < 6) {
       return next(createError(400, 'Password must be longer than 6 characters'));
@@ -75,7 +82,8 @@ export const registerUser: RequestHandler = async (req, res, next) => {
 
     const newUser = new User({
       email,
-      name,
+      firstName,
+      lastName,
       password: hashString(salt, password),
       salt,
       sessionToken: '',
@@ -103,7 +111,7 @@ export const refresh: RequestHandler = async (req, res, next) => {
     const decoded = jwt.verify(refreshToken, process.env.SECRET);
     const accessToken = jwt.sign({ user: decoded.user }, process.env.SECRET, { expiresIn: '1h' });
 
-    res.header('Authorization', accessToken).send(decoded.user);
+    return res.header('Authorization', accessToken).send(decoded.user);
   } catch (error) {
     return next(createError(400, 'Invalid refresh token'));
   }
