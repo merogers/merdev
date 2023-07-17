@@ -15,38 +15,32 @@ const initialState = {
 };
 
 // Register
-export const register = createAsyncThunk(
-  'auth/register',
-  async (userData, thunkAPI) => {
-    try {
-      const response = await server.post('/api/users/', userData);
+export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
+  try {
+    const response = await server.post('/api/v1/auth/', userData);
 
-      if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-      }
-
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+    if (response.data) {
+      localStorage.setItem('user', JSON.stringify(response.data));
     }
-  },
-);
+
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
 
 // Login
-export const login = createAsyncThunk(
-  'auth/login',
-  async (userData, thunkAPI) => {
-    try {
-      const response = await server.post('/api/users/login', userData);
-      if (response.data) {
-        await localStorage.setItem('user', JSON.stringify(response.data));
-      }
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
+  try {
+    const response = await server.post('/api/v1/auth/login', userData);
+    if (response.data) {
+      await localStorage.setItem('user', JSON.stringify(response.data));
     }
-  },
-);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('user');
@@ -56,7 +50,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state) => {
+    reset: state => {
       state.isLoading = false;
       state.isError = false;
       state.isRegisterSuccess = false;
@@ -64,9 +58,9 @@ export const authSlice = createSlice({
       state.message = '';
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(register.pending, (state) => {
+      .addCase(register.pending, state => {
         state.isLoading = true;
       })
       .addCase(register.fulfilled, (state, action) => {
@@ -80,7 +74,7 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
-      .addCase(login.pending, (state) => {
+      .addCase(login.pending, state => {
         state.isLoading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
@@ -94,7 +88,7 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
-      .addCase(logout.fulfilled, (state) => {
+      .addCase(logout.fulfilled, state => {
         state.user = null;
       });
   },

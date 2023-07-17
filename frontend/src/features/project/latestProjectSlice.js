@@ -14,7 +14,7 @@ const initialState = {
 
 export const getLatestProjects = createAsyncThunk('latestProjects/getLatestProjects', async (_, thunkAPI) => {
   try {
-    const response = await server.get('/api/projects/latest');
+    const response = await server.get('/api/v1/project/');
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
@@ -27,10 +27,10 @@ export const latestProjectSlice = createSlice({
   reducers: {
     reset: () => initialState,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       // --- GetLatestProjects --- //
-      .addCase(getLatestProjects.pending, (state) => {
+      .addCase(getLatestProjects.pending, state => {
         state.isLoading = true;
       })
       .addCase(getLatestProjects.fulfilled, (state, action) => {

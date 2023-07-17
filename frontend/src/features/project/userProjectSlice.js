@@ -18,7 +18,7 @@ const initialState = {
 export const createUserProject = createAsyncThunk('projects/create', async (projectData, thunkAPI) => {
   try {
     const { token } = thunkAPI.getState().auth.user;
-    const response = await server.post('/api/projects', projectData, {
+    const response = await server.post('/api/v1/project', projectData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
@@ -35,7 +35,7 @@ export const createUserProject = createAsyncThunk('projects/create', async (proj
 export const updateUserProject = createAsyncThunk('projects/update', async (projectData, thunkAPI) => {
   try {
     const { token } = thunkAPI.getState().auth.user;
-    const response = await server.patch(`/api/projects/${projectData._id}`, projectData, {
+    const response = await server.patch(`/api/v1/project/${projectData._id}`, projectData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,7 +51,7 @@ export const updateUserProject = createAsyncThunk('projects/update', async (proj
 export const getUserProjects = createAsyncThunk('projects/getUser', async (_, thunkAPI) => {
   try {
     const { token } = thunkAPI.getState().auth.user;
-    const response = await server.get('/api/projects', {
+    const response = await server.get('/api/v1/project', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -67,7 +67,7 @@ export const getUserProjects = createAsyncThunk('projects/getUser', async (_, th
 export const deleteUserProject = createAsyncThunk('projects/delete', async (id, thunkAPI) => {
   try {
     const { token } = thunkAPI.getState().auth.user;
-    const response = await server.delete(`/api/projects/${id}`, {
+    const response = await server.delete(`/api/v1/project/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -84,10 +84,10 @@ export const userProjectSlice = createSlice({
   reducers: {
     reset: () => initialState,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       // --- CreateUserProject --- //
-      .addCase(createUserProject.pending, (state) => {
+      .addCase(createUserProject.pending, state => {
         state.isLoading = true;
       })
       .addCase(createUserProject.fulfilled, (state, action) => {
@@ -102,7 +102,7 @@ export const userProjectSlice = createSlice({
         state.message = action.payload;
       })
       // --- GetUserProjects --- //
-      .addCase(getUserProjects.pending, (state) => {
+      .addCase(getUserProjects.pending, state => {
         state.isLoading = true;
       })
       .addCase(getUserProjects.fulfilled, (state, action) => {
@@ -116,14 +116,14 @@ export const userProjectSlice = createSlice({
         state.message = action.payload;
       })
       // --- DeleteUserProject --- //
-      .addCase(deleteUserProject.pending, (state) => {
+      .addCase(deleteUserProject.pending, state => {
         state.isLoading = true;
       })
       .addCase(deleteUserProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isDeleteSuccess = true;
-        state.userProjects = state.userProjects.filter((project) => project._id !== action.payload.id);
+        state.userProjects = state.userProjects.filter(project => project._id !== action.payload.id);
       })
       .addCase(deleteUserProject.rejected, (state, action) => {
         state.isLoading = false;
@@ -131,14 +131,14 @@ export const userProjectSlice = createSlice({
         state.message = action.payload;
       })
       // --- UpdateUserProject --- //
-      .addCase(updateUserProject.pending, (state) => {
+      .addCase(updateUserProject.pending, state => {
         state.isLoading = true;
       })
       .addCase(updateUserProject.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isUpdateSuccess = true;
-        state.userProjects = state.userProjects.map((project) => {
+        state.userProjects = state.userProjects.map(project => {
           if (project._id === action.payload._id) {
             return action.payload;
           }
