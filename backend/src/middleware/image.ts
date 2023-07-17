@@ -1,4 +1,4 @@
-const Multer = require('multer');
+import Multer from 'multer';
 
 // Use memory and limit uploads to 5MB
 const multer = Multer({
@@ -8,4 +8,4 @@ const multer = Multer({
   },
 });
 
-module.exports = { multer };
+export default multer;

@@ -8,6 +8,7 @@
     "object-curly-newline": "off",
     "consistent-return": "warn",
     "max-len": "warn",
-    "no-console": ["error", { "allow": ["error", "info"] }]
+    "no-console": ["error", { "allow": ["error", "info"] }],
+    "arrow-parens": ["error", "as-needed"]
   }
 }

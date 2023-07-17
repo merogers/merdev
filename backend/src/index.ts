@@ -5,6 +5,7 @@ import compression from 'compression';
 import cors from 'cors';
 import morgan from 'morgan';
 import pc from 'picocolors';
+import helmet from 'helmet';
 import indexRouter from './routes';
 import errorHandler, { notFound } from './middleware/error';
 
@@ -16,17 +17,18 @@ const app = express();
 
 connectDB();
 
-// Good ol' Cors
+// Middleware
 app.use(
   cors({
+    origin: process.env.ORIGIN,
     credentials: true,
   }),
 );
 
-// Middleware
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
+app.use(helmet());
 
 // Don't log requests in production mode
 if (process.env.NODE_ENV !== 'production') {

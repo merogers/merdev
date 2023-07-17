@@ -15,7 +15,7 @@ const getAllUsers: RequestHandler = async (_req, res, next) => {
 };
 
 // --- Get User by ID --- //
-export const getUserProfile: RequestHandler = async (req: TokenRequest, res: Response, next: NextFunction) => {
+export const getUserProfile = async (req: TokenRequest, res: Response, next: NextFunction) => {
   const { id } = req.params;
   try {
     const user = await User.findOne({ _id: id });
