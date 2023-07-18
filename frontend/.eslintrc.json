@@ -1,8 +1,7 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "airbnb",
-    "airbnb-typescript",
+    "airbnb-base",
     "prettier"
   ],
   "parserOptions": {
@@ -10,6 +9,7 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off"
+    "react/jsx-uses-react": "off",
+    "no-unused-vars": "warn"
   }
 }
