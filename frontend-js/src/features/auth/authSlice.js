@@ -33,8 +33,9 @@ export const register = createAsyncThunk('auth/register', async (userData, thunk
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
   try {
     const response = await server.post('/api/v1/auth/login', userData);
+    console.log(response);
     if (response.data) {
-      await localStorage.setItem('user', JSON.stringify(response.data));
+      // await localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
   } catch (error) {
