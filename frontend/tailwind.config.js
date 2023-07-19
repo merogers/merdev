@@ -6,13 +6,38 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        // Blue
+        primary: {
+          100: '#765fba',
+          200: '#8570c2',
+        },
+        // Grey
+        secondary: {
+          100: '#313135',
+          200: '#3b3b40',
+          300: 'rgba(49, 49, 53, 0.95);',
+        },
+        accent: {
+          100: '#bdadea',
+          200: '#f3f1f9',
+        },
+        error: {
+          100: '#ff3347',
+          200: '#ffebed',
+        },
+        background: {
+          100: '#f4f4f5',
+        },
       },
     },
   },
   plugins: [],
-}
+};
