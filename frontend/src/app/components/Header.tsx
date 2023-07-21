@@ -6,11 +6,14 @@ interface HeaderProps {
   title: string;
 }
 
-function Header({ title = 'My Portfolio' }: HeaderProps) {
+export default function Header({ title = 'My Portfolio' }: HeaderProps) {
   return (
-    <header className="flex bg-secondary-100 text-white h-16 drop-shadow-lg z-10">
+    <header className="flex bg-secondary-400 h-16 drop-shadow-lg z-10 tracking-wide">
       <Container>
-        <Link href="/" className="flex items-center ml-4 px-4 lg:pl-0 lg:ml-0 ">
+        <Link
+          href="/"
+          className="flex items-center ml-4 px-4 lg:pl-0 lg:ml-0 uppercase h-16 text-secondary-200 hover:text-white transition-colors"
+        >
           {title}
         </Link>
         <Nav />
@@ -18,5 +21,3 @@ function Header({ title = 'My Portfolio' }: HeaderProps) {
     </header>
   );
 }
-
-export default Header;
