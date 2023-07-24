@@ -1,5 +1,18 @@
 import mongoose from 'mongoose';
 
+export interface ProjectType {
+  screenshotUrl: string;
+  screenshotFile: string;
+  userid: string;
+  title: string;
+  description: string;
+  demoUrl: string;
+  codeUrl: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 const ProjectSchema = new mongoose.Schema(
   {
     screenshotUrl: {
@@ -12,8 +25,6 @@ const ProjectSchema = new mongoose.Schema(
     },
     userid: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
     },
     title: {
       type: String,
@@ -39,6 +50,6 @@ const ProjectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Project = mongoose.model('project', ProjectSchema);
+const Project = mongoose.model('Project', ProjectSchema);
 
 export default Project;

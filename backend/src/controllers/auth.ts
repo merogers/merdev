@@ -25,29 +25,25 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     await User.findByIdAndUpdate(user.id, {
-      sessionToken: refreshToken,
+      accessToken: refreshToken,
     });
 
-    // Return updated user data, ignore credentials
-    const sessionUser = await User.findById(user.id).select('-password  -salt');
+    // Return updated user data, ignore credentials.
+    const sessionUser = await User.findOne({ _id: user.id }).select('-password -salt');
+    // Populate virtual projects field
+    await sessionUser.populate('projects');
 
-    const userData = {
-      id: sessionUser.id,
-      firstName: sessionUser.firstName,
-      lastName: sessionUser.lastName,
-      email: sessionUser.email,
-      sessionToken: sessionUser.sessionToken,
-    };
-
+    // Set Auth Header
     res.header('Authorization', accessToken);
 
+    // Set HTTP Only Cookie
     res.cookie('refreshToken', refreshToken, {
       secure: process.env.NODE_ENV !== 'development',
       httpOnly: true,
       sameSite: 'strict',
     });
 
-    return res.status(200).json({ user: userData });
+    return res.status(200).json({ user: sessionUser });
   } catch (error) {
     console.error(error);
     return next(createError(500, 'Failed to log in user'));
@@ -86,7 +82,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       lastName,
       password: hashString(salt, password),
       salt,
-      sessionToken: '',
+      accessToken: '',
     });
 
     await newUser.save();
