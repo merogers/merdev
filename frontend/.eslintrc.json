@@ -1,15 +1,21 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "airbnb-base",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "airbnb-base", "prettier"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   }
 }

@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import Container from './Container';
 import Nav from './Nav';
-import Link from 'next/link';
 
 interface HeaderProps {
   title: string;

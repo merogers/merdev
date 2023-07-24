@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export -o build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/redux-logger": "^3.0.9",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
     "prettier": "^3.0.0",
     "redux-logger": "^3.0.6"
   }

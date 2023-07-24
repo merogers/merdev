@@ -1,19 +1,19 @@
 'use client';
 
-import { useGetProjectsQuery } from '@/lib/redux/services/api';
+// import { useGetProjectsQuery } from '@/lib/redux/services/api';
 
 function Projects() {
-  const { data, error, isLoading } = useGetProjectsQuery();
+  // const { data, error, isLoading } = useGetProjectsQuery();
 
-  if (error) return <h1>Error</h1>;
-  if (isLoading) return <h1>Loading...</h1>;
+  // if (error) return <h1>Error</h1>;
+  // if (isLoading) return <h1>Loading...</h1>;
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <main className="flex ">
       <h1>Derp</h1>
-      {error ? (
+      {/* {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
         <>Loading...</>
@@ -21,7 +21,7 @@ function Projects() {
         <>
           <h3>yay</h3>
         </>
-      ) : null}
+      ) : null} */}
     </main>
   );
 }

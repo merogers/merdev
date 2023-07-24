@@ -31,12 +31,11 @@ export default function Nav() {
         } h-screen flex-col items-center justify-center md:flex-row transition-[top] md:relative md:h-full md:w-min pr-0 md:bottom-0 md:top-auto`}
       >
         {navLinks.map(({ title, href }) => {
-          const isActive = pathname === href ? true : false;
+          const isActive = pathname === href;
 
           return (
-            <li>
+            <li key={title}>
               <Link
-                key={title}
                 href={href}
                 className={` flex items-center text-sm hover:text-white transition-colors px-4 w-min h-16 uppercase  ${
                   isActive ? 'border-b-4 border-primary-100 pt-1 text-white' : 'text-secondary-200'

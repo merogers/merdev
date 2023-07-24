@@ -1,7 +1,7 @@
+import { GitHub, Linkedin, Facebook, Twitter } from 'react-feather';
+import Link from 'next/link';
 import Container from './Container';
 import { navLinks } from './Nav';
-import Link from 'next/link';
-import { GitHub, Linkedin, Facebook, Twitter } from 'react-feather';
 import IconLink from './IconLink';
 
 interface FooterProps {
@@ -19,19 +19,17 @@ export default function Footer({ title = 'My Portfolio' }: FooterProps) {
           <div className="flex flex-col lg:flex-row justify-between w-full items-center">
             <div className="uppercase text-lg font-medium">{title}</div>
             <ul className="flex flex-col md:flex-row py-8 lg:py-0">
-              {navLinks.map(link => {
-                return (
-                  <li className="flex justify-center">
-                    <Link
-                      key={link.title}
-                      href={link.href}
-                      className="flex items-center text-sm hover:text-white transition-colors px-0 md:px-4 w-min h-12 uppercase"
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
-                );
-              })}
+              {navLinks.map(link => (
+                <li className="flex justify-center" key={link.title}>
+                  <Link
+                    key={link.title}
+                    href={link.href}
+                    className="flex items-center text-sm hover:text-white transition-colors px-0 md:px-4 w-min h-12 uppercase"
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
             <div className="pr-0 text-secondary-200 flex gap-2">
               <IconLink href="https://github.com/merogersdev/">
