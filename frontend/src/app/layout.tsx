@@ -14,10 +14,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
       <html lang="en">
-        <body className={`${poppins.className} flex flex-col bg-secondary-50`}>
-          <Header title="My Portfolio" />
-          {children}
-          <Footer title="My Portfolio" />
+        <body className={poppins.className}>
+          <div className="flex flex-col  h-full">
+            <Header title="My Portfolio" />
+            {children}
+            <Footer title="My Portfolio" />
+          </div>
         </body>
       </html>
     </Provider>

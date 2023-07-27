@@ -1,29 +1,32 @@
 'use client';
 
-// import { useGetProjectsQuery } from '@/lib/redux/services/api';
+import Main from '../components/Main';
+import Container from '../components/Container';
+import Typography from '../components/Typography';
+import Card from '../components/Card';
+import Form, { Label, TextareaField, TextField } from '../components/Form';
 
-function Projects() {
-  // const { data, error, isLoading } = useGetProjectsQuery();
-
-  // if (error) return <h1>Error</h1>;
-  // if (isLoading) return <h1>Loading...</h1>;
-
-  // console.log(data);
-
+export default function Projects() {
   return (
-    <main className="flex ">
-      <h1>Derp</h1>
-      {/* {error ? (
-        <>Oh no, there was an error</>
-      ) : isLoading ? (
-        <>Loading...</>
-      ) : data ? (
-        <>
-          <h3>yay</h3>
-        </>
-      ) : null} */}
-    </main>
+    <Main height="h-auto">
+      <Container>
+        <div className="flex flex-col">
+          <Typography />
+          <Card>
+            <div className="p-4">Derp</div>
+          </Card>
+          <Card>
+            <Form>
+              <Label>
+                <TextField placeholder="test" name="test" />
+              </Label>
+              <Label>
+                <TextareaField placeholder="test" name="test"></TextareaField>
+              </Label>
+            </Form>
+          </Card>
+        </div>
+      </Container>
+    </Main>
   );
 }
-
-export default Projects;
