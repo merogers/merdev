@@ -12,10 +12,11 @@ export default function Projects() {
       <Container>
         <div className="flex flex-col">
           <Typography />
-          <Card>
-            <div className="p-4">Derp</div>
-          </Card>
-          <Card>
+          <div className="flex gap-2 flex-col">
+            <Card>
+              <div className="p-4">Derp</div>
+            </Card>
+
             <Form>
               <Label>
                 <TextField placeholder="test" name="test" />
@@ -24,7 +25,7 @@ export default function Projects() {
                 <TextareaField placeholder="test" name="test"></TextareaField>
               </Label>
             </Form>
-          </Card>
+          </div>
         </div>
       </Container>
     </Main>
