@@ -2645,14 +2645,14 @@ tsparticles-interaction-particles-collisions@^2.11.1:
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-interaction-particles-links@^2.11.0, tsparticles-interaction-particles-links@^2.11.1:
+tsparticles-interaction-particles-links@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-interaction-particles-links/-/tsparticles-interaction-particles-links-2.11.1.tgz#a74602509d517c8d175ed7e8824c2c7b0fc20716"
   integrity sha512-/vmtMWr1+YySK+yC8yZeMTOylt0wX/fFqrZTuZyr6s/BVEm77oT0Xr22bLFeIVQqUERos//kbM8qBiNke/A76Q==
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-move-base@^2.11.0, tsparticles-move-base@^2.11.1:
+tsparticles-move-base@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-move-base/-/tsparticles-move-base-2.11.1.tgz#5acacf06bc64ebe5440f8f6dc2e94e1e96703401"
   integrity sha512-u55RlRaSzoJNiVF9cG6SZmR/J2jb/sCGsOb4kLZhH0tvQBUcJOtv1yeHzpRTugliJVAvJ1zfAjv1pVNmI00KcQ==
@@ -2680,21 +2680,7 @@ tsparticles-plugin-easing-quad@^2.11.1:
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-preset-links@^2.11.0:
-  version "2.11.0"
-  resolved "https://registry.npmjs.org/tsparticles-preset-links/-/tsparticles-preset-links-2.11.0.tgz#ff8c8c6f885ad0201cb9194d24a0a954a87d691e"
-  integrity sha512-U9Yukr5bX1KrKZ/pBk4VSjSmOTYAKB9h02T0+OL4vmmQQ4YnzLMrdVMbojTU4/b/XlvPdN0F6BS35Pek8HqxnA==
-  dependencies:
-    tsparticles-engine "^2.11.0"
-    tsparticles-interaction-particles-links "^2.11.0"
-    tsparticles-move-base "^2.11.0"
-    tsparticles-shape-circle "^2.11.0"
-    tsparticles-updater-color "^2.11.0"
-    tsparticles-updater-opacity "^2.11.0"
-    tsparticles-updater-out-modes "^2.11.0"
-    tsparticles-updater-size "^2.11.0"
-
-tsparticles-shape-circle@^2.11.0, tsparticles-shape-circle@^2.11.1:
+tsparticles-shape-circle@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-shape-circle/-/tsparticles-shape-circle-2.11.1.tgz#86f2a3ee80d7512c577e78a46dd9fe2c5f8c5ebd"
   integrity sha512-SgQWTKlPtwuSpRaY6nr+KVF1JMHIQy/6ujAgDhfSenmFggDj+Y6j49fqNtBkpbQRvA3hMuDWXjPPIClmZxw27Q==
@@ -2781,7 +2767,7 @@ tsparticles-slim@^2.11.1:
     tsparticles-updater-size "^2.11.1"
     tsparticles-updater-stroke-color "^2.11.1"
 
-tsparticles-updater-color@^2.11.0, tsparticles-updater-color@^2.11.1:
+tsparticles-updater-color@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-updater-color/-/tsparticles-updater-color-2.11.1.tgz#db5d96f43509ce77398ea6a9cdf770b77d93e90f"
   integrity sha512-lMU5WxZ3HqG+qhqhecc91IWEIH5K8A4hPdO7tsAyjneAihw81v596HpKjIGcbzJc/XqNNdh4sNxJ0vBS5vYmjA==
@@ -2795,14 +2781,14 @@ tsparticles-updater-life@^2.11.1:
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-updater-opacity@^2.11.0, tsparticles-updater-opacity@^2.11.1:
+tsparticles-updater-opacity@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-updater-opacity/-/tsparticles-updater-opacity-2.11.1.tgz#b5c5667ff365dd4f48dad5d2982fff7398823531"
   integrity sha512-SK9pEczu6j6ORlhkEJ8RLQoC2pFwDTTF8HoBYXTJEacoOjXaIuawkTwJbS/n5oLPmi4T4+t9Uq+a0qxTiN7pOw==
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-updater-out-modes@^2.11.0, tsparticles-updater-out-modes@^2.11.1:
+tsparticles-updater-out-modes@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-updater-out-modes/-/tsparticles-updater-out-modes-2.11.1.tgz#21b3cc44bed25a5aa43c066c902c39a6faa911d7"
   integrity sha512-/vjWuTN4M9U1BkENNm4YnsKzdYcv5drxfwo+QcMUtrkhZS6VEVHVD5Zbatl5u4w7gz7eVz2j2Lp0L6Eo1ngZ7Q==
@@ -2816,7 +2802,7 @@ tsparticles-updater-rotate@^2.11.1:
   dependencies:
     tsparticles-engine "^2.11.1"
 
-tsparticles-updater-size@^2.11.0, tsparticles-updater-size@^2.11.1:
+tsparticles-updater-size@^2.11.1:
   version "2.11.1"
   resolved "https://registry.npmjs.org/tsparticles-updater-size/-/tsparticles-updater-size-2.11.1.tgz#379d52c880007b032664afd61ce32e6ff575c334"
   integrity sha512-4uBL5J3K1S/v+lHzEFVVvYTnGM369R27Mww5FL1cpeeW0UyPRL27i/tcjo/uKLFD6ZBObVCME2Y1suCWsBWgcA==
