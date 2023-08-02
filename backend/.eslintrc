@@ -9,6 +9,7 @@
     "consistent-return": "warn",
     "max-len": "warn",
     "no-console": ["error", { "allow": ["error", "info"] }],
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "no-underscore-dangle": "warn"
   }
 }

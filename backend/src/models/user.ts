@@ -22,11 +22,22 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  sessionToken: {
+  accessToken: {
     type: String,
   },
 });
 
-const User = mongoose.model('user', UserSchema);
+// Add Object and JSON Virtual Support
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
+
+// Add virtual field to User, mimicing relational DB
+UserSchema.virtual('projects', {
+  localField: '_id',
+  foreignField: 'userid',
+  ref: 'Project',
+});
+
+const User = mongoose.model('User', UserSchema);
 
 export default User;

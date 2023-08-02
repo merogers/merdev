@@ -25,13 +25,13 @@ const getProjects: RequestHandler = async (req, res, next) => {
   const accessToken = req.headers.authorization;
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
-
     // If bad or no token, just send latest projects
     if (!accessToken) {
       const latestProjects = await Project.find().sort({ updatedAt: -1 }).limit(5);
       return res.status(200).json(latestProjects);
     }
+
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
     // Quick check for user
     const userExists = await User.findById(decoded.id);
@@ -42,6 +42,7 @@ const getProjects: RequestHandler = async (req, res, next) => {
     });
     return res.status(200).json(projects);
   } catch (error) {
+    console.error(error);
     return next(createError(500, 'Cannot get projects'));
   }
 };
