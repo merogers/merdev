@@ -1,6 +1,6 @@
-import Main from './components/Main';
-import Container from './components/Container';
-import Button from './components/Button';
+import Main from '../../../components/Main';
+import Container from '../../../components/Container';
+import Button from '../../../components/Button';
 
 export const metadata = {
   title: 'My Portfolio',

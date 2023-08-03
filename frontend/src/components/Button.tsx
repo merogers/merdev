@@ -8,6 +8,7 @@ type ButtonProps = {
 };
 
 export default function Button({ href, background, hover, text }: ButtonProps) {
+  console.log(hover, background);
   return (
     <Link
       href={href}
