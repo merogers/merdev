@@ -1,6 +1,6 @@
 import Main from '../components/Main';
 import Container from '../components/Container';
-import Button from '../components/Button';
+import { ButtonLink } from '../components/Button';
 
 export const metadata = {
   title: 'My Portfolio',
@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <Main>
+    <Main minHeight="min-h-[30rem]" height="h-[calc(100vh-5rem)]">
       <Container>
         <div className="flex flex-col items-center justify-center w-3/4 mx-auto h-full">
           <h1 className="text-2xl font-semibold text-secondary-400 text-center md:text-left md:text-4xl">
@@ -17,8 +17,8 @@ export default function Home() {
             <span className="text-primary-300"> Full-Stack Developer</span>
           </h1>
           <div className="flex gap-4 mt-16 flex-col md:flex-row w-full justify-center md:justify-start">
-            <Button href="/projects" text="View Projects" />
-            <Button href="/" variant="primary" text="Download Resume" />
+            <ButtonLink href="/projects" text="View Projects" />
+            <ButtonLink href="/" variant="primary" text="Download Resume" />
           </div>
         </div>
       </Container>

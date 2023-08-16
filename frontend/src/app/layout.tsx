@@ -1,12 +1,13 @@
 'use client';
 
 import { ReactNode } from 'react';
-import './globals.css';
 import { Poppins } from 'next/font/google';
 import { Provider } from 'react-redux';
-import store from '@/redux/store';
+import store from '../redux/store';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+import './globals.css';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['300', '500', '700'] });
 

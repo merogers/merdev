@@ -2,16 +2,15 @@
 
 import Main from '../../components/Main';
 import Container from '../../components/Container';
-import P, { H1, H2, H3, H4, H5, H6, Subtitle, Tag } from '../../components/Typography';
-import Card from '../../components/Card';
+import { H2 } from '../../components/Typography';
 import Form, { LabelField } from '../../components/Form';
-import Button from '../../components/Button';
+import { ButtonLink } from '../../components/Button';
 
 export default function Login() {
   return (
-    <Main height="min-h-[calc(100vh-5rem)]">
+    <Main height="min-h-min">
       <Container>
-        <div className="flex gap-2 flex-col w-full mt-8">
+        <div className="flex gap-2 flex-col w-full my-0 md:my-8">
           <div className="flex w-full max-w-xl mx-auto">
             <Form>
               <div className="flex mt-4 justify-center">
@@ -23,7 +22,7 @@ export default function Login() {
                 <LabelField name="password" title="Password" type="password" />
               </div>
               <div className="mt-8 flex justify-center">
-                <Button href="/projects" background="bg-secondary-400" hover="bg-secondary-300" text="Login" />
+                <ButtonLink href="/projects" text="Login" />
               </div>
             </Form>
           </div>

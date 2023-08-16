@@ -14,7 +14,7 @@ export default function Footer({ title = 'My Portfolio' }: FooterProps) {
 
   return (
     <footer>
-      <div className="flex bg-secondary-300 px-8 py-8  text-secondary-200 tracking-wide">
+      <div className="flex bg-secondary-400 px-8 py-8  text-secondary-200 tracking-wide">
         <Container>
           <div className="flex flex-col lg:flex-row justify-between w-full items-center">
             <div className="uppercase text-lg font-medium">{title}</div>
@@ -49,7 +49,7 @@ export default function Footer({ title = 'My Portfolio' }: FooterProps) {
         </Container>
       </div>
 
-      <div className="bg-secondary-400 px-8 lg:px-0 py-2 text-secondary-200 text-sm">
+      <div className="bg-secondary-500 px-8 lg:px-0 py-2 text-secondary-200 text-sm">
         <Container>
           <div className="flex justify-center tracking-wide w-full">CONTENT COPYRIGHT &copy;{year}</div>
         </Container>
