@@ -1,6 +1,6 @@
-import Main from '../../../components/Main';
-import Container from '../../../components/Container';
-import Button from '../../../components/Button';
+import Main from '../components/Main';
+import Container from '../components/Container';
+import Button from '../components/Button';
 
 export const metadata = {
   title: 'My Portfolio',
@@ -17,8 +17,8 @@ export default function Home() {
             <span className="text-primary-300"> Full-Stack Developer</span>
           </h1>
           <div className="flex gap-4 mt-16 flex-col md:flex-row w-full justify-center md:justify-start">
-            <Button href="/projects" background="bg-secondary-400" hover="bg-secondary-300" text="View Projects" />
-            <Button href="/" background="bg-primary-400" hover="bg-primary-300" text="Download Resume" />
+            <Button href="/projects" text="View Projects" />
+            <Button href="/" variant="primary" text="Download Resume" />
           </div>
         </div>
       </Container>

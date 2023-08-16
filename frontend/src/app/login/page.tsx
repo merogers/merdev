@@ -1,11 +1,11 @@
 'use client';
 
-import Main from '../../../components/Main';
-import Container from '../../../components/Container';
-import P, { H1, H2, H3, H4, H5, H6, Subtitle, Tag } from '../../../components/Typography';
-import Card from '../../../components/Card';
-import Form, { LabelField } from '../../../components/Form';
-import Button from '@/components/Button';
+import Main from '../../components/Main';
+import Container from '../../components/Container';
+import P, { H1, H2, H3, H4, H5, H6, Subtitle, Tag } from '../../components/Typography';
+import Card from '../../components/Card';
+import Form, { LabelField } from '../../components/Form';
+import Button from '../../components/Button';
 
 export default function Login() {
   return (
