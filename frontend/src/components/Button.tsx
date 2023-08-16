@@ -7,7 +7,6 @@ type ButtonProps = {
 };
 
 type ButtonLinkProps = {
-  onClick: () => void;
   text: string;
   variant?: 'primary' | 'secondary';
 };
@@ -19,10 +18,10 @@ const buttonStyles = {
 };
 
 // Normal button for forms
-export default function Button({ onClick, text, variant }: ButtonLinkProps) {
+export default function Button({ text, variant }: ButtonLinkProps) {
   const { core, secondary } = buttonStyles;
   return (
-    <button onClick={onClick} className={`${core} ${variant ? buttonStyles[variant] : secondary}`}>
+    <button type="submit" className={`${core} ${variant ? buttonStyles[variant] : secondary}`}>
       {text}
     </button>
   );
