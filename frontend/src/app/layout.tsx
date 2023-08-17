@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 import { Poppins } from 'next/font/google';
 import { Provider } from 'react-redux';
 import store from '../redux/store';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 import './globals.css';
 

@@ -1,13 +1,13 @@
-import Main from '../components/Main';
-import Container from '../components/Container';
-import { ButtonLink } from '../components/Button';
+import Main from '../components/Shared/Main';
+import Container from '../components/Shared/Container';
+import { ButtonLink } from '../components/Shared/Button';
 
 export const metadata = {
   title: 'My Portfolio',
   description: 'Herp Derp',
 };
 
-export default function Home() {
+export default function HomePage() {
   return (
     <Main minHeight="min-h-[30rem]" height="h-[calc(100vh-5rem)]">
       <Container>

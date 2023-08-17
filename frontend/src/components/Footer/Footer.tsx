@@ -1,7 +1,7 @@
 import { GitHub, Linkedin, Facebook, Twitter } from 'react-feather';
 import Link from 'next/link';
-import Container from './Container';
-import { navLinks } from './Nav';
+import Container from '../Shared/Container';
+import { navLinks } from '../Header/Nav';
 import IconLink from './IconLink';
 
 interface FooterProps {

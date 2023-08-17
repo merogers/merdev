@@ -1,10 +1,8 @@
-'use client';
+import Main from '../../components/Shared/Main';
+import Container from '../../components/Shared/Container';
+import Card from '../../components/Shared/Card';
 
-import Main from '../../components/Main';
-import Container from '../../components/Container';
-import Card from '../../components/Card';
-
-export default function Projects() {
+export default function ProjectsPage() {
   return (
     <Main height="h-auto">
       <Container>

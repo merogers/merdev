@@ -11,13 +11,14 @@ type ButtonLinkProps = {
   variant?: 'primary' | 'secondary';
 };
 
+// Store core style and variant strings, instead of the component for better readability
 const buttonStyles = {
   core: 'flex text-lg tracking-wide justify-center w-full py-3 px-4 rounded-sm text-secondary-50 uppercase transition-colors md:w-fit md:py-4 md:px-8 md:text-xl',
   primary: 'bg-primary-400 hover:bg-primary-300',
   secondary: 'bg-secondary-400 hover:bg-secondary-300',
 };
 
-// Normal button for forms
+// Submit button for forms
 export default function Button({ text, variant }: ButtonLinkProps) {
   const { core, secondary } = buttonStyles;
   return (
@@ -27,7 +28,7 @@ export default function Button({ text, variant }: ButtonLinkProps) {
   );
 }
 
-// Next.js Routing Links
+// Next.js Routing Link Buttons
 export function ButtonLink({ href, text, variant }: ButtonProps) {
   const { core, secondary } = buttonStyles;
   return (
