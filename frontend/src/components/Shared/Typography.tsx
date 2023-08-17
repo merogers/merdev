@@ -32,10 +32,6 @@ export function Subtitle({ children }: PropsWithChildren) {
   );
 }
 
-export function P({ children }: PropsWithChildren) {
-  return <p className="text-sm md:text-base leading-6 md:leading-7 mb-3 text-secondary-500">{children}</p>;
-}
-
 export function Tag({ children }: PropsWithChildren) {
   return (
     <div className="bg-secondary-400 text-secondary-50 md:py-0.5 py-py px-2 md:px-3 uppercase rounded-sm font-light text-sm md:text-base tracking-wide">
@@ -44,32 +40,6 @@ export function Tag({ children }: PropsWithChildren) {
   );
 }
 
-export default function Typography() {
-  return (
-    <div className="flex flex-col">
-      <H1>Header 1</H1>
-      <H2>Header 2</H2>
-      <H3>Header 3</H3>
-      <H4>Header 4</H4>
-      <H5>Header 5</H5>
-      <H6>Header 6</H6>
-      <P>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In blandit ultricies diam, in facilisis libero gravida
-        nec. Suspendisse urna nulla, maximus eu lobortis sollicitudin, posuere ut lacus. Suspendisse fringilla luctus
-        imperdiet. Maecenas fermentum odio vel blandit mollis. In quis hendrerit libero. Pellentesque cursus euismod
-        odio ac convallis.
-      </P>
-      <P>
-        Maecenas faucibus varius libero sed convallis. Phasellus ultrices metus at sollicitudin fermentum. Aenean
-        sagittis tortor eget nibh interdum, nec semper enim euismod. Ut id purus odio. Duis tristique, elit at blandit
-        mollis, elit nulla vehicula lacus, vitae bibendum arcu ex in magna. Nulla facilisi. Suspendisse tristique sem
-        nibh. Etiam elit massa, gravida nec libero cursus, dapibus rutrum lectus.
-      </P>
-      <Subtitle>Subtitle</Subtitle>
-      <div className="flex gap-1 mb-4">
-        <Tag>Tag</Tag>
-        <Tag>Tag</Tag>
-      </div>
-    </div>
-  );
+export default function P({ children }: PropsWithChildren) {
+  return <p className="text-sm md:text-base leading-6 md:leading-7 mb-3 text-secondary-500">{children}</p>;
 }
