@@ -2,6 +2,11 @@ import Main from '../../components/Shared/Main';
 import Container from '../../components/Shared/Container';
 import LoginForm from '../../components/Form/Login';
 
+export const metadata = {
+  title: 'Login',
+  description: 'Herp Derp',
+};
+
 export default function LoginPage() {
   return (
     <Main height="min-h-min">

@@ -2,6 +2,11 @@ import Main from '../../components/Shared/Main';
 import Container from '../../components/Shared/Container';
 import Register from '../../components/Form/Register';
 
+export const metadata = {
+  title: 'Register',
+  description: 'Herp Derp',
+};
+
 export default function RegisterPage() {
   return (
     <Main height="min-h-min">

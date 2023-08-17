@@ -1,11 +1,13 @@
-'use client';
-
 import Main from '../../components/Shared/Main';
 import Container from '../../components/Shared/Container';
 import P, { H1, H2, H3, H4, H5, H6, Subtitle, Tag } from '../../components/Shared/Typography';
 import Card from '../../components/Shared/Card';
-import Form, { LabelField } from '../../components/Form/Form';
-import Button from '../../components/Shared/Button';
+import Button, { ButtonLink } from '../../components/Shared/Button';
+
+export const metadata = {
+  title: 'Sandbox',
+  description: 'This is just a development page. Please delete.',
+};
 
 export default function Projects() {
   return (
@@ -41,20 +43,10 @@ export default function Projects() {
             <Card>
               <div className="p-4">Derp</div>
             </Card>
-            <div className="flex w-full max-w-xl mx-auto">
-              <Form>
-                <div className="flex mt-4 justify-center">
-                  <H2>Login</H2>
-                </div>
-                <div className="my-4">
-                  <LabelField name="name" title="Name" type="text" />
-                  <LabelField name="email" title="Email" type="text" />
-                  <LabelField name="password" title="Password" type="password" />
-                </div>
-                <div className="mt-8 flex justify-center">
-                  <Button href="/projects" background="bg-secondary-400" hover="bg-secondary-300" text="Login" />
-                </div>
-              </Form>
+            <div className="flex w-full max-w-xl mx-auto gap-2">
+              <Button variant="primary" text="Primary" />
+              <Button variant="secondary" text="Secondary" />
+              <ButtonLink text="Button Link" href="/" />
             </div>
           </div>
         </div>

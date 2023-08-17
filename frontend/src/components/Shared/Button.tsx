@@ -13,7 +13,7 @@ type ButtonLinkProps = {
 
 // Store core style and variant strings, instead of the component for better readability
 const buttonStyles = {
-  core: 'flex text-lg tracking-wide justify-center w-full py-3 px-4 rounded-sm text-secondary-50 uppercase transition-colors md:w-fit md:py-4 md:px-8 md:text-xl',
+  core: 'flex text-lg tracking-wide justify-center w-full py-2 px-4 rounded-sm text-secondary-50 uppercase transition-colors md:w-fit md:py-2 md:px-8 md:text-xl',
   primary: 'bg-primary-400 hover:bg-primary-300',
   secondary: 'bg-secondary-400 hover:bg-secondary-300',
 };

@@ -2,6 +2,11 @@ import Main from '../../components/Shared/Main';
 import Container from '../../components/Shared/Container';
 import Card from '../../components/Shared/Card';
 
+export const metadata = {
+  title: 'Projects',
+  description: 'Herp Derp',
+};
+
 export default function ProjectsPage() {
   return (
     <Main height="h-auto">
