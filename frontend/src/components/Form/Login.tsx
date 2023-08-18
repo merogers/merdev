@@ -1,12 +1,14 @@
 'use client';
 
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { H2 } from '../Shared/Typography';
 import Form, { LabelField } from './Form';
 import Button from '../Shared/Button';
+import { logIn, logOut } from '../../redux/features/authSlice';
+import { useAppSelector } from '../../redux/store';
 
 export default function Login() {
   const loginSchema = z.object({
@@ -14,6 +16,10 @@ export default function Login() {
     email: z.string().email(),
     password: z.string().min(5).max(20),
   });
+
+  const user = useAppSelector(state => state.authReducer.value.user);
+
+  const dispatch = useDispatch();
 
   // Infer the type from already defined schema
   type loginSchemaType = z.infer<typeof loginSchema>;
