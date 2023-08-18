@@ -25,6 +25,9 @@ const UserSchema = new mongoose.Schema({
   authorizationToken: {
     type: String,
   },
+  refreshToken: {
+    type: String,
+  },
 });
 
 // Add Object and JSON Virtual Support

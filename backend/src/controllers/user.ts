@@ -6,7 +6,7 @@ import { TokenRequest } from '../types';
 // --- Get All Users --- //
 const getAllUsers: RequestHandler = async (_req, res, next) => {
   try {
-    const users = await User.find().select('-password -salt -sessionToken -_id');
+    const users = await User.find().select('-password -salt -sessionToken -_id -refreshToken');
     if (users.length === 0) next(createError(404, 'No Users found'));
     return res.status(200).json(users);
   } catch (error) {

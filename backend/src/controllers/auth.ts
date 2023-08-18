@@ -25,7 +25,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     await User.findByIdAndUpdate(user.id, {
-      authorizationToken,
+      refreshToken,
     });
 
     // Return updated user data, ignore credentials.
@@ -38,12 +38,13 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 
     // Set HTTP Only Cookie
     res.cookie('refreshToken', refreshToken, {
-      secure: process.env.NODE_ENV !== 'development',
+      secure: true,
       httpOnly: true,
       sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ user: sessionUser });
+    return res.status(200).json({ user: sessionUser, authorizationToken });
   } catch (error) {
     console.error(error);
     return next(createError(500, 'Failed to log in user'));
@@ -91,24 +92,5 @@ export const registerUser: RequestHandler = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return next(createError(500, 'Failed to register user'));
-  }
-};
-
-// --- Refresh Token --- //
-
-export const refresh: RequestHandler = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
-
-  if (!refreshToken) {
-    return next(createError(401, 'Access denied. No refresh token'));
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, process.env.SECRET);
-    const authorizationToken = jwt.sign({ user: decoded.user }, process.env.SECRET, { expiresIn: '1h' });
-
-    return res.header('Authorization', authorizationToken).send(decoded.user);
-  } catch (error) {
-    return next(createError(400, 'Invalid refresh token'));
   }
 };

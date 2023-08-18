@@ -8,6 +8,8 @@ import pc from 'picocolors';
 import helmet from 'helmet';
 import indexRouter from './routes';
 import errorHandler, { notFound } from './middleware/error';
+import corsOptions from './config/cors';
+import credentials from './middleware/cors';
 
 // --- DB --- //
 import connectDB from './config/db';
@@ -18,13 +20,8 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-    credentials: true,
-  }),
-);
-
+app.use(credentials);
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
