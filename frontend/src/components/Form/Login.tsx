@@ -21,12 +21,10 @@ export default function Login() {
     password: z.string().min(5).max(20),
   });
 
-  const { user } = useAppSelector(state => state.auth);
+  // const { user, authorizationToken } = useAppSelector(state => state.auth);
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const router = useRouter();
-
-  console.log(user);
 
   // Infer the type from already defined schema
   type loginSchemaType = z.infer<typeof loginSchema>;
@@ -39,13 +37,17 @@ export default function Login() {
 
   async function submitData(data: loginSchemaType) {
     setError('');
-    const loginData = await login(data).unwrap();
-    dispatch(logIn(loginData));
-    router.push('/dashboard');
-    if (loginData?.error?.status === 404) {
-      setError('User not found');
-    } else if (loginData?.error?.status === 401) {
-      setError('Invalid Credentials');
+    try {
+      const loginData = await login(data).unwrap();
+      dispatch(logIn(loginData));
+      router.push('/dashboard');
+      if (loginData?.error?.status === 404) {
+        setError('User not found');
+      } else if (loginData?.error?.status === 401) {
+        setError('Invalid Credentials');
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 

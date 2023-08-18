@@ -7,12 +7,17 @@ type User = {
 
 type InitialState = {
   user: User | null;
-  token: string;
+  authorizationToken: string;
+};
+
+type Payload = {
+  user: User;
+  authorizationToken: string;
 };
 
 const initialState = {
   user: null,
-  token: '',
+  authorizationToken: '',
 } as InitialState;
 
 export const authSlice = createSlice({
@@ -20,8 +25,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: () => initialState,
-    logIn: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    logIn: (state, action: PayloadAction<Payload>) => {
+      state.user = action.payload.user;
+      state.authorizationToken = action.payload.authorizationToken;
     },
   },
 });

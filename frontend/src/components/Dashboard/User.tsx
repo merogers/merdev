@@ -7,7 +7,7 @@ export default function User() {
   const { user } = useAppSelector(state => state.auth);
   return (
     <div>
-      Hi, {user.user.firstName} {user.user.lastName}
+      Hi, {user?.firstName} {user?.lastName}
     </div>
   );
 }
