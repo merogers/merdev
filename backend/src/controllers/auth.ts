@@ -21,11 +21,11 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     const expectedHash = hashString(user.salt, password);
     if (user.password !== expectedHash) return next(createError(401, 'Invalid password'));
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const authorizationToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     await User.findByIdAndUpdate(user.id, {
-      accessToken: refreshToken,
+      authorizationToken,
     });
 
     // Return updated user data, ignore credentials.
@@ -34,7 +34,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     await sessionUser.populate('projects');
 
     // Set Auth Header
-    res.header('Authorization', accessToken);
+    res.header('Authorization', authorizationToken);
 
     // Set HTTP Only Cookie
     res.cookie('refreshToken', refreshToken, {
@@ -82,7 +82,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       lastName,
       password: hashString(salt, password),
       salt,
-      accessToken: '',
+      authorizationToken: '',
     });
 
     await newUser.save();
@@ -105,9 +105,9 @@ export const refresh: RequestHandler = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.SECRET);
-    const accessToken = jwt.sign({ user: decoded.user }, process.env.SECRET, { expiresIn: '1h' });
+    const authorizationToken = jwt.sign({ user: decoded.user }, process.env.SECRET, { expiresIn: '1h' });
 
-    return res.header('Authorization', accessToken).send(decoded.user);
+    return res.header('Authorization', authorizationToken).send(decoded.user);
   } catch (error) {
     return next(createError(400, 'Invalid refresh token'));
   }

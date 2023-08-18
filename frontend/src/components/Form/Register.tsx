@@ -20,6 +20,7 @@ export default function Register() {
       path: ['confirmPassword'],
     });
 
+  // Infer the type from already defined schema
   type loginSchemaType = z.infer<typeof loginSchema>;
 
   const {

@@ -9,6 +9,7 @@ type ButtonProps = {
 type ButtonLinkProps = {
   text: string;
   variant?: 'primary' | 'secondary';
+  isDisabled: boolean;
 };
 
 // Store core style and variant strings, instead of the component for better readability
@@ -19,10 +20,10 @@ const buttonStyles = {
 };
 
 // Submit button for forms
-export default function Button({ text, variant }: ButtonLinkProps) {
+export default function Button({ text, variant, isDisabled }: ButtonLinkProps) {
   const { core, secondary } = buttonStyles;
   return (
-    <button type="submit" className={`${core} ${variant ? buttonStyles[variant] : secondary}`}>
+    <button type="submit" className={`${core} ${variant ? buttonStyles[variant] : secondary}`} disabled={isDisabled}>
       {text}
     </button>
   );
