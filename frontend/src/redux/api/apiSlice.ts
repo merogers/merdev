@@ -1,11 +1,13 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { logIn, logOut } from '../features/auth/authSlice';
+import { BaseQueryApi, FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { logOut, setCredentials } from '../features/auth/authSlice';
+import type { RootState } from '../store';
 
-const baseQuery = fetchBaseQuery({
+export const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:5000/api/v1',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.authorizationToken;
+    const state = getState() as RootState;
+    const token = state.auth.authorizationToken;
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }
@@ -13,17 +15,16 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
   let result = baseQuery(args, api, extraOptions);
 
-  if (result?.error?.originalStatus === 403) {
-    console.log('sending refresh token');
+  const status = result?.error?.originalStatus;
+
+  if (status === 401 || status === 403) {
     const refreshResult = await baseQuery('/token/refresh', api, extraOptions);
-    console.log(refreshResult);
     if (refreshResult?.data) {
-      const { user } = api.getState().auth;
       // store new token
-      api.dispatch(logIn({ ...refreshResult.data, user }));
+      api.dispatch(setCredentials({ ...refreshResult.data }));
       // try query with new token
       result = await baseQuery(args, api, extraOptions);
     } else {
@@ -33,9 +34,23 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   return result;
 };
 
-export const apiSlice = createApi({
+const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  endpoints: builder => ({}),
+  endpoints: builder => ({
+    refresh: builder.query({
+      query: () => ({
+        url: '/token/refresh',
+        method: 'GET',
+      }),
+    }),
+    logout: builder.query({
+      query: () => ({
+        url: '/token/logout',
+        method: 'GET',
+      }),
+    }),
+  }),
 });
 
+export const { useRefreshQuery, useLogoutQuery } = apiSlice;
 export default apiSlice;

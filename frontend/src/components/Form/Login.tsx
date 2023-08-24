@@ -11,7 +11,7 @@ import Form, { LabelField } from './Form';
 import Button from '../Shared/Button';
 import { useLoginMutation } from '../../redux/features/auth/authApiSlice';
 import { useAppSelector } from '../../redux/store';
-import { logIn } from '../../redux/features/auth/authSlice';
+import { setCredentials } from '../../redux/features/auth/authSlice';
 
 export default function Login() {
   const [error, setError] = useState('');
@@ -39,7 +39,7 @@ export default function Login() {
     setError('');
     try {
       const loginData = await login(data).unwrap();
-      dispatch(logIn(loginData));
+      dispatch(setCredentials(loginData));
       router.push('/dashboard');
       if (loginData?.error?.status === 404) {
         setError('User not found');
