@@ -27,7 +27,8 @@ export default function Nav() {
 
   const pathname = usePathname();
 
-  const userAction = user ? 'Login' : 'Logout';
+  // If user, display logout, else display login
+  const authState = user ? 'Login' : 'Logout';
 
   return (
     <nav className="flex items-center">
@@ -37,7 +38,7 @@ export default function Nav() {
         } h-screen flex-col items-center justify-center md:flex-row transition-[top] md:relative md:h-full md:w-min pr-0 md:bottom-0 md:top-auto`}
       >
         {navLinks
-          .filter(({ title }) => title !== userAction)
+          .filter(({ title }) => title !== authState)
           .map(({ title, href }) => {
             const isActive = pathname === href;
 
