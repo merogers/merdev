@@ -6,10 +6,10 @@ import createError from 'http-errors';
 import { TokenRequest, TokenResponse } from '../types';
 
 const isAuthenticated = (req: TokenRequest, res: TokenResponse, next: NextFunction) => {
-  const accessToken = req.headers.authorization;
+  const authorizationToken = req.headers.authorization;
   const { refreshToken } = req.cookies;
 
-  if (!accessToken) {
+  if (!authorizationToken) {
     return next(createError(401, 'Access Denied. No Authentication token'));
   }
 
@@ -18,13 +18,13 @@ const isAuthenticated = (req: TokenRequest, res: TokenResponse, next: NextFuncti
   }
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(authorizationToken, process.env.JWT_SECRET);
     req.user = decoded.user;
 
-    const newAccessToken = jwt.sign({ user: decoded.user }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const newauthorizationToken = jwt.sign({ user: decoded.user }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' });
-    res.header('Authorization', newAccessToken);
+    res.header('Authorization', newauthorizationToken);
     return next();
   } catch (error) {
     return next(createError(400, 'Invalid Tokens'));
@@ -33,18 +33,18 @@ const isAuthenticated = (req: TokenRequest, res: TokenResponse, next: NextFuncti
 
 export const isOwner: RequestHandler = (req, _res, next) => {
   const { id } = req.params;
-  const accessToken = req.headers.authorization;
+  const authorizationToken = req.headers.authorization;
 
   if (!id) {
     return next(createError(401, 'Access Denied. No User Specified'));
   }
 
-  if (!accessToken) {
+  if (!authorizationToken) {
     return next(createError(401, 'Access Denied. No Authentication token'));
   }
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.CRYPTO_SECRET);
+    const decoded = jwt.verify(authorizationToken, process.env.CRYPTO_SECRET);
 
     if (decoded.id !== id) {
       return next(createError(401, 'Access Denied. Not owner'));

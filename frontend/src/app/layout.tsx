@@ -1,28 +1,27 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { Poppins } from 'next/font/google';
-import { Provider } from 'react-redux';
-import store from '../redux/store';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import ReduxProvider from '../redux/provider';
+import { Node } from '../types';
 
 import './globals.css';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['300', '500', '700'] });
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: Node) {
   return (
-    <Provider store={store}>
-      <html lang="en">
-        <body className={poppins.className}>
-          <div className="flex flex-col  h-full">
+    <html lang="en">
+      <body className={poppins.className}>
+        <ReduxProvider>
+          <div className="flex flex-col h-full">
             <Header title="My Portfolio" />
             {children}
             <Footer title="My Portfolio" />
           </div>
-        </body>
-      </html>
-    </Provider>
+        </ReduxProvider>
+      </body>
+    </html>
   );
 }

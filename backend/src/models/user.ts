@@ -22,7 +22,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  accessToken: {
+  authorizationToken: {
+    type: String,
+  },
+  refreshToken: {
     type: String,
   },
 });

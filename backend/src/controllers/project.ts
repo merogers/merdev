@@ -22,16 +22,16 @@ const storage = new Storage({
 const bucket = storage.bucket(process.env.BUCKET);
 
 const getProjects: RequestHandler = async (req, res, next) => {
-  const accessToken = req.headers.authorization;
+  const authorizationToken = req.headers.authorization;
 
   try {
     // If bad or no token, just send latest projects
-    if (!accessToken) {
+    if (!authorizationToken) {
       const latestProjects = await Project.find().sort({ updatedAt: -1 }).limit(5);
       return res.status(200).json(latestProjects);
     }
 
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(authorizationToken, process.env.JWT_SECRET);
 
     // Quick check for user
     const userExists = await User.findById(decoded.id);
@@ -61,8 +61,8 @@ export const getProjectDetails: RequestHandler = async (req, res, next) => {
 export const postNewProject = async (req: ProjectRequest, res: Response, next: NextFunction) => {
   const { title, description, tags, codeUrl, demoUrl } = req.body;
 
-  const accessToken = req.headers.authorization;
-  const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+  const authorizationToken = req.headers.authorization;
+  const decoded = jwt.verify(authorizationToken, process.env.JWT_SECRET);
 
   // Abort if no project details
   if (!title || !description || !tags || !codeUrl || !demoUrl) {

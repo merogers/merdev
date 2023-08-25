@@ -21,11 +21,11 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     const expectedHash = hashString(user.salt, password);
     if (user.password !== expectedHash) return next(createError(401, 'Invalid password'));
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const authorizationToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     await User.findByIdAndUpdate(user.id, {
-      accessToken: refreshToken,
+      refreshToken,
     });
 
     // Return updated user data, ignore credentials.
@@ -34,16 +34,17 @@ export const loginUser: RequestHandler = async (req, res, next) => {
     await sessionUser.populate('projects');
 
     // Set Auth Header
-    res.header('Authorization', accessToken);
+    res.header('Authorization', authorizationToken);
 
     // Set HTTP Only Cookie
     res.cookie('refreshToken', refreshToken, {
-      secure: process.env.NODE_ENV !== 'development',
+      secure: true,
       httpOnly: true,
       sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ user: sessionUser });
+    return res.status(200).json({ user: sessionUser, authorizationToken });
   } catch (error) {
     console.error(error);
     return next(createError(500, 'Failed to log in user'));
@@ -82,7 +83,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       lastName,
       password: hashString(salt, password),
       salt,
-      accessToken: '',
+      authorizationToken: '',
     });
 
     await newUser.save();
@@ -91,24 +92,5 @@ export const registerUser: RequestHandler = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     return next(createError(500, 'Failed to register user'));
-  }
-};
-
-// --- Refresh Token --- //
-
-export const refresh: RequestHandler = async (req, res, next) => {
-  const { refreshToken } = req.cookies;
-
-  if (!refreshToken) {
-    return next(createError(401, 'Access denied. No refresh token'));
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, process.env.SECRET);
-    const accessToken = jwt.sign({ user: decoded.user }, process.env.SECRET, { expiresIn: '1h' });
-
-    return res.header('Authorization', accessToken).send(decoded.user);
-  } catch (error) {
-    return next(createError(400, 'Invalid refresh token'));
   }
 };
