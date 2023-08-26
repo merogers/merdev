@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { H2 } from '../Shared/Typography';
-import Form, { LabelField } from './Form';
+import Form, { FormFieldContainer, FormInput, FormLabel, LabelField } from './Form';
 import Button from '../Shared/Button';
 import { useLoginMutation } from '../../redux/features/auth/authApiSlice';
 import { useAppSelector } from '../../redux/store';
@@ -15,6 +15,8 @@ import { setCredentials } from '../../redux/features/auth/authSlice';
 
 export default function Login() {
   const [error, setError] = useState('');
+
+  const emailRef = useRef<null | HTMLInputElement>(null);
 
   const loginSchema = z.object({
     email: z.string().email(),
@@ -51,18 +53,33 @@ export default function Login() {
     }
   }
 
+  useEffect(() => {
+    console.log(emailRef);
+    if (emailRef.current) {
+      emailRef.current.focus();
+    }
+  }, []);
+
   return (
     <Form onSubmit={handleSubmit(submitData)}>
       <div className="flex mt-4 justify-center">
         <H2>Login</H2>
       </div>
       <div className="my-4">
-        <LabelField name="email" title="Email" type="text" register={register} error={errors.email} />
-        <LabelField name="password" title="Password" type="password" register={register} error={errors.password} />
-      </div>
-      {error && <div className="text-red-500 text-sm mx-auto">{error}</div>}
-      <div className="mt-8 flex justify-center">
-        <Button text={`${isLoading ? 'Loading' : 'Login'}`} isDisabled={isLoading} />
+        <FormFieldContainer>
+          <FormLabel title="Email" name="email" />
+          <FormInput type="text" name="email" register={register} ref={emailRef} />
+          {errors.email && <div className="mt-1 text-red-500 text-sm">{errors.email.message}</div>}
+        </FormFieldContainer>
+        <FormFieldContainer>
+          <FormLabel title="Password" name="password" />
+          <FormInput type="password" name="password" register={register} />
+          {errors.password && <div className="mt-1 text-red-500 text-sm">{errors.password.message}</div>}
+        </FormFieldContainer>
+
+        <div className="mt-8 flex justify-center">
+          <Button text={`${isLoading ? 'Loading' : 'Login'}`} isDisabled={isLoading} />
+        </div>
       </div>
     </Form>
   );
