@@ -7,23 +7,19 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { H2 } from '../Shared/Typography';
-import Form, { FormFieldContainer, FormInput, FormLabel, LabelField } from './Form';
+import Form, { Input, Label, ErrorMessage } from './Form';
 import Button from '../Shared/Button';
 import { useLoginMutation } from '../../redux/features/auth/authApiSlice';
-import { useAppSelector } from '../../redux/store';
 import { setCredentials } from '../../redux/features/auth/authSlice';
 
 export default function Login() {
   const [error, setError] = useState('');
-
-  const emailRef = useRef<null | HTMLInputElement>(null);
 
   const loginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(5).max(20),
   });
 
-  // const { user, authorizationToken } = useAppSelector(state => state.auth);
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -34,6 +30,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema) });
 
@@ -53,33 +50,26 @@ export default function Login() {
     }
   }
 
+  // React Hook form - Set focus on first field
   useEffect(() => {
-    console.log(emailRef);
-    if (emailRef.current) {
-      emailRef.current.focus();
-    }
-  }, []);
+    setFocus('email');
+  }, [setFocus]);
 
   return (
     <Form onSubmit={handleSubmit(submitData)}>
-      <div className="flex mt-4 justify-center">
+      <div className="w-4/5 mx-auto flex flex-col items-center my-8">
         <H2>Login</H2>
-      </div>
-      <div className="my-4">
-        <FormFieldContainer>
-          <FormLabel title="Email" name="email" />
-          <FormInput type="text" name="email" register={register} ref={emailRef} />
-          {errors.email && <div className="mt-1 text-red-500 text-sm">{errors.email.message}</div>}
-        </FormFieldContainer>
-        <FormFieldContainer>
-          <FormLabel title="Password" name="password" />
-          <FormInput type="password" name="password" register={register} />
-          {errors.password && <div className="mt-1 text-red-500 text-sm">{errors.password.message}</div>}
-        </FormFieldContainer>
-
-        <div className="mt-8 flex justify-center">
-          <Button text={`${isLoading ? 'Loading' : 'Login'}`} isDisabled={isLoading} />
+        <div className="w-full my-8">
+          <Label name="email" title="Email" />
+          <Input type="text" name="email" error={errors.password} register={register} />
+          {errors.email && <ErrorMessage text={errors.email.message} />}
         </div>
+        <div className="w-full mb-12">
+          <Label name="password" title="Password" />
+          <Input type="password" name="password" error={errors.password} register={register} />
+          {errors.password && <ErrorMessage text={errors.password.message} />}
+        </div>
+        <Button text="Submit" variant="secondary" isDisabled={isLoading} />
       </div>
     </Form>
   );
