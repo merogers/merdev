@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type User = {
   password: string;
   email: string;
+  firstName?: string;
+  lastName?: string;
 };
 
 export type InitialState = {
@@ -10,7 +12,7 @@ export type InitialState = {
   authorizationToken: string;
 };
 
-type Payload = {
+export type Payload = {
   user: User;
   authorizationToken: string;
 };
@@ -25,7 +27,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logOut: () => initialState,
-    setCredentials: (state, action: PayloadAction<Payload>) => {
+    // ! Fix any
+    setCredentials: (state, action: PayloadAction<any>) => {
       state.user = action.payload.user;
       state.authorizationToken = action.payload.authorizationToken;
     },

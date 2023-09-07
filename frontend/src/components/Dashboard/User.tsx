@@ -33,7 +33,7 @@ export default function User() {
     } else {
       verifyRefreshToken();
     }
-  }, [isLoading]);
+  }, [isLoading, user, router, data, dispatch, error]);
 
   if (user)
     return (

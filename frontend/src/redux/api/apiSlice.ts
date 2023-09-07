@@ -16,7 +16,8 @@ export const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
-  let result = baseQuery(args, api, extraOptions);
+  // ! fix any
+  let result: any = baseQuery(args, api, extraOptions);
 
   const status = result?.error?.originalStatus;
 
@@ -37,13 +38,29 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
 const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({
-    refresh: builder.query({
+    // --- Auth --- //
+    login: builder.mutation({
+      query: credentials => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: { ...credentials },
+      }),
+    }),
+    register: builder.mutation({
+      query: credentials => ({
+        url: '/auth',
+        method: 'POST',
+        body: { ...credentials },
+      }),
+    }),
+    // --- Token --- //
+    refresh: builder.query<{}, void>({
       query: () => ({
         url: '/token/refresh',
         method: 'GET',
       }),
     }),
-    logout: builder.query({
+    logout: builder.query<{}, void>({
       query: () => ({
         url: '/token/logout',
         method: 'GET',
@@ -52,5 +69,6 @@ const apiSlice = createApi({
   }),
 });
 
-export const { useRefreshQuery, useLogoutQuery } = apiSlice;
+export const { useLoginMutation, useRefreshQuery, useRegisterMutation, useLogoutQuery } = apiSlice;
+
 export default apiSlice;

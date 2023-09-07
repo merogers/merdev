@@ -1,16 +1,24 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { H2 } from '../Shared/Typography';
-import Form, { LabelField } from './Form';
+import Form, { Input, Label, ErrorMessage } from './Form';
 import Button from '../Shared/Button';
+import { useRegisterMutation } from '../../redux/api/apiSlice';
+import { ErrorMsg } from '../../types';
 
-export default function Register() {
-  const loginSchema = z
+export default function Login() {
+  // If things go on login, display error to user
+  const [userMessage, setUserMessage] = useState('');
+
+  const registerSchema = z
     .object({
-      name: z.string().min(2).max(30),
+      firstName: z.string().min(2).max(30),
+      lastName: z.string().min(2).max(30),
       email: z.string().email(),
       password: z.string().min(5).max(20),
       confirmPassword: z.string().min(5).max(20),
@@ -20,37 +28,77 @@ export default function Register() {
       path: ['confirmPassword'],
     });
 
+  const [register, { isLoading }] = useRegisterMutation();
+  const router = useRouter();
+
   // Infer the type from already defined schema
-  type loginSchemaType = z.infer<typeof loginSchema>;
+  type registerSchemaType = z.infer<typeof registerSchema>;
 
+  // Grab the stuff from useForm
   const {
-    register,
+    register: formRegister,
     handleSubmit,
+    setFocus,
     formState: { errors },
-  } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema) });
+  } = useForm<registerSchemaType>({ resolver: zodResolver(registerSchema) });
 
-  function submitData(data: loginSchemaType) {
-    console.log(data);
+  // Submit data with RTK Query, and bring user to dashboard
+  async function submitData(data: registerSchemaType) {
+    setUserMessage('');
+    try {
+      // Do register function
+      const registerData = await register(data).unwrap();
+
+      if (registerData) {
+        // dispatch(setCredentials(loginData));
+        // Move to dashboard
+        router.push('/login');
+      }
+    } catch (error: unknown) {
+      setUserMessage((error as ErrorMsg).data.message);
+    }
   }
+
+  // React Hook form - Set focus on first field
+  useEffect(() => {
+    setFocus('firstName');
+  }, [setFocus]);
+
   return (
     <Form onSubmit={handleSubmit(submitData)}>
-      <div className="flex mt-4 justify-center">
+      <div className="w-4/5 mx-auto flex flex-col items-center my-8">
         <H2>Register</H2>
-      </div>
-      <div className="my-4">
-        <LabelField name="name" title="Name" type="text" register={register} error={errors.name} />
-        <LabelField name="email" title="Email" type="text" register={register} error={errors.email} />
-        <LabelField name="password" title="Password" type="password" register={register} error={errors.password} />
-        <LabelField
-          name="confirmPassword"
-          title="Confirm Password"
-          type="password"
-          register={register}
-          error={errors.confirmPassword}
-        />
-      </div>
-      <div className="mt-8 flex justify-center">
-        <Button text="Register" />
+
+        <div className="w-full my-8">
+          <Label name="firstName" title="First name" />
+          <Input type="text" name="firstName" error={errors.firstName} register={formRegister} />
+          {errors.firstName && <ErrorMessage text={errors.firstName.message} />}
+        </div>
+        <div className="w-full mb-8">
+          <Label name="lastName" title="Last Name" />
+          <Input type="text" name="lastName" error={errors.lastName} register={formRegister} />
+          {errors.lastName && <ErrorMessage text={errors.lastName.message} />}
+        </div>
+
+        <div className="w-full mb-8">
+          <Label name="email" title="Email" />
+          <Input type="text" name="email" error={errors.password} register={formRegister} />
+          {errors.email && <ErrorMessage text={errors.email.message} />}
+        </div>
+
+        <div className="w-full mb-8">
+          <Label name="password" title="Password" />
+          <Input type="password" name="password" error={errors.password} register={formRegister} />
+          {errors.password && <ErrorMessage text={errors.password.message} />}
+        </div>
+        <div className="w-full mb-8">
+          <Label name="confirmPassword" title="Confirm Password" />
+          <Input type="password" name="confirmPassword" error={errors.confirmPassword} register={formRegister} />
+          {errors.confirmPassword && <ErrorMessage text={errors.confirmPassword.message} />}
+        </div>
+
+        {userMessage && <div className="mb-8 text-red-500">{userMessage}</div>}
+        <Button text={'Submit'} variant="secondary" isDisabled={isLoading} />
       </div>
     </Form>
   );

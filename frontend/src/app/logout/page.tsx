@@ -19,7 +19,10 @@ export default function LogoutPage() {
       dispatch(logOut());
       return router.push('/login');
     }
-  }, [isLoading]);
+
+    // TODO: Is this the right thing to do?
+    return (): void => {};
+  }, [isLoading, dispatch, router]);
 
   return (
     <Main height="min-h-min">
