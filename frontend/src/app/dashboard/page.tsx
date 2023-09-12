@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <Main height="min-h-min">
       <Container>
         <div className="flex gap-2 flex-col w-full my-0 md:my-8">
-          <div className="flex w-full max-w-xl mx-auto">
+          <div className="flex w-full flex-col max-w-3xl mx-auto">
             <User />
           </div>
         </div>

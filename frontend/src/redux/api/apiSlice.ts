@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { BaseQueryApi, FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logOut, setCredentials } from '../features/auth/authSlice';
 import type { RootState } from '../store';
@@ -29,7 +30,9 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
       // try query with new token
       result = await baseQuery(args, api, extraOptions);
     } else {
+      // If refresh fails, reset user state and navigate to login
       api.dispatch(logOut);
+      Router.push('/login');
     }
   }
   return result;
@@ -69,6 +72,6 @@ const apiSlice = createApi({
   }),
 });
 
-export const { useLoginMutation, useRefreshQuery, useRegisterMutation, useLogoutQuery } = apiSlice;
+export const { useLoginMutation, useRefreshQuery, useRegisterMutation, useLogoutQuery, useLazyRefreshQuery } = apiSlice;
 
 export default apiSlice;

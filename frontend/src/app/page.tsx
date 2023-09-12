@@ -1,6 +1,7 @@
 import Main from '../components/Shared/Main';
 import Container from '../components/Shared/Container';
 import { ButtonLink } from '../components/Shared/Button';
+import Spinner from '../components/Shared/Spinner';
 
 export const metadata = {
   title: 'My Portfolio',
@@ -20,6 +21,7 @@ export default function HomePage() {
             <ButtonLink href="/projects" text="View Projects" />
             <ButtonLink href="/" variant="primary" text="Download Resume" />
           </div>
+          <Spinner />
         </div>
       </Container>
     </Main>
