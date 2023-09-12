@@ -5,6 +5,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import ReduxProvider from '../redux/provider';
 import { Node } from '../types';
+import IsAuth from '../components/Shared/IsAuth';
 
 import './globals.css';
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: Node) {
     <html lang="en">
       <body className={poppins.className}>
         <ReduxProvider>
+          <IsAuth />
           <div className="flex flex-col h-full">
             <Header title="My Portfolio" />
             {children}

@@ -1,4 +1,10 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
+import Link from 'next/link';
+
+type LinkTextProps = {
+  children: ReactNode;
+  href: string;
+};
 
 export function H1({ children }: PropsWithChildren) {
   return <h1 className="text-5xl md:text-5xl text-secondary-500 font-bold mb-4">{children}</h1>;
@@ -37,6 +43,14 @@ export function Tag({ children }: PropsWithChildren) {
     <div className="bg-secondary-400 text-secondary-50 md:py-0.5 py-py px-2 md:px-3 uppercase rounded-sm font-light text-sm md:text-base tracking-wide">
       {children}
     </div>
+  );
+}
+
+export function LinkText({ href, children }: LinkTextProps) {
+  return (
+    <Link className="text-primary-300 text-semibold mx-1 hover:text-primary-100 transition-colors" href={href}>
+      {children}
+    </Link>
   );
 }
 

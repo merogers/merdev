@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { BaseQueryApi, FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logOut, setCredentials } from '../features/auth/authSlice';
 import type { RootState } from '../store';
@@ -16,7 +17,8 @@ export const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
-  let result = baseQuery(args, api, extraOptions);
+  // ! fix any
+  let result: any = baseQuery(args, api, extraOptions);
 
   const status = result?.error?.originalStatus;
 
@@ -28,7 +30,9 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
       // try query with new token
       result = await baseQuery(args, api, extraOptions);
     } else {
+      // If refresh fails, reset user state and navigate to login
       api.dispatch(logOut);
+      Router.push('/login');
     }
   }
   return result;
@@ -37,13 +41,29 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
 const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: builder => ({
-    refresh: builder.query({
+    // --- Auth --- //
+    login: builder.mutation({
+      query: credentials => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: { ...credentials },
+      }),
+    }),
+    register: builder.mutation({
+      query: credentials => ({
+        url: '/auth',
+        method: 'POST',
+        body: { ...credentials },
+      }),
+    }),
+    // --- Token --- //
+    refresh: builder.query<{}, void>({
       query: () => ({
         url: '/token/refresh',
         method: 'GET',
       }),
     }),
-    logout: builder.query({
+    logout: builder.query<{}, void>({
       query: () => ({
         url: '/token/logout',
         method: 'GET',
@@ -52,5 +72,6 @@ const apiSlice = createApi({
   }),
 });
 
-export const { useRefreshQuery, useLogoutQuery } = apiSlice;
+export const { useLoginMutation, useRefreshQuery, useRegisterMutation, useLogoutQuery, useLazyRefreshQuery } = apiSlice;
+
 export default apiSlice;
