@@ -1,7 +1,12 @@
 import React from 'react';
-import Container from '../../components/Shared/Container';
-import Main from '../../components/Shared/Main';
-import User from '../../components/Dashboard/User';
+import Container from '@/components/Shared/Container';
+import Main from '@/components/Shared/Main';
+import User from '@/components/Dashboard/User';
+
+export const metadata = {
+  title: 'Dashboard',
+  description: 'Herp Derp',
+};
 
 export default function DashboardPage() {
   return (

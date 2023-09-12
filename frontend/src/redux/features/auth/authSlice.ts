@@ -1,19 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type User = {
-  password: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-};
+import type { UserModel } from '@/models/User';
 
 export type InitialState = {
-  user: User | null;
+  user: UserModel | null;
   authorizationToken: string;
 };
 
 export type Payload = {
-  user: User;
+  user: UserModel;
   authorizationToken: string;
 };
 
@@ -22,13 +16,26 @@ const initialState = {
   authorizationToken: '',
 } as InitialState;
 
+type SetCredentialsAction<P = void, T extends string = string, M = never, E = never> = {
+  payload: P;
+  type: T;
+} & ([M] extends [never]
+  ? Payload
+  : {
+      meta: M;
+    }) &
+  ([E] extends [never]
+    ? {}
+    : {
+        error: E;
+      });
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logOut: () => initialState,
-    // ! Fix any
-    setCredentials: (state, action: PayloadAction<any>) => {
+    setCredentials: (state, action: PayloadAction<SetCredentialsAction>) => {
       state.user = action.payload.user;
       state.authorizationToken = action.payload.authorizationToken;
     },

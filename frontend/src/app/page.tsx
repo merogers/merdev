@@ -1,7 +1,7 @@
-import Main from '../components/Shared/Main';
-import Container from '../components/Shared/Container';
-import { ButtonLink } from '../components/Shared/Button';
-import Spinner from '../components/Shared/Spinner';
+import Main from '@/components/Shared/Main';
+import Container from '@/components/Shared/Container';
+import { ButtonLink } from '@/components/Shared/Button';
+import Spinner from '@/components/Shared/Spinner';
 
 export const metadata = {
   title: 'My Portfolio',
@@ -18,8 +18,8 @@ export default function HomePage() {
             <span className="text-primary-300"> Full-Stack Developer</span>
           </h1>
           <div className="flex gap-4 mt-16 flex-col md:flex-row w-full justify-center md:justify-start">
-            <ButtonLink href="/projects" text="View Projects" />
-            <ButtonLink href="/" variant="primary" text="Download Resume" />
+            <ButtonLink href="/projects" text="View Projects" size="lg" />
+            <ButtonLink href="/" variant="primary" text="Download Resume" size="lg" />
           </div>
           <Spinner />
         </div>

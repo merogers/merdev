@@ -13,7 +13,7 @@ export const navLinks = [
   { title: 'Contact', href: '/contact' },
   { title: 'Register', href: '/register' },
   { title: 'Login', href: '/login' },
-  { title: 'Logout', href: '/logout' },
+  { title: 'Dashboard', href: '/dashboard' },
 ];
 
 export default function Nav() {
@@ -28,7 +28,7 @@ export default function Nav() {
   const pathname = usePathname();
 
   // If user, display logout, else display login
-  const authState = user ? 'Login' : 'Logout';
+  const authState = user ? 'Login' : 'Dashboard';
 
   return (
     <nav className="flex items-center">

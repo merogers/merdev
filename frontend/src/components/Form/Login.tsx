@@ -35,7 +35,8 @@ export default function Login() {
     handleSubmit,
     setFocus,
     formState: { errors },
-  } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema) });
+    // TODO: Remove default values for Production
+  } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema), defaultValues: { email: 'scotty@gmail.com', password: '123456' } });
 
   // Submit data with RTK Query, and bring user to dashboard
   async function submitData(data: loginSchemaType) {
@@ -60,7 +61,7 @@ export default function Login() {
   }, [setFocus]);
 
   return (
-    <Form onSubmit={handleSubmit(submitData)}>
+    <Form onSubmit={handleSubmit(submitData)} >
       <div className="w-4/5 mx-auto flex flex-col items-center my-8">
         <H2>Login</H2>
         <div className="w-full my-8">
