@@ -5,11 +5,11 @@ import User from '@/components/Dashboard/User';
 import ProjectList from '@/components/Dashboard/ProjectList';
 
 export const metadata = {
-  title: 'Dashboard',
+  title: 'New Project',
   description: 'Herp Derp',
 };
 
-export default function DashboardPage() {
+export default function NewProjectPage() {
   return (
     <Main height="min-h-min">
       <Container>
