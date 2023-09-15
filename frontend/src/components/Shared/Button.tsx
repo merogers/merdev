@@ -63,6 +63,7 @@ export function ExternalLink({ href, text, variant, size }: ButtonProps) {
     <a
       href={href}
       target="_blank"
+      rel="noreferrer"
       className={`${core} ${size === 'lg' && lg} ${size === 'sm' && sm} ${size === 'stretch' && stretch} ${
         variant ? buttonStyles[variant] : secondary
       }`}

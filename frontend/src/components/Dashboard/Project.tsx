@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from '@/components/Shared/Card';
-import P, { H3, Tag, Subtitle } from '@/components/Shared/Typography';
-import Button, { ExternalLink } from '@/components/Shared/Button';
+import P, { H3, Subtitle } from '@/components/Shared/Typography';
+import Button from '@/components/Shared/Button';
 import Link from 'next/link';
 import { ProjectModel } from '@/models/Project';
 

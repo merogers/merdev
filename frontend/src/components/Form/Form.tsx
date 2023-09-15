@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { ReactNode, FormEventHandler } from 'react';
+import { FieldError, FieldValues, UseFormRegister } from 'react-hook-form';
 
 type LabelProps = {
   title: string;
@@ -10,12 +10,12 @@ type InputProps = {
   type: 'text' | 'password';
   name: string;
   error?: FieldError | null;
-  register: any;
+  register: UseFormRegister<FieldValues>;
 };
 
 type FormProps = {
   children: ReactNode;
-  onSubmit: any;
+  onSubmit: FormEventHandler<HTMLFormElement> | undefined;
 };
 
 type ErrorMessageProps = {
@@ -30,16 +30,18 @@ export function Label({ name, title }: LabelProps) {
   );
 }
 
-export const Input = ({ type, name, error, register }: InputProps) => (
-  <input
-    type={type}
-    id={name}
-    {...register(name)}
-    className={`w-full h-8 text-sm peer outline-none border-b-2 text-secondary-300 ${
-      error ? 'border-b-red-500' : ' border-b-gray-300 focus:border-b-primary-200 '
-    }  transition-colors`}
-  />
-);
+export function Input({ type, name, error, register }: InputProps) {
+  return (
+    <input
+      type={type}
+      id={name}
+      {...register(name)}
+      className={`w-full h-8 text-sm peer outline-none border-b-2 text-secondary-300 ${
+        error ? 'border-b-red-500' : ' border-b-gray-300 focus:border-b-primary-200 '
+      }  transition-colors`}
+    />
+  );
+}
 
 Input.displayName = 'Form Input';
 

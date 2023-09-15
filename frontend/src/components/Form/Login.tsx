@@ -26,7 +26,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
   // Infer the type from already defined schema
-  type loginSchemaType = z.infer<typeof loginSchema>;
+  type LoginSchemaType = z.infer<typeof loginSchema>;
 
   // Grab the stuff from useForm
   const {
@@ -35,13 +35,13 @@ export default function Login() {
     setFocus,
     formState: { errors },
     // TODO: Remove default values for Production
-  } = useForm<loginSchemaType>({
+  } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: 'scotty@gmail.com', password: '123456' },
   });
 
   // Submit data with RTK Query, and bring user to dashboard
-  async function submitData(data: loginSchemaType) {
+  async function submitData(data: LoginSchemaType) {
     setUserMessage('');
     try {
       // Do login function
@@ -77,7 +77,7 @@ export default function Login() {
           {errors.password && <ErrorMessage text={errors.password.message} />}
         </div>
         {userMessage && <div className="mb-8 text-red-500">{userMessage}</div>}
-        <Button text={'Submit'} variant="secondary" isDisabled={isLoading} size="lg" />
+        <Button text="Submit" variant="secondary" isDisabled={isLoading} size="lg" />
       </div>
     </Form>
   );

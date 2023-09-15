@@ -32,7 +32,7 @@ export default function Login() {
   const router = useRouter();
 
   // Infer the type from already defined schema
-  type registerSchemaType = z.infer<typeof registerSchema>;
+  type RegisterSchemaType = z.infer<typeof registerSchema>;
 
   // Grab the stuff from useForm
   const {
@@ -40,10 +40,10 @@ export default function Login() {
     handleSubmit,
     setFocus,
     formState: { errors },
-  } = useForm<registerSchemaType>({ resolver: zodResolver(registerSchema) });
+  } = useForm<RegisterSchemaType>({ resolver: zodResolver(registerSchema) });
 
   // Submit data with RTK Query, and bring user to dashboard
-  async function submitData(data: registerSchemaType) {
+  async function submitData(data: RegisterSchemaType) {
     setUserMessage('');
     try {
       // Do register function
@@ -98,7 +98,7 @@ export default function Login() {
         </div>
 
         {userMessage && <div className="mb-8 text-red-500">{userMessage}</div>}
-        <Button text={'Submit'} variant="secondary" isDisabled={isLoading} />
+        <Button text="Submit" variant="secondary" isDisabled={isLoading} size="lg" />
       </div>
     </Form>
   );

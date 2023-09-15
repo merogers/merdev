@@ -7,6 +7,8 @@ const UserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   projects: z.array(ProjectSchema).optional(),
+  salt: z.string().optional(),
+  refreshToken: z.string().optional(),
 });
 
 export type UserModel = z.infer<typeof UserSchema>;
