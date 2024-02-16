@@ -1,4 +1,4 @@
-import Router from 'next/router';
+//import { Navigate } from 'react-router-dom';
 import { BaseQueryApi, FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logOut, setCredentials } from '../features/auth/authSlice';
 import type { RootState } from '../store';
@@ -31,7 +31,7 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
     } else {
       // If refresh fails, reset user state and navigate to login
       api.dispatch(logOut);
-      Router.push('/login');
+      // <Navigate to="/dashboard" replace="true">
     }
   }
   return result;
