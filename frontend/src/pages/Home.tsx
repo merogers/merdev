@@ -1,6 +1,6 @@
 import Main from '../components/Main';
 import { ButtonLink } from '../components/Button';
-import Spinner from '../components/Shared/Spinner';
+import Spinner from '../components/Spinner';
 import Container from '../components/Container';
 
 export default function Home({ name = 'Jim', title = 'Developer' }) {

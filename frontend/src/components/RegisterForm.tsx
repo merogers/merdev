@@ -9,7 +9,7 @@ import Button from './Button';
 import { useRegisterMutation } from '../redux/api/apiSlice';
 import { ErrorMsg } from '../types';
 
-export default function Login() {
+export default function RegisterForm() {
   // If things go on login, display error to user
   const [userMessage, setUserMessage] = useState('');
 

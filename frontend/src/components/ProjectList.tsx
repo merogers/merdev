@@ -8,6 +8,8 @@ import Project from './Project';
 export default function ProjectList() {
   const { user } = useAppSelector(state => state.auth);
 
+  console.log(user);
+
   const projectCount = user?.projects?.length;
 
   const testProject: ProjectModel = {
