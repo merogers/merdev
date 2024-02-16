@@ -17,13 +17,12 @@ export const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
-  // ! fix any
+  // ! fix anys
   let result: any = baseQuery(args, api, extraOptions);
-
   const status = result?.error?.originalStatus;
 
   if (status === 401 || status === 403) {
-    const refreshResult = await baseQuery('/token/refresh', api, extraOptions);
+    const refreshResult: any = await baseQuery('/token/refresh', api, extraOptions);
     if (refreshResult?.data) {
       // store new token
       api.dispatch(setCredentials({ ...refreshResult.data }));
@@ -57,7 +56,7 @@ const apiSlice = createApi({
       }),
     }),
     // --- Token --- //
-    refresh: builder.query<{}, void>({
+    refresh: builder.query<any, void>({
       query: () => ({
         url: '/token/refresh',
         method: 'GET',

@@ -59,6 +59,7 @@ export default function Nav() {
       </ul>
       <button
         className="fixed right-4 md:hidden px-4 py-2 rounded-sm z-20 text-gray-400 hover:text-white transition-colors top-0 h-full"
+        type="button"
         onClick={() => toggleOpen()}
       >
         {isOpen ? <X /> : <Menu />}

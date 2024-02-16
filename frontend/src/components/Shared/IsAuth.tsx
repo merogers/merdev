@@ -19,7 +19,7 @@ export default function IsAuth() {
       // If you are already logged in, ignore this.
       if (user) return;
 
-      // Hit refresh query
+      // Hit refresh query - This any is a total can of worms.
       const result = await fetchTrigger();
 
       // If you have auth, set user and go to dashboard
@@ -32,6 +32,4 @@ export default function IsAuth() {
     // NOTE: Only run on initial load. This is just for persisting authentication.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  return <></>;
 }

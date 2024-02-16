@@ -1,11 +1,11 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { H2 } from '../Shared/Typography';
 import Form, { Input, Label, ErrorMessage } from './Form';
 import Button from '../Shared/Button';
@@ -25,9 +25,8 @@ export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const router = useRouter();
-
   // Infer the type from already defined schema
-  type loginSchemaType = z.infer<typeof loginSchema>;
+  type LoginSchemaType = z.infer<typeof loginSchema>;
 
   // Grab the stuff from useForm
   const {
@@ -36,10 +35,13 @@ export default function Login() {
     setFocus,
     formState: { errors },
     // TODO: Remove default values for Production
-  } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema), defaultValues: { email: 'scotty@gmail.com', password: '123456' } });
+  } = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: 'scotty@gmail.com', password: '123456' },
+  });
 
   // Submit data with RTK Query, and bring user to dashboard
-  async function submitData(data: loginSchemaType) {
+  async function submitData(data: LoginSchemaType) {
     setUserMessage('');
     try {
       // Do login function
@@ -61,7 +63,7 @@ export default function Login() {
   }, [setFocus]);
 
   return (
-    <Form onSubmit={handleSubmit(submitData)} >
+    <Form onSubmit={handleSubmit(submitData)}>
       <div className="w-4/5 mx-auto flex flex-col items-center my-8">
         <H2>Login</H2>
         <div className="w-full my-8">
@@ -75,7 +77,7 @@ export default function Login() {
           {errors.password && <ErrorMessage text={errors.password.message} />}
         </div>
         {userMessage && <div className="mb-8 text-red-500">{userMessage}</div>}
-        <Button text={'Submit'} variant="secondary" isDisabled={isLoading} />
+        <Button text="Submit" variant="secondary" isDisabled={isLoading} size="lg" />
       </div>
     </Form>
   );

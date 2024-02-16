@@ -1,9 +1,8 @@
-import React from 'react';
+import { ProjectModel } from '@/models/Project';
+import Image from 'next/image';
 import Card from './Card';
 import P, { H3, Tag, Subtitle } from './Typography';
 import { ExternalLink } from './Button';
-import { ProjectModel } from '@/models/Project';
-import Image from 'next/image';
 
 type ProjectProps = {
   project: ProjectModel;
@@ -17,7 +16,7 @@ export default function Project({ project }: ProjectProps) {
         <div className="flex w-full h-64 overflow-hidden relative group">
           <Image
             src={screenshotUrl}
-            fill={true}
+            fill
             alt={title}
             className="transition-opacity group-hover:opacity-75 object-cover object-top"
           />
