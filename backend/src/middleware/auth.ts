@@ -21,10 +21,10 @@ const isAuthenticated = (req: TokenRequest, res: TokenResponse, next: NextFuncti
     const decoded = jwt.verify(authorizationToken, process.env.JWT_SECRET);
     req.user = decoded.user;
 
-    const newauthorizationToken = jwt.sign({ user: decoded.user }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const newAuthorizationToken = jwt.sign({ user: decoded.user }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'strict' });
-    res.header('Authorization', newauthorizationToken);
+    res.header('Authorization', newAuthorizationToken);
     return next();
   } catch (error) {
     return next(createError(400, 'Invalid Tokens'));

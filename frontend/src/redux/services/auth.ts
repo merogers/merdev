@@ -20,18 +20,21 @@ export interface LoginRequest {
   password: string;
 }
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: '/api/v1/',
+  credentials: 'include',
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.authorizationToken;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
 export const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1/',
-    prepareHeaders: (headers, { getState }) => {
-      // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = (getState() as RootState).auth.authorizationToken;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQuery,
+  tagTypes: ['User'],
   endpoints: builder => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: credentials => ({
@@ -47,9 +50,15 @@ export const api = createApi({
         body: credentials,
       }),
     }),
-    logout: builder.query<object, void>({
+    logout: builder.query<UserResponse, void>({
       query: () => ({
         url: '/token/logout',
+        method: 'GET',
+      }),
+    }),
+    refresh: builder.query<object, void>({
+      query: () => ({
+        url: '/token/refresh',
         method: 'GET',
       }),
     }),
@@ -59,4 +68,4 @@ export const api = createApi({
   }),
 });
 
-export const { useLoginMutation, useProtectedMutation, useRegisterMutation, useLogoutQuery } = api;
+export const { useLoginMutation, useProtectedMutation, useRegisterMutation, useLogoutQuery, useLazyRefreshQuery } = api;
