@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { X, Menu } from 'react-feather';
-import { useAppSelector } from '../redux/store';
+import { useTypedSelector } from '../redux/store';
 
 export const navLinks = [
   { title: 'Home', href: '/' },
@@ -14,7 +14,7 @@ export const navLinks = [
 ];
 
 export default function Nav() {
-  const { user } = useAppSelector(state => state.auth);
+  const { user } = useTypedSelector(state => state.auth);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

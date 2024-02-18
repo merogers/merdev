@@ -1,12 +1,12 @@
 import { Navigate } from 'react-router-dom';
 
-import { useAppSelector } from '../redux/store';
+import { useTypedSelector } from '../redux/store';
 import { ButtonLink } from './Button';
 import Card from './Card';
 import { H3 } from './Typography';
 
 export default function UserInfo() {
-  const { user } = useAppSelector(state => state.auth);
+  const { user } = useTypedSelector(state => state.auth);
 
   if (!user) <Navigate to="/login" />;
 

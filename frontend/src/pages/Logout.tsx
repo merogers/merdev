@@ -1,12 +1,10 @@
-'use client';
-
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useLogoutQuery } from '../redux/api/apiSlice';
+import { useLogoutQuery } from '../redux/services/auth';
 import Main from '../components/Main';
 import Container from '../components/Container';
-import { logOut } from '../redux/features/auth/authSlice';
+import { logout } from '../redux/features/auth/authSlice';
 import Card from '../components/Card';
 
 export default function LogoutPage() {
@@ -17,7 +15,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     if (isLoading === false) {
-      dispatch(logOut());
+      dispatch(logout());
       return navigate('/login');
     }
 

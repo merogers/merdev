@@ -1,47 +1,36 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { UserModel } from '../../../models/User';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { User } from '../../services/auth';
+import type { RootState } from '../../store';
 
-export type InitialState = {
-  user: UserModel | null;
-  authorizationToken: string;
-};
-
-export type Payload = {
-  user: UserModel;
-  authorizationToken: string;
+type AuthState = {
+  user: User | null;
+  authorizationToken: string | null;
 };
 
 const initialState = {
   user: null,
   authorizationToken: '',
-} as InitialState;
+} as AuthState;
 
-type SetCredentialsAction<P = void, T extends string = string, M = never, E = never> = {
-  payload: P;
-  type: T;
-} & ([M] extends [never]
-  ? Payload
-  : {
-      meta: M;
-    }) &
-  ([E] extends [never]
-    ? {}
-    : {
-        error: E;
-      });
-
-export const authSlice = createSlice({
+const slice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: { user: null, authorizationToken: null } as AuthState,
   reducers: {
-    logOut: () => initialState,
-    setCredentials: (state, action: PayloadAction<SetCredentialsAction>) => ({
-      ...state,
-      user: action.payload.user,
-      authorizationToken: action.payload.authorizationToken,
-    }),
+    setCredentials: (
+      state,
+      { payload: { user, authorizationToken } }: PayloadAction<{ user: User; authorizationToken: string }>,
+    ) => {
+      state.user = user;
+      state.authorizationToken = authorizationToken;
+    },
+    // TODO: Fix
+    logout: () => initialState,
   },
 });
 
-export const { logOut, setCredentials } = authSlice.actions;
-export default authSlice.reducer;
+export const { setCredentials, logout } = slice.actions;
+
+export default slice.reducer;
+
+export const selectCurrentUser = (state: RootState) => state.auth.user;

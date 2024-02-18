@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { H2 } from './Typography';
 import Form, { Input, Label, ErrorMessage } from './Form';
 import Button from './Button';
-import { useRegisterMutation } from '../redux/api/apiSlice';
+import { useRegisterMutation } from '../redux/services/auth';
 import { ErrorMsg } from '../types';
 
 export default function RegisterForm() {

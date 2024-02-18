@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { H2 } from './Typography';
 import Form, { Input, Label, ErrorMessage } from './Form';
 import Button from './Button';
-import { useLoginMutation } from '../redux/api/apiSlice';
+import { useLoginMutation } from '../redux/services/auth';
 import { setCredentials } from '../redux/features/auth/authSlice';
 import { ErrorMsg } from '../types';
 

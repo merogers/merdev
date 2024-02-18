@@ -83,7 +83,7 @@ export const registerUser: RequestHandler = async (req, res, next) => {
       lastName,
       password: hashString(salt, password),
       salt,
-      authorizationToken: '',
+      refreshToken: '',
     });
 
     await newUser.save();
