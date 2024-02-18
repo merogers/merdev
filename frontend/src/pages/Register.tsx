@@ -1,6 +1,6 @@
 import Main from '../components/Main';
 import Container from '../components/Container';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/Forms/RegisterForm';
 
 export default function Register() {
   return (

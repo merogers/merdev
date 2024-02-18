@@ -35,7 +35,7 @@ export default function UserInfo() {
                   You have ${projectCount} project${projectCount && projectCount > 1 && 's'}!
                 </span>
               )}
-              <ButtonLink variant="primary" href="/dashboard" text="Create New Project" size="lg" />
+              <ButtonLink variant="primary" href="/new-project" text="Create New Project" size="lg" />
             </div>
           </div>
         </div>

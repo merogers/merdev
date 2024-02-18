@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Logout from './pages/Logout';
+import NewProject from './pages/NewProject';
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<ProtectRoute />}>
+          <Route path="/new-project" element={<NewProject />} />
         </Route>
         <Route path="/logout" element={<Logout />} />
       </Routes>

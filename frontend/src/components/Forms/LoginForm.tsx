@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { H2 } from './Typography';
-import Form, { Input, Label, ErrorMessage } from './Form';
-import Button from './Button';
-import { useLoginMutation } from '../redux/services/auth';
-import { setCredentials } from '../redux/features/auth/authSlice';
-import { ErrorMsg } from '../types';
+import { H2 } from '../Typography';
+import Form, { Input, Label, ErrorMessage } from '../Form';
+import Button from '../Button';
+import { useLoginMutation } from '../../redux/services/auth';
+import { setCredentials } from '../../redux/features/auth/authSlice';
+import { ErrorMsg } from '../../types';
 
 export default function LoginForm() {
   // If things go on login, display error to user

@@ -1,6 +1,6 @@
 import Main from '../components/Main';
 import Container from '../components/Container';
-import User from '../components/UserInfo';
+import UserInfo from '../components/UserInfo';
 import ProjectList from '../components/ProjectList';
 import { useTypedSelector } from '../redux/store';
 import Spinner from '../components/Spinner';
@@ -15,7 +15,7 @@ export default function Dashboard() {
           <div className="flex w-full flex-col max-w-3xl mx-auto h-full">
             {user ? (
               <>
-                <User />
+                <UserInfo />
                 <ProjectList />
               </>
             ) : (
