@@ -18,7 +18,6 @@ export default function UserInfo() {
         <div className="mb-4 md:mb-0 text-xl md:text-2xl text-secondary-400 font-semibold">
           Welcome, {user?.firstName}
         </div>
-        <ButtonLink href="/logout" text="Logout" size="lg" />
       </div>
       <Card>
         <div className="flex flex-col p-4 w-full">
