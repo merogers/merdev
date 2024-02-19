@@ -15,9 +15,7 @@ export default function UserInfo() {
   return (
     <>
       <div className="flex mb-8 flex-col md:flex-row items-center justify-between">
-        <div className="mb-4 md:mb-0 text-xl md:text-2xl text-secondary-400 font-semibold">
-          Welcome, {user?.firstName}
-        </div>
+        <div className="mb-4 md:mb-0 text-2xl text-secondary-400 font-semibold">Welcome, {user?.firstName}</div>
       </div>
       <Card>
         <div className="flex flex-col p-4 w-full">

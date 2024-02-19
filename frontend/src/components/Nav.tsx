@@ -27,7 +27,7 @@ export default function Nav() {
     { title: 'Logout', href: '/logout' },
   ];
 
-  const NavLinkComponent = ({ title, href }) => {
+  const NavLinkComponent = ({ title, href }: { title: string; href: string }) => {
     return (
       <li key={title} className="flex min-w-fit">
         <NavLink
