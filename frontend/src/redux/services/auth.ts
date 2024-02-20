@@ -52,13 +52,13 @@ export const api = createApi({
     }),
     logout: builder.query<UserResponse, void>({
       query: () => ({
-        url: '/token/logout',
+        url: '/auth/logout',
         method: 'GET',
       }),
     }),
     refresh: builder.query<object, void>({
       query: () => ({
-        url: '/token/refresh',
+        url: '/auth/refresh',
         method: 'GET',
       }),
     }),

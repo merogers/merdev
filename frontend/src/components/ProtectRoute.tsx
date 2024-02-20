@@ -21,21 +21,15 @@ export default function ProtectRoute() {
 
   useEffect(() => {
     async function reAuth() {
-      // If you are already logged in, ignore this.
       if (user) return;
-
-      // Hit refresh query - This any is a total can of worms.
+      
       const result = await fetchTrigger();
-
-      // If you have auth, set user and go to dashboard
-      if (!result.isSuccess) {
-        return navigate('/login');
-      }
+      if (!result.isSuccess) navigate('/login');
       dispatch(setCredentials(result.data as Credentials));
-      return navigate('/dashboard');
     }
-    reAuth();
-  }, [user, dispatch, fetchTrigger, navigate]);
+      reAuth();
+    // eslint-disable-next-line
+  }, []);
 
   return <Outlet />;
 }

@@ -27,7 +27,7 @@ export default function Nav() {
     { title: 'Logout', href: '/logout' },
   ];
 
-  const NavLinkComponent = ({ title, href }: { title: string; href: string }) => {
+  const NavLinkComponent = ({ title, href }: { title: string, href: string}) => {
     return (
       <li key={title} className="flex min-w-fit">
         <NavLink
@@ -53,8 +53,8 @@ export default function Nav() {
         } h-screen flex-col items-center justify-center md:flex-row transition-[top] md:relative md:h-full md:w-fit pr-0 md:pr-4 md:bottom-0 md:top-auto`}
       >
         {user
-          ? userNavLinks.map(({ title, href }) => <NavLinkComponent title={title} href={href} />)
-          : navLinks.map(({ title, href }) => <NavLinkComponent title={title} href={href} />)}
+          ? userNavLinks.map(({ title, href }) => <NavLinkComponent title={title} href={href} key={title} />)
+          : navLinks.map(({ title, href }) => <NavLinkComponent title={title} href={href} key={title} />)}
       </ul>
       <button
         className="fixed right-4 md:hidden px-4 py-2 rounded-sm z-20 text-gray-400 hover:text-white transition-colors top-0 h-full"
