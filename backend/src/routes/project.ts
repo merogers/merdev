@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from '../middleware/image';
 import isAuthenticated from '../middleware/auth';
 
 import getProjects, {
@@ -11,7 +10,7 @@ import getProjects, {
 
 const router = express.Router();
 
-router.route('/').get(getProjects).post(isAuthenticated, multer.single('screenshot'), postNewProject);
+router.route('/').get(getProjects).post(isAuthenticated, postNewProject);
 router
   .route('/:id')
   .get(isAuthenticated, getProjectDetails)
