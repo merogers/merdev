@@ -5,12 +5,12 @@ import { ButtonLink } from './Button';
 import Card from './Card';
 import { H3 } from './Typography';
 
-export default function UserInfo() {
+export default function UserInfo({ projects }) {
   const { user } = useTypedSelector(state => state.auth);
 
   if (!user) <Navigate to="/login" />;
 
-  const projectCount = user?.projects?.length;
+  const projectCount = projects && projects.length;
 
   return (
     <>

@@ -4,7 +4,6 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import crypto from 'crypto';
 
 import { env } from './config/env.config';
 import connectDB from './config/db.config';
@@ -14,10 +13,7 @@ import healthRouter from './routes/health.route';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import docRouter from './routes/doc.route';
-
-console.log(
-  crypto.createHmac('sha256', [env.CRYPTO_SECRET, 'password123'].join('/')).update(env.CRYPTO_SECRET).digest('hex'),
-);
+import projectRouter from './routes/project.route';
 
 // Connect to DB
 connectDB();
@@ -37,6 +33,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/docs', docRouter);
+app.use('/api/v1/projects', projectRouter);
 
 // 404 Handler
 app.use('*', notFoundHandler);

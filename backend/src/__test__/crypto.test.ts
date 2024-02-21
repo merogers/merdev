@@ -4,13 +4,13 @@ import { randomString, hashString } from '../util/crypto';
 describe('Unit tests for crypto utility functions', () => {
   describe('Test random string generator', () => {
     test('Test length', () => {
-      const randomStringThree = randomString();
-      expect(randomStringThree).toHaveLength(172);
+      const randomStringOne = randomString();
+      expect(randomStringOne).toHaveLength(172);
     });
     test('Test randomizing', () => {
-      const randomStringOne = randomString();
       const randomStringTwo = randomString();
-      expect(randomStringOne).not.toBe(randomStringTwo);
+      const randomStringThree = randomString();
+      expect(randomStringTwo).not.toBe(randomStringThree);
     });
   });
   describe('Test hash string function', () => {

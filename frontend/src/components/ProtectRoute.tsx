@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTypedSelector } from '../redux/store';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../redux/features/auth/authSlice';
+import { setCredentials } from '../redux/features/authSlice';
 import { useLazyRefreshQuery } from '../redux/services/auth';
 import type { User } from '../redux/services/auth';
 
@@ -22,12 +22,12 @@ export default function ProtectRoute() {
   useEffect(() => {
     async function reAuth() {
       if (user) return;
-      
+
       const result = await fetchTrigger();
       if (!result.isSuccess) navigate('/login');
       dispatch(setCredentials(result.data as Credentials));
     }
-      reAuth();
+    reAuth();
     // eslint-disable-next-line
   }, []);
 

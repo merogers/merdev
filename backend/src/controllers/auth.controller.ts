@@ -5,12 +5,7 @@ import { env } from '../config/env.config';
 import { hashString } from '../util/crypto';
 import User, { LoginInputSchema } from '../models/user.model';
 import createError from 'http-errors';
-
-interface Jwt {
-  id: string;
-  iat: number;
-  exp: number;
-}
+import type { Jwt } from '../middleware/jwt.middleware';
 
 export const loginHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -54,7 +49,7 @@ export const loginHandler = async (req: Request, res: Response, next: NextFuncti
       authorizationToken,
     });
   } catch (error) {
-    next(error);
+    next(createError(500, 'Failed to login user'));
   }
 };
 

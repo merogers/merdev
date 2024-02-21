@@ -38,18 +38,18 @@ export const api = createApi({
   endpoints: builder => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: credentials => ({
-        url: '/auth/login',
-        method: 'POST',
-        body: credentials,
-      }),
-    }),
-    register: builder.mutation<UserResponse, LoginRequest>({
-      query: credentials => ({
         url: '/auth/',
         method: 'POST',
         body: credentials,
       }),
     }),
+    // register: builder.mutation<UserResponse, LoginRequest>({
+    //   query: credentials => ({
+    //     url: '/auth/',
+    //     method: 'POST',
+    //     body: credentials,
+    //   }),
+    // }),
     logout: builder.query<UserResponse, void>({
       query: () => ({
         url: '/auth/logout',
@@ -62,10 +62,23 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
+    getProjects: builder.query<object, void>({
+      query: () => ({
+        url: '/projects/',
+        method: 'GET',
+      }),
+    }),
     protected: builder.mutation<{ message: string }, void>({
       query: () => 'protected',
     }),
   }),
 });
 
-export const { useLoginMutation, useProtectedMutation, useRegisterMutation, useLogoutQuery, useLazyRefreshQuery } = api;
+export const {
+  useLoginMutation,
+  useProtectedMutation,
+  useRegisterMutation,
+  useLogoutQuery,
+  useLazyRefreshQuery,
+  useGetProjectsQuery,
+} = api;

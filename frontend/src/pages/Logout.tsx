@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useLogoutQuery } from '../redux/services/auth';
 import Main from '../components/Main';
 import Container from '../components/Container';
-import { logout } from '../redux/features/auth/authSlice';
+import { logout } from '../redux/features/authSlice';
 import Spinner from '../components/Spinner';
 
 export default function LogoutPage() {

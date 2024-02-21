@@ -18,7 +18,7 @@ export const CreateUserInputSchema = z.object({
     .string({
       required_error: 'Password is required',
     })
-    .min(8, 'Password too short - should be 8 chars minimum'),
+    .min(6, 'Password too short - should be 6 chars minimum'),
 });
 
 export const LoginInputSchema = z.object({
@@ -26,7 +26,7 @@ export const LoginInputSchema = z.object({
     .string({
       required_error: 'Password is required',
     })
-    .min(8, 'Password too short - should be 8 chars minimum'),
+    .min(6, 'Password too short - should be 6 chars minimum'),
   email: z
     .string({
       required_error: 'Email is required',
@@ -62,17 +62,6 @@ const UserSchema = new mongoose.Schema({
   refreshToken: {
     type: String,
   },
-});
-
-// Add Object and JSON Virtual Support
-UserSchema.set('toObject', { virtuals: true });
-UserSchema.set('toJSON', { virtuals: true });
-
-// Add virtual field to User, mimicing relational DB
-UserSchema.virtual('projects', {
-  localField: '_id',
-  foreignField: 'userid',
-  ref: 'Project',
 });
 
 const User = mongoose.model('User', UserSchema);
