@@ -4,7 +4,7 @@ import { z } from 'zod';
 // Type Safe Environment Variables
 const envSchema = z.object({
   PORT: z.string().optional(),
-  NODE_ENV: z.enum(['development', 'production']).default('development'),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   MONGO_URI: z.string().trim().min(1),
   AWS_ACCESS_KEY_ID: z.string().trim().min(1),
   AWS_SECRET_ACCESS_KEY: z.string().trim().min(1),

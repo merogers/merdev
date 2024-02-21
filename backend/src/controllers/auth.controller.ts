@@ -25,7 +25,7 @@ export const loginHandler = async (req: Request, res: Response, next: NextFuncti
     }
 
     // Password match check
-    const expectedHash = hashString(userExists.salt, req.body.password);
+    const expectedHash = hashString(userExists.salt, req.body.password, env.CRYPTO_SECRET);
     if (userExists.password !== expectedHash) {
       next(createError(401, "Password doesn't match"));
       return;

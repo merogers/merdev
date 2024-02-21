@@ -1,6 +1,6 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
-import docs from '../docs.json';
+import docs from '../config/docs.config.json';
 
 const router = express.Router();
 

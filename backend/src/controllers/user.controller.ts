@@ -3,6 +3,7 @@ import User, { CreateUserInputSchema } from '../models/user.model';
 import ObjectIdSchema from '../models/object.model';
 import { hashString, randomString } from '../util/crypto';
 import createError from 'http-errors';
+import { env } from '../config/env.config';
 
 const createUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -22,7 +23,7 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: hashString(salt, req.body.password),
+      password: hashString(salt, req.body.password, env.CRYPTO_SECRET),
       salt,
       authorizationToken: '',
       refreshToken: '',
