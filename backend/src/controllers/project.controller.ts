@@ -21,11 +21,7 @@ export const handleUserProjects = async (req: TokenRequest, res: Response, next:
   }
 
   try {
-    const validID = ObjectIdSchema.safeParse(req.user);
-
-    if (!validID.success) {
-      next(createError(400, validID.error.flatten()));
-    }
+    ObjectIdSchema.parse(req.user);
 
     const projects = await Project.find({ userid: req.user });
     res.status(200).json(projects);
@@ -41,11 +37,7 @@ export const handleCreateProject = async (req: TokenRequest, res: Response, next
   }
 
   try {
-    const validID = ObjectIdSchema.safeParse(req.user);
-
-    if (!validID.success) {
-      next(createError(400, validID.error.flatten()));
-    }
+    ObjectIdSchema.parse(req.user);
 
     // Convert comma-separated string into array, trim spaces
     const tagArray = req.body.tags.split(',').map((tag: string) => tag.trim());
@@ -73,11 +65,7 @@ export const handleUpdateProject = async (req: TokenRequest, res: Response, next
     next(createError(401, 'No User'));
   }
   try {
-    const validID = ObjectIdSchema.safeParse(req.params.id);
-
-    if (!validID.success) {
-      next(createError(400, validID.error.flatten()));
-    }
+    ObjectIdSchema.parse(req.params.id);
 
     const projectExists = await Project.findById(req.params.id);
     if (projectExists === null) {
@@ -115,11 +103,8 @@ export const handleDeleteProject = async (req: TokenRequest, res: Response, next
     next(createError(401, 'No User'));
   }
   try {
-    const validID = ObjectIdSchema.safeParse(req.params.id);
+    ObjectIdSchema.parse(req.params.id);
 
-    if (!validID.success) {
-      next(createError(400, validID.error.flatten()));
-    }
     const projectExists = await Project.findOne({ _id: req.params.id });
     if (projectExists === null) {
       next(createError(404, 'Project not found'));
@@ -140,11 +125,7 @@ export const handleReadProject = async (req: TokenRequest, res: Response, next: 
     next(createError(401, 'No User'));
   }
   try {
-    const validID = ObjectIdSchema.safeParse(req.params.id);
-
-    if (!validID.success) {
-      next(createError(400, validID.error.flatten()));
-    }
+    ObjectIdSchema.parse(req.params.id);
 
     const projectExists = await Project.findById(req.params.id);
     if (projectExists === null) {
