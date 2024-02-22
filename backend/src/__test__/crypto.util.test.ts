@@ -1,5 +1,5 @@
 import { expect, test, describe } from '@jest/globals';
-import { randomString, hashString } from '../util/crypto';
+import { randomString, hashString } from '../util/crypto.util';
 
 describe('Unit tests for crypto utility functions', () => {
   describe('Test random string generator', () => {

@@ -2,7 +2,7 @@ import type { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { env } from '../config/env.config';
-import { hashString } from '../util/crypto';
+import { hashString } from '../util/crypto.util';
 import User, { LoginInputSchema } from '../models/user.model';
 import createError from 'http-errors';
 import type { Jwt } from '../middleware/jwt.middleware';

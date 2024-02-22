@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import User, { CreateUserInputSchema } from '../models/user.model';
 import ObjectIdSchema from '../models/object.model';
-import { hashString, randomString } from '../util/crypto';
+import { hashString, randomString } from '../util/crypto.util';
 import createError from 'http-errors';
 import { env } from '../config/env.config';
 
