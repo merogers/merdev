@@ -8,13 +8,7 @@ import morgan from 'morgan';
 import { env } from './config/env.config';
 import connectDB from './config/db.config';
 import errorHandler, { notFoundHandler } from './middleware/error.middleware';
-
-import healthRouter from './routes/health.route';
-import userRouter from './routes/user.route';
-import authRouter from './routes/auth.route';
-import docRouter from './routes/doc.route';
-import projectRouter from './routes/project.route';
-import imageRouter from './routes/image.route';
+import indexRouter from './routes/index.router';
 
 // Connect to DB
 connectDB();
@@ -29,13 +23,8 @@ app.use(compression());
 app.use(cookieParser());
 app.use(helmet());
 
-// Routes
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/health', healthRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/docs', docRouter);
-app.use('/api/v1/projects', projectRouter);
-app.use('/api/v1/images', imageRouter);
+// v1 Routes
+app.use('/api/v1/', indexRouter);
 
 // 404 Handler
 app.use('*', notFoundHandler);
