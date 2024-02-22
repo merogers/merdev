@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { env } from '../config/env.config';
@@ -7,7 +7,7 @@ import User, { LoginInputSchema } from '../models/user.model';
 import createError from 'http-errors';
 import type { Jwt } from '../middleware/jwt.middleware';
 
-export const loginHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const loginHandler: RequestHandler = async (req, res, next) => {
   try {
     // Make sure user data is correct
     LoginInputSchema.parse(req.body);
@@ -49,11 +49,11 @@ export const loginHandler = async (req: Request, res: Response, next: NextFuncti
       authorizationToken,
     });
   } catch (error) {
-    next(createError(500, 'Failed to login user'));
+    next(error);
   }
 };
 
-export const handleRefresh = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const handleRefresh: RequestHandler = async (req, res, next) => {
   const { cookies } = req;
 
   // No Cookies? No access.
@@ -87,7 +87,7 @@ export const handleRefresh = async (req: Request, res: Response, next: NextFunct
 };
 
 // --- Logout User --- //
-export const handleLogout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const handleLogout: RequestHandler = async (req, res, next) => {
   const { cookies } = req;
 
   // No Cookies? Successful request

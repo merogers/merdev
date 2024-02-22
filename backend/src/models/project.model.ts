@@ -39,11 +39,7 @@ export const CreateProjectSchema = z.object({
 
 const ProjectSchema = new mongoose.Schema(
   {
-    screenshotUrl: {
-      type: String,
-      required: true,
-    },
-    screenshotFile: {
+    screenshot: {
       type: String,
       required: true,
     },

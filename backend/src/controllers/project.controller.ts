@@ -1,17 +1,14 @@
-import type { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 
-import { env } from '../config/env.config';
-import { hashString } from '../util/crypto';
 import Project from '../models/project.model';
 import createError from 'http-errors';
 import ObjectIdSchema from '../models/object.model';
 import type { TokenRequest } from '../middleware/jwt.middleware';
 
 const handleUserProjects = async (req: TokenRequest, res: Response, next: NextFunction) => {
-  console.log('user:', req.user);
   if (req.user === null) {
-    return next(createError(403, 'No User'));
+    next(createError(403, 'No User'));
+    return;
   }
 
   try {
@@ -20,20 +17,55 @@ const handleUserProjects = async (req: TokenRequest, res: Response, next: NextFu
     const projects = await Project.find({ userid: req.user });
     res.status(200).json(projects);
   } catch (error) {
-    return next(error);
+    next(error);
   }
+};
 
-  // try {
-  //   ObjectIdSchema.parse(req.user);
+export const handleUpdateProject = async (req: TokenRequest, res: Response, next: NextFunction) => {
+  if (req.user === null) {
+    next(createError(403, 'No User'));
+  }
+  try {
+    ObjectIdSchema.parse(req.params);
 
-  //   const projects = await Project.find({ userid: req.user });
+    const projectExists = await Project.findOne({ _id: req.params.id });
 
-  //   console.log('Projects:', projects);
+    if (projectExists === null) {
+      next(createError(404, 'Project not found'));
+    }
 
-  //   res.status(200).json(projects);
-  // } catch (error) {
-  //   next(error);
-  // }
+    if (projectExists?.userid !== req.user) {
+      next(createError(401, 'Not authorized to delete project'));
+    }
+
+    await Project.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+    });
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleDeleteProject = async (req: TokenRequest, res: Response, next: NextFunction) => {
+  if (req.user === null) {
+    next(createError(403, 'No User'));
+  }
+  try {
+    ObjectIdSchema.parse(req.params);
+    const projectExists = await Project.findOne({ _id: req.params.id });
+    if (projectExists === null) {
+      next(createError(404, 'Project not found'));
+    }
+
+    if (projectExists?.userid !== req.user) {
+      next(createError(401, 'Not authorized to delete project'));
+    }
+    await Project.findByIdAndDelete(req.params.id);
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export default handleUserProjects;

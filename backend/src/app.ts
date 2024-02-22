@@ -14,6 +14,7 @@ import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import docRouter from './routes/doc.route';
 import projectRouter from './routes/project.route';
+import imageRouter from './routes/image.route';
 
 // Connect to DB
 connectDB();
@@ -34,6 +35,7 @@ app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/docs', docRouter);
 app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/images', imageRouter);
 
 // 404 Handler
 app.use('*', notFoundHandler);
