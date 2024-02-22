@@ -38,6 +38,11 @@ export const handleUpdateProject = async (req: TokenRequest, res: Response, next
       next(createError(401, 'Not authorized to delete project'));
     }
 
+    projectExists.screenshot = req.body.screenshot;
+    projectExists.tags = req.body.tags;
+
+
+
     await Project.findByIdAndUpdate(req.params.id, {
       ...req.body,
     });
@@ -46,6 +51,35 @@ export const handleUpdateProject = async (req: TokenRequest, res: Response, next
     next(error);
   }
 };
+
+
+screenshot: {
+  type: String,
+  required: true,
+},
+userid: {
+  type: mongoose.Schema.Types.ObjectId,
+},
+title: {
+  type: String,
+  required: true,
+},
+description: {
+  type: String,
+  required: true,
+},
+demoUrl: {
+  type: String,
+  required: true,
+},
+codeUrl: {
+  type: String,
+  required: true,
+},
+tags: {
+  type: Array,
+  required: true,
+},
 
 export const handleDeleteProject = async (req: TokenRequest, res: Response, next: NextFunction) => {
   if (req.user === null) {
