@@ -1,11 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "sourceMap": true,
-    "esModuleInterop": true
-  },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["src/**/*/*.test.ts"],
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "typeRoots": ["./types"],
+    "resolveJsonModule": true
+  }
 }

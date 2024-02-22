@@ -1,6 +1,6 @@
 import Main from '../components/Main';
 import { ButtonLink } from '../components/Button';
-import Spinner from '../components/Shared/Spinner';
+
 import Container from '../components/Container';
 
 export default function Home({ name = 'Jim', title = 'Developer' }) {
@@ -17,7 +17,6 @@ export default function Home({ name = 'Jim', title = 'Developer' }) {
             <ButtonLink href="/projects" text="View Projects" size="lg" />
             <ButtonLink href="/" variant="primary" text="Download Resume" size="lg" />
           </div>
-          <Spinner />
         </div>
       </Container>
     </Main>

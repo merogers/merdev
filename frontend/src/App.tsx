@@ -11,7 +11,8 @@ import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import LogoutPage from './pages/Logout';
+import Logout from './pages/Logout';
+import NewProject from './pages/NewProject';
 
 function App() {
   return (
@@ -24,22 +25,13 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectRoute>
-              <Dashboard />
-            </ProtectRoute>
-          }
-        />
-        <Route
-          path="/logout"
-          element={
-            <ProtectRoute>
-              <LogoutPage />
-            </ProtectRoute>
-          }
-        />
+        <Route element={<ProtectRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<ProtectRoute />}>
+          <Route path="/new-project" element={<NewProject />} />
+        </Route>
+        <Route path="/logout" element={<Logout />} />
       </Routes>
       <Footer title="My Portfolio" />
     </div>

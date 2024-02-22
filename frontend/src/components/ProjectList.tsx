@@ -1,12 +1,12 @@
 'use client';
 
 import { ProjectModel } from '../models/Project';
-import { useAppSelector } from '../redux/store';
+import { useTypedSelector } from '../redux/store';
 import { H3 } from './Typography';
 import Project from './Project';
 
 export default function ProjectList() {
-  const { user } = useAppSelector(state => state.auth);
+  const { user } = useTypedSelector(state => state.auth);
 
   const projectCount = user?.projects?.length;
 

@@ -1,7 +1,6 @@
 import { GitHub, Linkedin, Facebook, Twitter } from 'react-feather';
 import { Link } from 'react-router-dom';
 import Container from './Container';
-import { navLinks } from './Nav';
 import IconLink from './IconLink';
 
 interface FooterProps {
@@ -11,6 +10,15 @@ interface FooterProps {
 export default function Footer({ title = 'Dev Portfolio' }: FooterProps) {
   const date = new Date();
   const year = date.getFullYear();
+
+  const navLinks = [
+    { title: 'Home', href: '/' },
+    { title: 'Projects', href: '/projects' },
+    { title: 'About', href: '/about' },
+    { title: 'Contact', href: '/contact' },
+    { title: 'Register', href: '/register' },
+    { title: 'Login', href: '/login' },
+  ];
 
   return (
     <footer>

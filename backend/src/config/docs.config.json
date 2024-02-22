@@ -1,0 +1,686 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Documentation for My Recipes API",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "GitHub Repository",
+    "url": "https://github.com/merogersdev/my-recipes"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:{port}/api/v1",
+      "variables": {
+        "port": {
+          "enum": ["5000", "5001", "5002", "5003", "5004", "5005"],
+          "default": "5000"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Create, Read, Update, Delete application users"
+    },
+    {
+      "name": "health",
+      "description": "Application Health Check"
+    },
+    {
+      "name": "api-docs",
+      "description": "Swagger API Documentation"
+    }
+  ],
+  "paths": {
+    "/api-docs": {
+      "summary": "API Documentation",
+      "get": {
+        "tags": ["api-docs"],
+        "responses": {
+          "200": {
+            "description": "Returns Swagger Docs"
+          }
+        }
+      }
+    },
+    "/health": {
+      "summary": "Health Check",
+      "get": {
+        "tags": ["health"],
+        "responses": {
+          "200": {
+            "description": "Returns Status 200"
+          }
+        }
+      }
+    },
+    "/users": {
+      "summary": "Application Users",
+      "get": {
+        "tags": ["users"],
+        "summary": "Gets all users basic data",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "description": "The User ID",
+                            "example": "6557f2d5820a41d32c5827fa"
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "description": "First Name",
+                            "example": "James"
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "description": "Last Name",
+                            "example": "Kirk"
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "Email Address",
+                            "example": "jamestkirk@starfleet.com"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Users Found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Creates new user",
+        "responses": {
+          "201": {
+            "description": "User Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newUser": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "The User ID",
+                          "example": "6557f2d5820a41d32c5827fa"
+                        },
+                        "firstName": {
+                          "type": "string",
+                          "description": "First Name",
+                          "example": "James"
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "description": "Last Name",
+                          "example": "Kirk"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "Email Address",
+                          "example": "jamestkirk@starfleet.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "firstName": ["First Name Required"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:id": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Gets user details",
+        "responses": {
+          "200": {
+            "description": "User Details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "description": "First Name",
+                          "example": "James"
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "description": "Last Name",
+                          "example": "Kirk"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "Email Address",
+                          "example": "jamestkirk@starfleet.com"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No User Found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update User",
+        "responses": {
+          "200": {
+            "description": "Successfully updated user"
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "firstName": ["First Name required"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete User",
+        "responses": {
+          "200": {
+            "description": "Successfully deleted user"
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "firstName": ["First Name Required"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/recipes": {
+      "summary": "Application Recipes",
+      "get": {
+        "tags": ["recipes"],
+        "summary": "Gets all recipes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipes": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "description": "The Recipe ID",
+                            "example": "6557f2d5820a41d32c5827fa"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The Recipe Name",
+                            "example": "Chicken Parmesan"
+                          },
+                          "userid": {
+                            "type": "string",
+                            "description": "The User ID",
+                            "example": "6557f2d5820a41d32c5827fa"
+                          },
+                          "cookTime": {
+                            "type": "number",
+                            "description": "Cook Time in Minutes",
+                            "example": 60
+                          },
+                          "prepTime": {
+                            "type": "number",
+                            "description": "Prep Time in Minutes",
+                            "example": 30
+                          },
+                          "temperature": {
+                            "type": "number",
+                            "description": "Cook Temperature in Degrees",
+                            "example": 350
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Recipe Description",
+                            "example": "Chicken Parmesan with Linguini Alfredo"
+                          },
+                          "method": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": ["Bread Chicken", "Cook Pasta", "Reduce Sauce", "Combine Sauce with pasta"]
+                          },
+                          "ingredients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": ["1 Cup Heavy Cream", "1/2 Tsp Shallots", "1/4 Cup Wine", "2 Cloves Garlic"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Recipes Found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["recipes"],
+        "summary": "Creates new recipe",
+        "responses": {
+          "201": {
+            "description": "Recipe Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "newRecipe": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "The Recipe ID",
+                          "example": "6557f2d5820a41d32c5827fa"
+                        },
+                        "userid": {
+                          "type": "string",
+                          "description": "The User ID",
+                          "example": "6557f2d5820a41d32c5827fa"
+                        },
+                        "cookTime": {
+                          "type": "number",
+                          "description": "Cook Time in Minutes",
+                          "example": 60
+                        },
+                        "prepTime": {
+                          "type": "number",
+                          "description": "Prep Time in Minutes",
+                          "example": 30
+                        },
+                        "temperature": {
+                          "type": "number",
+                          "description": "Cook Temperature in Degrees",
+                          "example": 350
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Recipe Description",
+                          "example": "Chicken Parmesan with Linguini Alfredo"
+                        },
+                        "method": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["Bread Chicken", "Cook Pasta", "Reduce Sauce", "Combine Sauce with pasta"]
+                        },
+                        "ingredients": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["1 Cup Heavy Cream", "1/2 Tsp Shallots", "1/4 Cup Wine", "2 Cloves Garlic"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "id": ["Invalid ID"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recipes/:id": {
+      "get": {
+        "tags": ["recipes"],
+        "summary": "Gets recipe details",
+        "responses": {
+          "200": {
+            "description": "Recipe Details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipe": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "description": "The Recipe ID",
+                          "example": "6557f2d5820a41d32c5827fa"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The Recipe Name",
+                          "example": "Chicken Parmesan"
+                        },
+                        "userid": {
+                          "type": "string",
+                          "description": "The User ID",
+                          "example": "6557f2d5820a41d32c5827fa"
+                        },
+                        "cookTime": {
+                          "type": "number",
+                          "description": "Cook Time in Minutes",
+                          "example": 60
+                        },
+                        "prepTime": {
+                          "type": "number",
+                          "description": "Prep Time in Minutes",
+                          "example": 30
+                        },
+                        "temperature": {
+                          "type": "number",
+                          "description": "Cook Temperature in Degrees",
+                          "example": 350
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Recipe Description",
+                          "example": "Chicken Parmesan with Linguini Alfredo"
+                        },
+                        "method": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["Bread Chicken", "Cook Pasta", "Reduce Sauce", "Combine Sauce with pasta"]
+                        },
+                        "ingredients": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["1 Cup Heavy Cream", "1/2 Tsp Shallots", "1/4 Cup Wine", "2 Cloves Garlic"]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "id": ["Invalid ID"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["recipes"],
+        "summary": "Update Recipe",
+        "responses": {
+          "200": {
+            "description": "Successfully updated recipe"
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "temperature": ["Temperature required"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["recipes"],
+        "summary": "Delete Recipe",
+        "responses": {
+          "200": {
+            "description": "Successfully deleted recipe"
+          },
+          "400": {
+            "description": "Failed Validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Validation Error"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "formErrors": {
+                          "type": "array",
+                          "example": []
+                        },
+                        "fieldErrors": {
+                          "type": "object",
+                          "example": {
+                            "id": ["Invalid ID"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipe not found"
+          }
+        }
+      }
+    }
+  }
+}
