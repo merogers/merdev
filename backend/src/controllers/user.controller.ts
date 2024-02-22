@@ -7,8 +7,11 @@ import { env } from '../config/env.config';
 
 const createUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // User Input Validation
-    CreateUserInputSchema.parse(req.body);
+    const validInput = CreateUserInputSchema.safeParse(req.body);
+
+    if (!validInput.success) {
+      next(createError(400, validInput.error.flatten()));
+    }
 
     // Check if user already is registered
     const userExists = await User.findOne({ email: req.body.email });
@@ -45,8 +48,11 @@ const createUserHandler = async (req: Request, res: Response, next: NextFunction
 
 export const readUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Validate Object ID
-    ObjectIdSchema.parse(req.params);
+    const validID = ObjectIdSchema.safeParse(req.body);
+
+    if (!validID.success) {
+      next(createError(400, validID.error.flatten()));
+    }
 
     // Check if user exists, else return 404
     const userExists = await User.findOne({ _id: req.params.id });
@@ -90,8 +96,11 @@ export const readAllUsersHandler = async (_req: Request, res: Response, next: Ne
 
 export const updateUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Validate Object ID
-    ObjectIdSchema.parse(req.params);
+    const validID = ObjectIdSchema.safeParse(req.body);
+
+    if (!validID.success) {
+      next(createError(400, validID.error.flatten()));
+    }
 
     // Check if user exists, else return 404
     const userExists = await User.findByIdAndUpdate(req.params.id, {
@@ -110,8 +119,11 @@ export const updateUserHandler = async (req: Request, res: Response, next: NextF
 
 export const deleteUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Validate Object ID
-    ObjectIdSchema.parse(req.params);
+    const validID = ObjectIdSchema.safeParse(req.body);
+
+    if (!validID.success) {
+      next(createError(400, validID.error.flatten()));
+    }
 
     // Check if user exists, else return 404
     const userExists = await User.findOne({ _id: req.params.id });

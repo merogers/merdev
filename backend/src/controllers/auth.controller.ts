@@ -9,8 +9,11 @@ import type { Jwt } from '../middleware/jwt.middleware';
 
 export const loginHandler: RequestHandler = async (req, res, next) => {
   try {
-    // Make sure user data is correct
-    LoginInputSchema.parse(req.body);
+    const validInput = LoginInputSchema.safeParse(req.body);
+
+    if (!validInput.success) {
+      next(createError(400, validInput.error.flatten()));
+    }
 
     // Get user from db and check password
     const userExists = await User.findOne({ email: req.body.email });
