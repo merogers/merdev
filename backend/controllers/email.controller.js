@@ -1,7 +1,6 @@
 // const nodemailer = require("nodemailer");
 const createError = require('http-errors');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-const { logger } = require('../util/logger.util');
 
 const ses = new SESClient(process.env.AWS_REGION);
 
@@ -45,8 +44,8 @@ const handleEmail = async (req, res, next) => {
 
     return res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot send message'));
+    next(error);
+    return null;
   }
 };
 

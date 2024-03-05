@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 
 const createError = require('http-errors');
-const { logger } = require('../util/logger.util');
 
 const User = require('../models/user.model');
 
@@ -10,7 +9,7 @@ const handleCreateUser = async (req, res, next) => {
 
   // Check for Blank fields
   if (!email || !password || !firstName || !lastName) {
-    return next(createError(400, 'Missing fields'));
+    next(createError(400, 'Missing fields'));
   }
 
   try {
@@ -34,8 +33,8 @@ const handleCreateUser = async (req, res, next) => {
 
     return res.status(201).json(newUserReturn);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot create user'));
+    next(error);
+    return null;
   }
 };
 
@@ -51,8 +50,8 @@ const handleUserDetails = async (req, res, next) => {
 
     return res.status(200).json(user);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot get user details'));
+    next(error);
+    return null;
   }
 };
 
@@ -83,8 +82,8 @@ const handleUpdateUser = async (req, res, next) => {
 
     return res.status(200).json(updatedUser);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot get user details'));
+    next(error);
+    return null;
   }
 };
 
@@ -98,12 +97,12 @@ const handleDeleteUser = async (req, res, next) => {
       return next(createError(404, 'User not found'));
     }
 
-    await User.deleteOne(id);
+    await User.deleteOne({ _id: id });
 
     return res.status(200).json({ id });
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot delete user'));
+    next(error);
+    return null;
   }
 };
 

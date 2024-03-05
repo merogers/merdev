@@ -3,7 +3,6 @@ const createError = require('http-errors');
 const bcrypt = require('bcrypt');
 const User = require('../models/user.model');
 const handleGenerateToken = require('../util/token.util');
-const { logger } = require('../util/logger.util');
 
 const handleLogin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -34,8 +33,8 @@ const handleLogin = async (req, res, next) => {
       token: handleGenerateToken(user._id),
     });
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot log in user'));
+    next(error);
+    return null;
   }
 };
 

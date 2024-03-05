@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 
 const createError = require('http-errors');
-const { logger } = require('../util/logger.util');
 
 // const { Storage } = require("@google-cloud/storage");
 const Project = require('../models/project.model');
@@ -22,8 +21,8 @@ const handleLatestProjects = async (_req, res, next) => {
 
     return res.status(200).json(projects);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Failed getting projects'));
+    next(error);
+    return null;
   }
 };
 
@@ -54,8 +53,8 @@ const handleProjectDetails = async (req, res, next) => {
 
     return res.status(200).json(project);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot get project details'));
+    next(error);
+    return null;
   }
 };
 
@@ -95,8 +94,8 @@ const handleNewProject = async (req, res, next) => {
     const newProjectReturn = newProject.toJson();
     return res.status(201).json(newProjectReturn);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot create project'));
+    next(error);
+    return null;
   }
 };
 
@@ -133,8 +132,8 @@ const handleUpdateProject = async (req, res, next) => {
 
     return res.status(200).json(updatedProject);
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot update project'));
+    next(error);
+    return null;
   }
 };
 
@@ -151,8 +150,8 @@ const handleDeleteProject = async (req, res, next) => {
     await Project.deleteOne({ _id: id });
     return res.status(200).json({ id });
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot delete project'));
+    next(error);
+    return null;
   }
 };
 

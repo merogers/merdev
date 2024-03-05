@@ -1,12 +1,21 @@
-const handleErrors = (err, _req, res, next) => {
-  const statusCode = res.statusCode ? res.statusCode : 500;
+const { logger } = require('../util/logger.util');
 
-  res.status(statusCode).json({
-    message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+const handleErrors = (error, _req, res, next) => {
+  const errorStatus = error.statusCode || 500;
+  const errorMessage = error.message || 'Something went wrong';
+  const nodeEnv = process.env.NODE_ENV || 'development';
+
+  // Send Error Stack
+  res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: nodeEnv !== 'production' ? error.stack : {},
   });
 
-  return next();
+  // Log error and move on
+  logger.error(error.message);
+  next();
 };
 
 module.exports = {

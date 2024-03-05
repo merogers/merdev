@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const createError = require('http-errors');
-const { logger } = require('../util/logger.util');
 
 const User = require('../models/user.model');
 
@@ -17,10 +16,11 @@ const handleProtectRoute = async (req, _res, next) => {
 
     req.user = await User.findById(decoded.id).select('-password');
 
-    return next();
+    next();
+    return null;
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot Authenticate'));
+    next(error);
+    return null;
   }
 };
 
@@ -33,10 +33,11 @@ const handleOwnershipCheck = async (req, _res, next) => {
       return next(createError(403, 'Unauthorized'));
     }
 
-    return next();
+    next();
+    return null;
   } catch (error) {
-    logger.error(error);
-    return next(createError(500, 'Cannot check ownership'));
+    next(error);
+    return null;
   }
 };
 
