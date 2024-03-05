@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const ProjectSchema = mongoose.Schema(
   {
-    screenshotUrl: {
-      type: String,
-      required: true,
-    },
-    screenshotFile: {
+    screenshot: {
       type: String,
       required: true,
     },

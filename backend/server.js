@@ -1,46 +1,42 @@
 require('dotenv').config();
+require('./config/db').connectDB();
 
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
 
 const app = express();
-const pc = require('picocolors');
 
-const { errorMiddleware } = require('./middleware/errorMiddleware');
+const authRouter = require('./routes/auth.router');
+const emailRouter = require('./routes/email.router');
+const projectRouter = require('./routes/project.router');
+const userRouter = require('./routes/user.router');
+const healthRouter = require('./routes/health.router');
 
-const notFoundRouter = require('./routes/notfound.routes');
-const authRouter = require('./routes/auth.routes');
+const { logger } = require('./util/logger.util');
 
 const port = process.env.PORT || 5000;
 
-// --- DB --- //
-const { connectDB } = require('./config/db');
+const { handleErrors } = require('./middleware/error.middleware');
 
-connectDB();
-
-// --- CORS - Allow from Client-Side Only --- //
-
+// Middleware
 app.use(cors());
-
-// --- Log requests in development mode only --- //
-if (process.env.NODE_ENV !== 'production') {
-  app.use(morgan('tiny'));
-}
-
-// --- JSON Parsing Middleware --- //
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Routes
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/email', emailRouter);
+app.use('/api/v1/project', projectRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/health', healthRouter);
 
-// --- Error Handler --- //
-app.use(errorMiddleware);
+// Error Handler
+app.use(handleErrors);
 
-// --- 404 Catch --- //
-app.use('*', notFoundRouter);
+// 404
+app.use('*', (_req, res) => res.sendStatus(404));
 
-// --- Listener --- //
+// Hey, Listen!
 app.listen(port, () => {
-  console.info(pc.blue(`> Server listening on port: ${port}...`));
+  logger.info(`Server listening on port: ${port}...`);
 });

@@ -5,4 +5,4 @@ const handleGenerateToken = (id) =>
     expiresIn: '1d',
   });
 
-export default handleGenerateToken;
+module.exports = handleGenerateToken;
