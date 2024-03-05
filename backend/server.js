@@ -1,19 +1,21 @@
-require("dotenv").config();
+require('dotenv').config();
+
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+
+const app = express();
+const pc = require('picocolors');
+
+const { errorMiddleware } = require('./middleware/errorMiddleware');
+
+const notFoundRouter = require('./routes/notfound.routes');
+const authRouter = require('./routes/auth.routes');
 
 const port = process.env.PORT || 5000;
 
-const express = require("express");
-
-const app = express();
-const cors = require("cors");
-const pc = require("picocolors");
-const morgan = require("morgan");
-
-const { errorMiddleware } = require("./middleware/errorMiddleware");
-const indexRoutes = require("./routes");
-
 // --- DB --- //
-const { connectDB } = require("./config/db");
+const { connectDB } = require('./config/db');
 
 connectDB();
 
@@ -22,22 +24,21 @@ connectDB();
 app.use(cors());
 
 // --- Log requests in development mode only --- //
-if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("tiny"));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('tiny'));
 }
 
 // --- JSON Parsing Middleware --- //
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// --- Main Router --- //
-app.use("/", indexRoutes);
+app.use('/api/v1/auth', authRouter);
 
 // --- Error Handler --- //
 app.use(errorMiddleware);
 
 // --- 404 Catch --- //
-app.use("*", (_req, res) => res.status(404).json({ message: "Endpoint not found" }));
+app.use('*', notFoundRouter);
 
 // --- Listener --- //
 app.listen(port, () => {
