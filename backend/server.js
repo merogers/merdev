@@ -9,11 +9,11 @@ const app = express();
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-const authRouter = require('./routes/auth.router');
-const emailRouter = require('./routes/email.router');
-const projectRouter = require('./routes/project.router');
-const userRouter = require('./routes/user.router');
-const healthRouter = require('./routes/health.router');
+const authRouter = require('./routes/auth.routes');
+const emailRouter = require('./routes/email.routes');
+const projectRouter = require('./routes/project.routes');
+const userRouter = require('./routes/user.routes');
+const healthRouter = require('./routes/health.routes');
 
 const { logger } = require('./util/logger.util');
 const { swaggerSpec } = require('./config/docs.config');
