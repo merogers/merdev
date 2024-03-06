@@ -5,17 +5,16 @@ const handleErrors = (error, _req, res, next) => {
   const errorMessage = error.message || 'Something went wrong';
   const nodeEnv = process.env.NODE_ENV || 'development';
 
+  // Log that error
+  logger.error(error);
+
   // Send Error Stack
-  res.status(errorStatus).json({
+  return res.status(errorStatus).json({
     success: false,
     status: errorStatus,
     message: errorMessage,
     stack: nodeEnv !== 'production' ? error.stack : {},
   });
-
-  // Log error and move on
-  logger.error(error.message);
-  next();
 };
 
 module.exports = {

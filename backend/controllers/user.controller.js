@@ -9,7 +9,7 @@ const handleCreateUser = async (req, res, next) => {
 
   // Check for Blank fields
   if (!email || !password || !firstName || !lastName) {
-    next(createError(400, 'Missing fields'));
+    return next(createError(400, 'Missing fields'));
   }
 
   try {
@@ -60,8 +60,7 @@ const handleUpdateUser = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
 
   if (!id || !firstName || !lastName || !email || !password) {
-    res.status(400);
-    throw new Error('Error updating user: missing fields');
+    return next(createError(400, 'Missing Fields'));
   }
 
   try {

@@ -1,7 +1,7 @@
 const winston = require('winston');
 const WinstonDailyRotateFile = require('winston-daily-rotate-file');
 
-const { combine, timestamp, cli, align, printf } = winston.format;
+const { combine, timestamp, cli, align, printf, errors } = winston.format;
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -9,11 +9,12 @@ const env = process.env.NODE_ENV || 'development';
 const logger = winston.createLogger({
   level: 'info',
   format: combine(
+    errors({ stack: true }),
     timestamp({
-      format: 'YYYY-MM-DD | hh:mm:ss A',
+      format: 'YYYY-MM-DD hh:mm:ss A',
     }),
     align(),
-    printf((info) => `[ ${info.timestamp} ] ${info.level}: ${info.message}`),
+    printf((info) => `[ ${info.timestamp} ] ${info.level}: ${info.message} ${info.stack}`),
   ),
   transports: [
     new WinstonDailyRotateFile({
