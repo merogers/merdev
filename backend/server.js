@@ -6,6 +6,9 @@ const cors = require('cors');
 
 const app = express();
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 const authRouter = require('./routes/auth.router');
 const emailRouter = require('./routes/email.router');
 const projectRouter = require('./routes/project.router');
@@ -13,6 +16,7 @@ const userRouter = require('./routes/user.router');
 const healthRouter = require('./routes/health.router');
 
 const { logger } = require('./util/logger.util');
+const { swaggerSpec } = require('./config/docs.config');
 
 const port = process.env.PORT || 5000;
 
@@ -29,6 +33,7 @@ app.use('/api/v1/email', emailRouter);
 app.use('/api/v1/project', projectRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/health', healthRouter);
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Error Handler
 app.use(handleErrors);

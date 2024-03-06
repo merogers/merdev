@@ -13,11 +13,44 @@ const {
   handleUpdateProject,
 } = require('../controllers/project.controller');
 
+/**
+ * @swagger
+ * /api/v1/project:
+ *   get:
+ *     summary: Gets latest projects
+ *     tags:
+ *       - project
+ *     description: Latest 5 projects
+ *   post:
+ *     summary: Create new project
+ *     tags:
+ *       - project
+ *     description: Creates new project
+ */
 router
   .route('/')
   .get(handleLatestProjects)
   .post(handleProtectRoute, handleImage.single('screenshot'), handleNewProject);
 
+/**
+ * @swagger
+ * /api/v1/project/:id:
+ *   get:
+ *     summary: Get single project
+ *     tags:
+ *       - project
+ *     description: Get single project
+ *   patch:
+ *     summary: Update project
+ *     tags:
+ *       - project
+ *     description: Update project
+ *   delete:
+ *     summary: Delete project
+ *     tags:
+ *      - project
+ *     description: Delete project
+ */
 router
   .route('/:id')
   .get(handleProjectDetails)
