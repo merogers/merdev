@@ -13,6 +13,11 @@ const { upload } = require('../middleware/image.middleware');
  *     tags:
  *       - image
  *     description: Image Upload
+ *   delete:
+ *     summary: Image Delete
+ *     tags:
+ *       - image
+ *     description: Image Delete
  */
 router.route('/').post(upload.single('file'), handleImageUpload);
 
