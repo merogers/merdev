@@ -1,8 +1,5 @@
-// Connect to Database
-
-const mongoose = require("mongoose");
-
-const pc = require("picocolors");
+const mongoose = require('mongoose');
+const { logger } = require('../util/logger.util');
 
 const connectDB = async () => {
   try {
@@ -10,9 +7,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.info(pc.green(`> MongoDB Connected to: ${mongoDBConnect.connection.host}`));
+    logger.info(`MongoDB Connected to: ${mongoDBConnect.connection.host}`);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     process.exit(1);
   }
 };

@@ -1,45 +1,48 @@
-require("dotenv").config();
+require('dotenv').config();
+require('./config/db.config').connectDB();
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+const swaggerUi = require('swagger-ui-express');
+
+const authRouter = require('./routes/auth.routes');
+const emailRouter = require('./routes/email.routes');
+const projectRouter = require('./routes/project.routes');
+const userRouter = require('./routes/user.routes');
+const healthRouter = require('./routes/health.routes');
+const imageRouter = require('./routes/image.routes');
+
+const { logger } = require('./util/logger.util');
+const { swaggerSpec } = require('./config/docs.config');
 
 const port = process.env.PORT || 5000;
 
-const express = require("express");
+const { handleErrors } = require('./middleware/error.middleware');
 
-const app = express();
-const cors = require("cors");
-const pc = require("picocolors");
-const morgan = require("morgan");
-
-const { errorMiddleware } = require("./middleware/errorMiddleware");
-const indexRoutes = require("./routes");
-
-// --- DB --- //
-const { connectDB } = require("./config/db");
-
-connectDB();
-
-// --- CORS - Allow from Client-Side Only --- //
-
+// Middleware
 app.use(cors());
-
-// --- Log requests in development mode only --- //
-if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("tiny"));
-}
-
-// --- JSON Parsing Middleware --- //
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-// --- Main Router --- //
-app.use("/", indexRoutes);
+// Routes
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/email', emailRouter);
+app.use('/api/v1/project', projectRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/health', healthRouter);
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/v1/image', imageRouter);
 
-// --- Error Handler --- //
-app.use(errorMiddleware);
+// Error Handler
+app.use(handleErrors);
 
-// --- 404 Catch --- //
-app.use("*", (_req, res) => res.status(404).json({ message: "Endpoint not found" }));
+// 404
+app.use('*', (_req, res) => res.sendStatus(404));
 
-// --- Listener --- //
+// Hey, Listen!
 app.listen(port, () => {
-  console.info(pc.blue(`> Server listening on port: ${port}...`));
+  logger.info(`Server listening on port: ${port}...`);
 });
