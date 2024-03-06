@@ -28,10 +28,11 @@ const handleCreateUser = async (req, res, next) => {
       firstName,
       lastName,
     };
-    const newUser = await User.create(newUserData).select('-password');
-    const newUserReturn = newUser.toJson();
+    const newUser = await User.create(newUserData);
 
-    return res.status(201).json(newUserReturn);
+    const newUserJson = newUser.toJSON();
+
+    return res.status(201).json(newUserJson);
   } catch (error) {
     next(error);
     return null;

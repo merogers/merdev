@@ -2,14 +2,7 @@ const crypto = require('crypto');
 
 const createError = require('http-errors');
 
-// const { Storage } = require("@google-cloud/storage");
 const Project = require('../models/project.model');
-
-// const storage = new Storage({
-//   projectId: process.env.PROJECT_ID,
-//   keyFilename: process.env.KEYFILE_NAME,
-// });
-// const bucket = storage.bucket(process.env.BUCKET);
 
 const handleLatestProjects = async (_req, res, next) => {
   try {
@@ -59,7 +52,7 @@ const handleProjectDetails = async (req, res, next) => {
 };
 
 const handleNewProject = async (req, res, next) => {
-  const { title, description, tags, codeUrl, demoUrl } = req.body;
+  const { title, description, tags, codeUrl, demoUrl, userid } = req.body;
 
   // Abort if no project details
   if (!title || !description || !tags || !codeUrl || !demoUrl) {
@@ -72,7 +65,7 @@ const handleNewProject = async (req, res, next) => {
     tagsArray.map((tag) => tag.trim());
 
     // Get original file extension, and append it to unique filename
-    const fileName = req.file.originalname.split('.');
+    const fileName = 'derp.jpg';
     const newFileName = `${crypto.randomBytes(12).toString('hex')}.${fileName[1]}`;
 
     // Define GCP Storage Bucket Details
@@ -82,7 +75,7 @@ const handleNewProject = async (req, res, next) => {
     const newProjectData = {
       // screenshotUrl: process.env.STORAGE_URL + blob.id,
       screenshot: newFileName,
-      userid: req.user.id,
+      userid,
       title,
       description,
       tags: tagsArray,
@@ -91,8 +84,7 @@ const handleNewProject = async (req, res, next) => {
     };
 
     const newProject = await Project.create(newProjectData);
-    const newProjectReturn = newProject.toJson();
-    return res.status(201).json(newProjectReturn);
+    return res.status(201).json(newProject);
   } catch (error) {
     next(error);
     return null;
@@ -101,15 +93,14 @@ const handleNewProject = async (req, res, next) => {
 
 const handleUpdateProject = async (req, res, next) => {
   const { id } = req.params;
-  const { screenshotUrl, title, description, tags, codeUrl, demoUrl, _id } = req.body;
+  const { screenshot, title, description, tags, codeUrl, demoUrl } = req.body;
 
-  if (!id || !screenshotUrl || !title || !description || !tags) {
-    res.status(400);
-    throw new Error('Error updating project: missing fields');
+  if (!id || !screenshot || !title || !description || !tags) {
+    return next(createError(400, 'Missing Fields'));
   }
 
   try {
-    const project = await Project.findById({ _id: id });
+    const project = await Project.findById(id);
 
     if (!project) {
       return next(createError(404, 'Project not found'));
@@ -118,10 +109,9 @@ const handleUpdateProject = async (req, res, next) => {
     const tagsArray = tags.split(',');
 
     const updatedProjectBody = {
-      _id,
       codeUrl,
       demoUrl,
-      screenshotUrl,
+      screenshot,
       userid: project.userid,
       title,
       description,

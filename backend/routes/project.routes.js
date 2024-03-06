@@ -27,10 +27,7 @@ const {
  *       - project
  *     description: Creates new project
  */
-router
-  .route('/')
-  .get(handleLatestProjects)
-  .post(handleProtectRoute, handleImage.single('screenshot'), handleNewProject);
+router.route('/').get(handleLatestProjects).post(handleNewProject);
 
 /**
  * @swagger
@@ -51,10 +48,6 @@ router
  *      - project
  *     description: Delete project
  */
-router
-  .route('/:id')
-  .get(handleProjectDetails)
-  .patch(handleProtectRoute, handleUpdateProject)
-  .delete(handleProtectRoute, handleDeleteProject);
+router.route('/:id').get(handleProjectDetails).patch(handleUpdateProject).delete(handleDeleteProject);
 
 module.exports = router;
