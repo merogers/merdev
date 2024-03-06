@@ -2,9 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 
-const { handleProtectRoute } = require('../middleware/auth.middleware');
-const { handleImage } = require('../middleware/image.middleware');
-
 const {
   handleNewProject,
   handleLatestProjects,

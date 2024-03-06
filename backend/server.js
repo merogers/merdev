@@ -13,6 +13,7 @@ const emailRouter = require('./routes/email.routes');
 const projectRouter = require('./routes/project.routes');
 const userRouter = require('./routes/user.routes');
 const healthRouter = require('./routes/health.routes');
+const imageRouter = require('./routes/image.routes');
 
 const { logger } = require('./util/logger.util');
 const { swaggerSpec } = require('./config/docs.config');
@@ -24,7 +25,7 @@ const { handleErrors } = require('./middleware/error.middleware');
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/v1/auth', authRouter);
@@ -33,6 +34,7 @@ app.use('/api/v1/project', projectRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/v1/image', imageRouter);
 
 // Error Handler
 app.use(handleErrors);
