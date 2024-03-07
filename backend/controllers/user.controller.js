@@ -53,6 +53,10 @@ export const handleUserDetails = async (req, res, next) => {
       return next(createError(404, 'User not found'));
     }
 
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
+    }
+
     return res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -77,6 +81,10 @@ export const handleUpdateUser = async (req, res, next) => {
 
     if (user === null) {
       return next(createError(404, 'User not found'));
+    }
+
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     const updatedUserBody = {
@@ -107,6 +115,10 @@ export const handleDeleteUser = async (req, res, next) => {
 
     if (user === null) {
       return next(createError(404, 'User not found'));
+    }
+
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     await User.deleteOne({ _id: id });

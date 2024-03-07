@@ -114,6 +114,10 @@ export const handleUpdateProject = async (req, res, next) => {
       return next(createError(404, 'Project not found'));
     }
 
+    if (req.user !== project.userid) {
+      return next(createError(403, 'Unauthorized'));
+    }
+
     const tagsArray = tags.split(',');
 
     const updatedProjectBody = {
@@ -147,6 +151,10 @@ export const handleDeleteProject = async (req, res, next) => {
 
     if (!project) {
       return next(createError(404, 'Project not found'));
+    }
+
+    if (req.user !== project.userid) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     await Project.deleteOne({ _id: id });
