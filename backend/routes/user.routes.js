@@ -6,6 +6,8 @@ import {
   handleDeleteUser,
 } from '../controllers/user.controller.js';
 
+import { handleProtectRoute } from '../middleware/auth.middleware.js';
+
 const router = express.Router();
 
 /**
@@ -38,6 +40,10 @@ router.route('/').post(handleCreateUser);
  *       - user
  *     description: Deletes a user
  */
-router.route('/:id').get(handleUserDetails).patch(handleUpdateUser).delete(handleDeleteUser);
+router
+  .route('/:id')
+  .get(handleProtectRoute, handleUserDetails)
+  .patch(handleProtectRoute, handleUpdateUser)
+  .delete(handleProtectRoute, handleDeleteUser);
 
 export default router;

@@ -7,6 +7,8 @@ import {
   handleUpdateProject,
 } from '../controllers/project.controller.js';
 
+import { handleProtectRoute } from '../middleware/auth.middleware.js';
+
 const router = express.Router();
 
 /**
@@ -23,7 +25,7 @@ const router = express.Router();
  *       - project
  *     description: Creates new project
  */
-router.route('/').get(handleLatestProjects).post(handleNewProject);
+router.route('/').get(handleLatestProjects).post(handleProtectRoute, handleNewProject);
 
 /**
  * @swagger
@@ -44,6 +46,10 @@ router.route('/').get(handleLatestProjects).post(handleNewProject);
  *      - project
  *     description: Delete project
  */
-router.route('/:id').get(handleProjectDetails).patch(handleUpdateProject).delete(handleDeleteProject);
+router
+  .route('/:id')
+  .get(handleProtectRoute, handleProjectDetails)
+  .patch(handleProtectRoute, handleUpdateProject)
+  .delete(handleProtectRoute, handleDeleteProject);
 
 export default router;

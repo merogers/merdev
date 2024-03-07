@@ -4,12 +4,19 @@ import bcrypt from 'bcrypt';
 import User from '../models/user.model.js';
 import handleGenerateToken from '../util/token.util.js';
 
+import { testEmail, testPassword } from '../util/regex.util.js';
+
 export const handleLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  // Check for required fields
-  if (!email || !password) {
-    return next(createError(400, 'Missing Fields'));
+  const validEmail = testEmail(email);
+  const validPassword = testPassword(password);
+
+  // Validate user input
+  if (validEmail === false || validPassword === false) {
+    return next(
+      createError(400, 'Invalid Login. Email must be valid, and password must be between 8 and 25 characters long'),
+    );
   }
 
   try {

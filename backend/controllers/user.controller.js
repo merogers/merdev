@@ -1,15 +1,26 @@
 import bcrypt from 'bcrypt';
-
 import createError from 'http-errors';
+import { isValidObjectId } from 'mongoose';
 
 import User from '../models/user.model.js';
+import { testEmail, testName, testPassword } from '../util/regex.util.js';
 
 export const handleCreateUser = async (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
 
-  // Check for Blank fields
-  if (!email || !password || !firstName || !lastName) {
-    return next(createError(400, 'Missing fields'));
+  const validEmail = testEmail(email);
+  const validPassword = testPassword(password);
+  const validFirstName = testName(firstName);
+  const validLastName = testName(lastName);
+
+  // Validate user input
+  if (validEmail === false || validPassword === false || validFirstName === false || validLastName === false) {
+    return next(
+      createError(
+        400,
+        'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
+      ),
+    );
   }
 
   try {
@@ -28,10 +39,10 @@ export const handleCreateUser = async (req, res, next) => {
       firstName,
       lastName,
     };
+
+    // Create user, and return without password
     const newUser = await User.create(newUserData);
-
     const newUserJson = newUser.toJSON();
-
     return res.status(201).json(newUserJson);
   } catch (error) {
     next(error);
@@ -42,11 +53,19 @@ export const handleCreateUser = async (req, res, next) => {
 export const handleUserDetails = async (req, res, next) => {
   const { id } = req.params;
 
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
+
   try {
     const user = await User.findById(id).select('-password');
 
     if (user === null) {
       return next(createError(404, 'User not found'));
+    }
+
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     return res.status(200).json(user);
@@ -60,8 +79,23 @@ export const handleUpdateUser = async (req, res, next) => {
   const { id } = req.params;
   const { firstName, lastName, email, password } = req.body;
 
-  if (!id || !firstName || !lastName || !email || !password) {
-    return next(createError(400, 'Missing Fields'));
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
+
+  const validEmail = testEmail(email);
+  const validPassword = testPassword(password);
+  const validFirstName = testName(firstName);
+  const validLastName = testName(lastName);
+
+  // Validate user input
+  if (validEmail === false || validPassword === false || validFirstName === false || validLastName === false) {
+    return next(
+      createError(
+        400,
+        'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
+      ),
+    );
   }
 
   try {
@@ -69,6 +103,10 @@ export const handleUpdateUser = async (req, res, next) => {
 
     if (user === null) {
       return next(createError(404, 'User not found'));
+    }
+
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     const updatedUserBody = {
@@ -90,11 +128,19 @@ export const handleUpdateUser = async (req, res, next) => {
 export const handleDeleteUser = async (req, res, next) => {
   const { id } = req.params;
 
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
+
   try {
     const user = await User.findById(id);
 
     if (user === null) {
       return next(createError(404, 'User not found'));
+    }
+
+    if (req.user !== user._id.toString()) {
+      return next(createError(403, 'Unauthorized'));
     }
 
     await User.deleteOne({ _id: id });
