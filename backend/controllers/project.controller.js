@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-
 import createError from 'http-errors';
+import { isValidObjectId } from 'mongoose';
 
 import Project from '../models/project.model.js';
 
@@ -36,6 +36,10 @@ export const handleLatestProjects = async (_req, res, next) => {
 
 export const handleProjectDetails = async (req, res, next) => {
   const { id } = req.params;
+
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid Project ID format'));
+  }
 
   try {
     const project = await Project.findById(id);
@@ -95,6 +99,10 @@ export const handleUpdateProject = async (req, res, next) => {
   const { id } = req.params;
   const { screenshot, title, description, tags, codeUrl, demoUrl } = req.body;
 
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid Project ID format'));
+  }
+
   if (!id || !screenshot || !title || !description || !tags) {
     return next(createError(400, 'Missing Fields'));
   }
@@ -129,6 +137,10 @@ export const handleUpdateProject = async (req, res, next) => {
 
 export const handleDeleteProject = async (req, res, next) => {
   const { id } = req.params;
+
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid Project ID format'));
+  }
 
   try {
     const project = await Project.findById(id);

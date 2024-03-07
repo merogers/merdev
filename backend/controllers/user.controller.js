@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-
 import createError from 'http-errors';
+import { isValidObjectId } from 'mongoose';
 
 import User from '../models/user.model.js';
 
@@ -42,6 +42,10 @@ export const handleCreateUser = async (req, res, next) => {
 export const handleUserDetails = async (req, res, next) => {
   const { id } = req.params;
 
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
+
   try {
     const user = await User.findById(id).select('-password');
 
@@ -59,6 +63,10 @@ export const handleUserDetails = async (req, res, next) => {
 export const handleUpdateUser = async (req, res, next) => {
   const { id } = req.params;
   const { firstName, lastName, email, password } = req.body;
+
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
 
   if (!id || !firstName || !lastName || !email || !password) {
     return next(createError(400, 'Missing Fields'));
@@ -89,6 +97,10 @@ export const handleUpdateUser = async (req, res, next) => {
 
 export const handleDeleteUser = async (req, res, next) => {
   const { id } = req.params;
+
+  if (isValidObjectId(id) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
 
   try {
     const user = await User.findById(id);
