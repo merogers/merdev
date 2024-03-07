@@ -25,7 +25,7 @@ const router = express.Router();
  *       - project
  *     description: Creates new project
  */
-router.route('/').get(handleLatestProjects).post(handleNewProject);
+router.route('/').get(handleLatestProjects).post(handleProtectRoute, handleNewProject);
 
 /**
  * @swagger
@@ -49,7 +49,7 @@ router.route('/').get(handleLatestProjects).post(handleNewProject);
 router
   .route('/:id')
   .get(handleProtectRoute, handleProjectDetails)
-  .patch(handleUpdateProject)
-  .delete(handleDeleteProject);
+  .patch(handleProtectRoute, handleUpdateProject)
+  .delete(handleProtectRoute, handleDeleteProject);
 
 export default router;
