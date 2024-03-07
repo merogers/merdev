@@ -1,8 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { handleLogin } from '../controllers/auth.controller.js';
 
 const router = express.Router();
-
-const { handleLogin } = require('../controllers/auth.controller');
 
 /**
  * @swagger
@@ -15,4 +14,4 @@ const { handleLogin } = require('../controllers/auth.controller');
  */
 router.route('/').post(handleLogin);
 
-module.exports = router;
+export default router;

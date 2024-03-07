@@ -1,4 +1,4 @@
-const handleHealthCheck = async (_req, res, next) => {
+export const handleHealthCheck = async (_req, res, next) => {
   try {
     return res.sendStatus(200);
   } catch (error) {
@@ -6,5 +6,3 @@ const handleHealthCheck = async (_req, res, next) => {
     return null;
   }
 };
-
-module.exports = { handleHealthCheck };

@@ -1,26 +1,24 @@
-require('dotenv').config();
-require('./config/db.config').connectDB();
+import 'dotenv/config';
+import connectDB from './config/db.config.js';
+import express from 'express';
+import cors from 'cors';
+import swaggerUI from 'swagger-ui-express';
 
-const express = require('express');
-const cors = require('cors');
+import authRouter from './routes/auth.routes.js';
+import emailRouter from './routes/email.routes.js';
+import projectRouter from './routes/project.routes.js';
+import userRouter from './routes/user.routes.js';
+import healthRouter from './routes/health.routes.js';
+import imageRouter from './routes/image.routes.js';
+
+import logger from './util/logger.util.js';
+import swaggerSpec from './config/docs.config.js';
+import handleErrors from './middleware/error.middleware.js';
+
+connectDB();
 
 const app = express();
-
-const swaggerUi = require('swagger-ui-express');
-
-const authRouter = require('./routes/auth.routes');
-const emailRouter = require('./routes/email.routes');
-const projectRouter = require('./routes/project.routes');
-const userRouter = require('./routes/user.routes');
-const healthRouter = require('./routes/health.routes');
-const imageRouter = require('./routes/image.routes');
-
-const { logger } = require('./util/logger.util');
-const { swaggerSpec } = require('./config/docs.config');
-
 const port = process.env.PORT || 5000;
-
-const { handleErrors } = require('./middleware/error.middleware');
 
 // Middleware
 app.use(cors());
@@ -33,7 +31,7 @@ app.use('/api/v1/email', emailRouter);
 app.use('/api/v1/project', projectRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/health', healthRouter);
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use('/api/v1/image', imageRouter);
 
 // Error Handler

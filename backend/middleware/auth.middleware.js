@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const createError = require('http-errors');
+import jwt from 'jsonwebtoken';
+import createError from 'http-errors';
 
-const User = require('../models/user.model');
+const User = require('../models/user.model.js');
 
-const handleProtectRoute = async (req, _res, next) => {
+export const handleProtectRoute = async (req, _res, next) => {
   const authToken = req.headers.authorization;
 
   if (authToken === null || !authToken.startsWith('Bearer')) {
@@ -24,7 +24,7 @@ const handleProtectRoute = async (req, _res, next) => {
   }
 };
 
-const handleOwnershipCheck = async (req, _res, next) => {
+export const handleOwnershipCheck = async (req, _res, next) => {
   const { _id } = req.user;
   const { id } = req.params;
 
@@ -40,5 +40,3 @@ const handleOwnershipCheck = async (req, _res, next) => {
     return null;
   }
 };
-
-module.exports = { handleProtectRoute, handleOwnershipCheck };

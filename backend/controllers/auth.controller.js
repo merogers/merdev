@@ -1,10 +1,10 @@
-const createError = require('http-errors');
+import createError from 'http-errors';
 
-const bcrypt = require('bcrypt');
-const User = require('../models/user.model');
-const handleGenerateToken = require('../util/token.util');
+import bcrypt from 'bcrypt';
+import User from '../models/user.model.js';
+import handleGenerateToken from '../util/token.util.js';
 
-const handleLogin = async (req, res, next) => {
+export const handleLogin = async (req, res, next) => {
   const { email, password } = req.body;
 
   // Check for required fields
@@ -37,5 +37,3 @@ const handleLogin = async (req, res, next) => {
     return null;
   }
 };
-
-module.exports = { handleLogin };

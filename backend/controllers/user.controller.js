@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
-const createError = require('http-errors');
+import createError from 'http-errors';
 
-const User = require('../models/user.model');
+import User from '../models/user.model.js';
 
-const handleCreateUser = async (req, res, next) => {
+export const handleCreateUser = async (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
 
   // Check for Blank fields
@@ -39,7 +39,7 @@ const handleCreateUser = async (req, res, next) => {
   }
 };
 
-const handleUserDetails = async (req, res, next) => {
+export const handleUserDetails = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -56,7 +56,7 @@ const handleUserDetails = async (req, res, next) => {
   }
 };
 
-const handleUpdateUser = async (req, res, next) => {
+export const handleUpdateUser = async (req, res, next) => {
   const { id } = req.params;
   const { firstName, lastName, email, password } = req.body;
 
@@ -87,7 +87,7 @@ const handleUpdateUser = async (req, res, next) => {
   }
 };
 
-const handleDeleteUser = async (req, res, next) => {
+export const handleDeleteUser = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -105,5 +105,3 @@ const handleDeleteUser = async (req, res, next) => {
     return null;
   }
 };
-
-module.exports = { handleCreateUser, handleUserDetails, handleUpdateUser, handleDeleteUser };

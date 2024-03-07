@@ -1,8 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { handleHealthCheck } from '../controllers/health.controller.js';
 
 const router = express.Router();
-
-const { handleHealthCheck } = require('../controllers/health.controller');
 
 /**
  * @swagger
@@ -15,4 +14,4 @@ const { handleHealthCheck } = require('../controllers/health.controller');
  */
 router.route('/').get(handleHealthCheck);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 const generateFileName = (bytes = 16) => crypto.randomBytes(bytes).toString('hex');
 
-module.exports = { generateFileName };
+export default generateFileName;

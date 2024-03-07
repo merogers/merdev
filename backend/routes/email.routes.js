@@ -1,8 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { handleEmail } from '../controllers/email.controller.js';
 
 const router = express.Router();
-
-const { handleEmail } = require('../controllers/email.controller');
 
 /**
  * @swagger
@@ -15,4 +14,4 @@ const { handleEmail } = require('../controllers/email.controller');
  */
 router.route('/').post(handleEmail);
 
-module.exports = router;
+export default router;

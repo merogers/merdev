@@ -1,10 +1,10 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-const createError = require('http-errors');
+import createError from 'http-errors';
 
-const Project = require('../models/project.model');
+import Project from '../models/project.model.js';
 
-const handleLatestProjects = async (_req, res, next) => {
+export const handleLatestProjects = async (_req, res, next) => {
   try {
     const projects = await Project.find().sort({ updatedAt: -1 }).limit(5);
 
@@ -34,7 +34,7 @@ const handleLatestProjects = async (_req, res, next) => {
 //   }
 // });
 
-const handleProjectDetails = async (req, res, next) => {
+export const handleProjectDetails = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -51,7 +51,7 @@ const handleProjectDetails = async (req, res, next) => {
   }
 };
 
-const handleNewProject = async (req, res, next) => {
+export const handleNewProject = async (req, res, next) => {
   const { title, description, tags, codeUrl, demoUrl, userid } = req.body;
 
   // Abort if no project details
@@ -91,7 +91,7 @@ const handleNewProject = async (req, res, next) => {
   }
 };
 
-const handleUpdateProject = async (req, res, next) => {
+export const handleUpdateProject = async (req, res, next) => {
   const { id } = req.params;
   const { screenshot, title, description, tags, codeUrl, demoUrl } = req.body;
 
@@ -127,7 +127,7 @@ const handleUpdateProject = async (req, res, next) => {
   }
 };
 
-const handleDeleteProject = async (req, res, next) => {
+export const handleDeleteProject = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -143,12 +143,4 @@ const handleDeleteProject = async (req, res, next) => {
     next(error);
     return null;
   }
-};
-
-module.exports = {
-  handleDeleteProject,
-  handleLatestProjects,
-  handleNewProject,
-  handleProjectDetails,
-  handleUpdateProject,
 };
