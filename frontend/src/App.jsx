@@ -4,9 +4,9 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Main from './components/Main/Main';
 
-import Hero from './components/Hero';
+import Hero from './components/Hero/Hero';
 import Projects from './components/Projects';
-import About from './components/About';
+import About from './components/About/About';
 import Contact from './components/Contact';
 import Toast from './components/Toast';
 import Login from './components/Login';
@@ -19,7 +19,7 @@ function App() {
     <Main>
       <Header title="michellerogers.ca" />
       {user && <Dashboard />}
-      <Hero />
+      <Hero title="Hi, I'm Michelle" tagline="Freelance Web Developer. Tech enthusiast. Cat person." />
       <Projects />
       <About />
       <Contact />

@@ -58,17 +58,25 @@
     width: 100%;
     height: 100%;
     position: relative;
-    padding-bottom: 5rem;
+
     @include tablet {
       align-items: center;
       width: 80%;
     }
   }
 
+  &__hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   &__hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: absolute;
+
     @include tablet {
       align-items: flex-start;
     }
@@ -161,7 +169,6 @@
     }
     &--centered {
       text-align: center;
-      margin: 2rem 0 0 0;
     }
   }
 

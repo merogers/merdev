@@ -1,0 +1,18 @@
+@use '../../styles/partials/colors' as *;
+
+.about {
+  background-color: $background;
+  &__mask {
+    background-color: $secondary;
+    color: $background;
+    padding: 3rem 0;
+
+    --mask: radial-gradient(2.24rem at 50% 3rem, #000 99%, #0000 101%) calc(50% - 2rem) 0/4rem 51% repeat-x,
+      radial-gradient(2.24rem at 50% -2rem, #0000 99%, #000 101%) 50% 1rem/4rem calc(51% - 1rem) repeat-x,
+      radial-gradient(2.24rem at 50% calc(100% - 3rem), #000 99%, #0000 101%) calc(50% - 2rem) 100%/4rem 51% repeat-x,
+      radial-gradient(2.24rem at 50% calc(100% + 2rem), #0000 99%, #000 101%) 50% calc(100% - 1rem) / 4rem
+        calc(51% - 1rem) repeat-x;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+  }
+}

@@ -15,7 +15,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 4;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   &__content {
     display: flex;
@@ -32,9 +32,9 @@
     padding: 0 1rem;
     border-radius: 0.25rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: color 0.3s;
     &:hover {
-      background-color: $secondary-hover;
+      color: $primary-hover;
     }
   }
   &__icon {
@@ -103,16 +103,13 @@
       color: $accent;
     }
     &:hover {
-      background-color: $secondary;
+      color: $primary-hover;
     }
 
     @include tablet {
       font-size: 1rem;
       padding: 0 1rem;
       background-color: $secondary;
-      &:hover {
-        background-color: $secondary-hover;
-      }
     }
 
     &--outline {
@@ -147,6 +144,6 @@
   }
 
   &__button-sm-outline {
-    @include button-sm-outline($secondary, $secondary-hover, white);
+    @include button-sm-outline($secondary, $secondary-hover, $primary-hover);
   }
 }

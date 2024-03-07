@@ -31,7 +31,7 @@
   @include button;
   @include button-lg;
   border: none;
-  color: white;
+  color: $secondary;
   background-color: $bg;
   &:hover {
     background-color: $hover;
