@@ -7,6 +7,8 @@ import {
   handleUpdateProject,
 } from '../controllers/project.controller.js';
 
+import { handleProtectRoute } from '../middleware/auth.middleware.js';
+
 const router = express.Router();
 
 /**
@@ -44,6 +46,10 @@ router.route('/').get(handleLatestProjects).post(handleNewProject);
  *      - project
  *     description: Delete project
  */
-router.route('/:id').get(handleProjectDetails).patch(handleUpdateProject).delete(handleDeleteProject);
+router
+  .route('/:id')
+  .get(handleProtectRoute, handleProjectDetails)
+  .patch(handleUpdateProject)
+  .delete(handleDeleteProject);
 
 export default router;
