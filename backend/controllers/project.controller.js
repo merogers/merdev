@@ -1,8 +1,8 @@
-import crypto from 'crypto';
 import createError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
 
 import Project from '../models/project.model.js';
+import { testName, testMessage, testUrl, testTags } from '../util/regex.util.js';
 
 export const handleLatestProjects = async (_req, res, next) => {
   try {
@@ -56,11 +56,34 @@ export const handleProjectDetails = async (req, res, next) => {
 };
 
 export const handleNewProject = async (req, res, next) => {
-  const { title, description, tags, codeUrl, demoUrl, userid } = req.body;
+  const { title, description, tags, codeUrl, demoUrl, userid, screenshot } = req.body;
 
-  // Abort if no project details
-  if (!title || !description || !tags || !codeUrl || !demoUrl) {
-    return next(createError(400, 'Missing fields'));
+  if (isValidObjectId(userid) === false) {
+    return next(createError(400, 'Invalid User ID format'));
+  }
+
+  const validTitle = testName(title);
+  const validDescription = testMessage(description);
+  const validTags = testTags(tags);
+  const validCodeUrl = testUrl(codeUrl);
+  const validDemoUrl = testUrl(demoUrl);
+  const validScreenshot = testUrl(screenshot);
+
+  // Validate user input
+  if (
+    validTitle === false ||
+    validDescription === false ||
+    validTags === false ||
+    validCodeUrl === false ||
+    validDemoUrl === false ||
+    validScreenshot === false
+  ) {
+    return next(
+      createError(
+        400,
+        'Invalid Project. Title must be between 1 and 25 characters long, description must be between 1 and 250 characters long, tags must be a comma-separated string, codeUrl, demoUrl and screenshot must be valid urls.',
+      ),
+    );
   }
 
   try {
@@ -68,17 +91,8 @@ export const handleNewProject = async (req, res, next) => {
     const tagsArray = tags.split(',');
     tagsArray.map((tag) => tag.trim());
 
-    // Get original file extension, and append it to unique filename
-    const fileName = 'derp.jpg';
-    const newFileName = `${crypto.randomBytes(12).toString('hex')}.${fileName[1]}`;
-
-    // Define GCP Storage Bucket Details
-    // const blob = bucket.file(newFileName);
-    // const blobStream = blob.createWriteStream();
-
     const newProjectData = {
-      // screenshotUrl: process.env.STORAGE_URL + blob.id,
-      screenshot: newFileName,
+      screenshot,
       userid,
       title,
       description,
@@ -97,14 +111,34 @@ export const handleNewProject = async (req, res, next) => {
 
 export const handleUpdateProject = async (req, res, next) => {
   const { id } = req.params;
-  const { screenshot, title, description, tags, codeUrl, demoUrl } = req.body;
+  const { title, description, tags, codeUrl, demoUrl, screenshot } = req.body;
 
   if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid Project ID format'));
+    return next(createError(400, 'Invalid User ID format'));
   }
 
-  if (!id || !screenshot || !title || !description || !tags) {
-    return next(createError(400, 'Missing Fields'));
+  const validTitle = testName(title);
+  const validDescription = testMessage(description);
+  const validTags = testTags(tags);
+  const validCodeUrl = testUrl(codeUrl);
+  const validDemoUrl = testUrl(demoUrl);
+  const validScreenshot = testUrl(screenshot);
+
+  // Validate user input
+  if (
+    validTitle === false ||
+    validDescription === false ||
+    validTags === false ||
+    validCodeUrl === false ||
+    validDemoUrl === false ||
+    validScreenshot === false
+  ) {
+    return next(
+      createError(
+        400,
+        'Invalid Project. Title must be between 1 and 25 characters long, description must be between 1 and 250 characters long, tags must be a comma-separated string, codeUrl, demoUrl and screenshot must be valid urls.',
+      ),
+    );
   }
 
   try {
@@ -130,7 +164,7 @@ export const handleUpdateProject = async (req, res, next) => {
       tags: tagsArray,
     };
 
-    const updatedProject = await Project.findByIdAndUpdate({ _id: id }, updatedProjectBody, { new: true });
+    const updatedProject = await Project.findByIdAndUpdate(id, updatedProjectBody, { new: true });
 
     return res.status(200).json(updatedProject);
   } catch (error) {
