@@ -1,14 +1,13 @@
-const express = require('express');
-
-const router = express.Router();
-
-const {
+import express from 'express';
+import {
   handleNewProject,
   handleLatestProjects,
   handleDeleteProject,
   handleProjectDetails,
   handleUpdateProject,
-} = require('../controllers/project.controller');
+} from '../controllers/project.controller.js';
+
+const router = express.Router();
 
 /**
  * @swagger
@@ -47,4 +46,4 @@ router.route('/').get(handleLatestProjects).post(handleNewProject);
  */
 router.route('/:id').get(handleProjectDetails).patch(handleUpdateProject).delete(handleDeleteProject);
 
-module.exports = router;
+export default router;

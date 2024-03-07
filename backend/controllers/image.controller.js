@@ -1,13 +1,13 @@
-const sharp = require('sharp');
-const createError = require('http-errors');
-const { BlobServiceClient } = require('@azure/storage-blob');
-const { logger } = require('../util/logger.util');
-const { generateFileName } = require('../util/file.util');
+import sharp from 'sharp';
+import createError from 'http-errors';
+import { BlobServiceClient } from '@azure/storage-blob';
+import logger from '../util/logger.util.js';
+import generateFileName from '../util/file.util.js';
 
 const AZURE_BLOB_STRING = process.env.AZURE_BLOB_STRING;
 const AZURE_BLOB_CONTAINER = process.env.AZURE_BLOB_CONTAINER;
 
-const handleImageUpload = async (req, res, next) => {
+export const handleImageUpload = async (req, res, next) => {
   const file = req.file;
 
   // Create the BlobServiceClient object with connection string
@@ -34,7 +34,7 @@ const handleImageUpload = async (req, res, next) => {
   }
 };
 
-const handleImageDelete = async (req, res, next) => {
+export const handleImageDelete = async (req, res, next) => {
   const { filename } = req.params;
   try {
     // Get Azure details
@@ -56,5 +56,3 @@ const handleImageDelete = async (req, res, next) => {
     return null;
   }
 };
-
-module.exports = { handleImageUpload, handleImageDelete };

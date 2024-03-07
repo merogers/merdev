@@ -1,4 +1,4 @@
-const { logger } = require('../util/logger.util');
+import logger from '../util/logger.util.js';
 
 const handleErrors = async (error, _req, res, next) => {
   const errorStatus = error.statusCode || 500;
@@ -23,6 +23,4 @@ const handleErrors = async (error, _req, res, next) => {
   }
 };
 
-module.exports = {
-  handleErrors,
-};
+export default handleErrors;

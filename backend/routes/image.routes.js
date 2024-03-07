@@ -1,9 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { handleImageUpload, handleImageDelete } from '../controllers/image.controller.js';
+import { upload } from '../middleware/image.middleware.js';
 
 const router = express.Router();
-
-const { handleImageUpload, handleImageDelete } = require('../controllers/image.controller');
-const { upload } = require('../middleware/image.middleware');
 
 /**
  * @swagger
@@ -23,4 +22,4 @@ router.route('/').post(upload.single('file'), handleImageUpload);
 
 router.route('/:filename').delete(handleImageDelete);
 
-module.exports = router;
+export default router;

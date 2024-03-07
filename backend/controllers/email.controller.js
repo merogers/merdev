@@ -1,11 +1,10 @@
-// const nodemailer = require("nodemailer");
-const createError = require('http-errors');
-const emailClient = require('../util/email.util');
+import createError from 'http-errors';
+import emailClient from '../util/email.util.js';
 
 const azureEmailFrom = process.env.AZURE_CS_FROM;
 const azureEmailTo = process.env.AZURE_CS_TO;
 
-const handleEmail = async (req, res, next) => {
+export const handleEmail = async (req, res, next) => {
   const { name, email, phone, message, jobRole } = req.body;
 
   if (!name || !email || !phone || !message) {
@@ -37,5 +36,3 @@ const handleEmail = async (req, res, next) => {
     return null;
   }
 };
-
-module.exports = { handleEmail };

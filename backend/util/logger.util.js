@@ -1,5 +1,5 @@
-const winston = require('winston');
-const WinstonDailyRotateFile = require('winston-daily-rotate-file');
+import winston from 'winston';
+import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const { combine, timestamp, cli, align, printf, errors } = winston.format;
 
@@ -35,4 +35,4 @@ if (env !== 'production') {
   );
 }
 
-module.exports = { logger };
+export default logger;
