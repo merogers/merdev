@@ -1,33 +1,49 @@
 import sharp from 'sharp';
 import createError from 'http-errors';
-import { BlobServiceClient } from '@azure/storage-blob';
-import logger from '../util/logger.util.js';
+import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import generateFileName from '../util/file.util.js';
 
-const AZURE_BLOB_STRING = process.env.AZURE_BLOB_STRING;
-const AZURE_BLOB_CONTAINER = process.env.AZURE_BLOB_CONTAINER;
+const AWS_REGION = process.env.AWS_REGION;
+const AWS_BUCKET = process.env.AWS_BUCKET;
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 export const handleImageUpload = async (req, res, next) => {
-  const file = req.file;
-
-  // Create the BlobServiceClient object with connection string
   try {
+    const file = req.file;
+
+    if (file === null) {
+      createError(404, 'No Image');
+      return;
+    }
     const buffer = await sharp(file.buffer)
       .resize({ height: 720, width: 1280, fit: 'contain' })
       .jpeg({ mozjpeg: true })
       .toBuffer();
 
-    // Get Azure details
-    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_BLOB_STRING);
-    const containerClient = blobServiceClient.getContainerClient(AZURE_BLOB_CONTAINER);
+    const newName = `${generateFileName()}.jpg`;
 
-    // Upload File to Azure Container
-    const blobName = `${generateFileName()}.jpg`;
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    await blockBlobClient.uploadData(buffer, { conditions: { ifNoneMatch: '*' } });
+    const client = new S3Client({
+      region: AWS_REGION,
+      credentials: {
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      },
+    });
 
-    logger.info(`Screenshot Uploaded: ${blockBlobClient.url}`);
-    return res.status(200).json({ screenshot: blockBlobClient.url });
+    const uploadFile = async (fileBuffer, fileName, mimetype) => {
+      const uploadParams = {
+        Bucket: AWS_BUCKET,
+        Body: fileBuffer,
+        Key: fileName,
+        ContentType: mimetype,
+      };
+
+      return await client.send(new PutObjectCommand(uploadParams));
+    };
+
+    await uploadFile(buffer, newName, file.mimetype);
+    res.status(200).json({ filename: newName });
   } catch (error) {
     next(error);
     return null;
@@ -37,18 +53,21 @@ export const handleImageUpload = async (req, res, next) => {
 export const handleImageDelete = async (req, res, next) => {
   const { filename } = req.params;
   try {
-    // Get Azure details
-    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_BLOB_STRING);
-    const containerClient = blobServiceClient.getContainerClient(AZURE_BLOB_CONTAINER);
+    const client = new S3Client({
+      region: AWS_REGION,
+      credentials: {
+        accessKeyId: AWS_ACCESS_KEY_ID,
+        secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      },
+    });
 
-    const blobClient = containerClient.getBlobClient(filename);
-    const exists = await blobClient.exists();
+    const input = {
+      Bucket: AWS_BUCKET,
+      Key: filename,
+    };
 
-    if (exists === false) {
-      return next(createError(404, 'Screenshot does not exist'));
-    }
-
-    await blobClient.delete();
+    const command = new DeleteObjectCommand(input);
+    await client.send(command);
 
     return res.sendStatus(200);
   } catch (error) {
