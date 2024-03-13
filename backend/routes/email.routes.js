@@ -1,5 +1,6 @@
 import express from 'express';
 import { handleEmail } from '../controllers/email.controller.js';
+import rateLimiter from '../middleware/rate.limit.middleware.js';
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ const router = express.Router();
  *       - email
  *     description: Sends email, generated from contact form
  */
-router.route('/').post(handleEmail);
+router.route('/').post(rateLimiter, handleEmail);
 
 export default router;

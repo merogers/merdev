@@ -4,6 +4,8 @@ import { upload } from '../middleware/image.middleware.js';
 
 import { handleProtectRoute } from '../middleware/auth.middleware.js';
 
+import rateLimiter from '../middleware/rate.limit.middleware.js';
+
 const router = express.Router();
 
 /**
@@ -20,7 +22,7 @@ const router = express.Router();
  *       - image
  *     description: Image Delete
  */
-router.route('/').post(handleProtectRoute, upload.single('file'), handleImageUpload);
+router.route('/').post(rateLimiter, handleProtectRoute, upload.single('file'), handleImageUpload);
 
 router.route('/:filename').delete(handleProtectRoute, handleImageDelete);
 

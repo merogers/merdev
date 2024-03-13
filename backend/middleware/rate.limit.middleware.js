@@ -1,10 +1,10 @@
-import setRateLimit from 'express-rate-limiter';
+import setRateLimit from 'express-rate-limit';
 
 const rateLimiter = setRateLimit({
-  windowMs: 60 * 1000,
-  max: 10,
-  message: 'You have exceeded your 10 requests per minute limit.',
-  header: true,
+  windowMs: 15 * 60 * 1000,
+  limit: 3,
+  message: 'You have exceeded your 3 requests per 15 minute limit.',
+  headers: true,
 });
 
 export default rateLimiter;
