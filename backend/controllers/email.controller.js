@@ -1,9 +1,13 @@
 import createError from 'http-errors';
-import emailClient from '../util/email.util.js';
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { testEmail, testName, testPhone, testMessage } from '../util/regex.util.js';
 
-const azureEmailFrom = process.env.AZURE_CS_FROM;
-const azureEmailTo = process.env.AZURE_CS_TO;
+// AWS Config
+const AWS_REGION = process.env.AWS_REGION;
+const AWS_SES_TO = process.env.AWS_SES_TO;
+const AWS_SES_FROM = process.env.AWS_SES_FROM;
+
+const sesClient = new SESClient(AWS_REGION);
 
 export const handleEmail = async (req, res, next) => {
   const { name, email, phone, message, jobRole } = req.body;
@@ -28,21 +32,33 @@ export const handleEmail = async (req, res, next) => {
     return next(createError(400, 'Cannot send message'));
   }
 
+  // Email generation command
+  const command = new SendEmailCommand({
+    Destination: {
+      ToAddresses: [`${AWS_SES_TO}`],
+    },
+    Message: {
+      Body: {
+        /* required */
+        Html: {
+          Charset: 'UTF-8',
+          Data: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Phone:</strong> ${phone}</p><p><strong>Message:</strong> ${message}</p>`,
+        },
+        Text: {
+          Charset: 'UTF-8',
+          Data: `Name: ${name}, Email: ${email}, Phone: ${phone} Message: ${message}`,
+        },
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: `Submission from ${name}`,
+      },
+    },
+    Source: `${AWS_SES_FROM}`,
+  });
+
   try {
-    const emailMessage = {
-      senderAddress: azureEmailFrom,
-      content: {
-        subject: 'Test Email',
-        plainText: `From: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-      },
-      recipients: {
-        to: [{ address: azureEmailTo }],
-      },
-    };
-
-    const poller = await emailClient.beginSend(emailMessage);
-    await poller.pollUntilDone();
-
+    await sesClient.send(command);
     return res.sendStatus(200);
   } catch (error) {
     next(error);

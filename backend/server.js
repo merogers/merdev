@@ -3,6 +3,7 @@ import connectDB from './config/db.config.js';
 import express from 'express';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
+import helmet from 'helmet';
 
 import authRouter from './routes/auth.routes.js';
 import emailRouter from './routes/email.routes.js';
@@ -22,6 +23,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
