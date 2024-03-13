@@ -7,6 +7,7 @@ import {
 } from '../controllers/user.controller.js';
 
 import { handleProtectRoute } from '../middleware/auth.middleware.js';
+import rateLimiter from '../middleware/rate.limit.middleware.js';
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ const router = express.Router();
  *       - user
  *     description: Creates new user
  */
-router.route('/').post(handleCreateUser);
+router.route('/').post(rateLimiter, handleCreateUser);
 
 /**
  * @swagger

@@ -15,7 +15,6 @@ import imageRouter from './routes/image.routes.js';
 import logger from './util/logger.util.js';
 import swaggerSpec from './config/docs.config.js';
 import handleErrors from './middleware/error.middleware.js';
-import rateLimiter from './middleware/rate.limit.middleware.js';
 
 connectDB();
 
@@ -25,7 +24,6 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(helmet());
-app.use(rateLimiter());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

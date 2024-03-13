@@ -1,5 +1,6 @@
 import express from 'express';
 import { handleLogin } from '../controllers/auth.controller.js';
+import rateLimiter from '../middleware/rate.limit.middleware.js';
 
 const router = express.Router();
 
@@ -12,6 +13,6 @@ const router = express.Router();
  *       - auth
  *     description: Logs in user and generates JWT Token
  */
-router.route('/').post(handleLogin);
+router.route('/').post(rateLimiter, handleLogin);
 
 export default router;

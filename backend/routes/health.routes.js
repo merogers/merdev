@@ -1,6 +1,8 @@
 import express from 'express';
 import { handleHealthCheck } from '../controllers/health.controller.js';
 
+import rateLimiter from '../middleware/rate.limit.middleware.js';
+
 const router = express.Router();
 
 /**
@@ -12,6 +14,6 @@ const router = express.Router();
  *       - health
  *     description: Returns Status Code 200
  */
-router.route('/').get(handleHealthCheck);
+router.route('/').get(rateLimiter, handleHealthCheck);
 
 export default router;
