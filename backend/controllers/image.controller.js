@@ -3,6 +3,7 @@ import createError from 'http-errors';
 import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import generateFileName from '../util/file.util.js';
 
+// AWS Config
 const AWS_REGION = process.env.AWS_REGION;
 const AWS_BUCKET = process.env.AWS_BUCKET;
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
@@ -13,8 +14,7 @@ export const handleImageUpload = async (req, res, next) => {
     const file = req.file;
 
     if (file === null) {
-      createError(404, 'No Image');
-      return;
+      return next(createError(400, 'No image specified'));
     }
     const buffer = await sharp(file.buffer)
       .resize({ height: 720, width: 1280, fit: 'contain' })
