@@ -1,0 +1,30 @@
+@use './partials/variables' as *;
+@use './partials/typography' as *;
+@use './partials/utility' as *;
+@use './partials/media' as *;
+
+// Global Reset
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  // Small Screen Font Size
+  font-size: 16px;
+  // Medium+ Screen Font Size
+  @include tablet {
+    font-size: 20px;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-stack;
+}
+
+.container {
+  @include container;
+}

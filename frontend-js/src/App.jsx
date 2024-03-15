@@ -19,7 +19,7 @@ function App() {
     <Main>
       <Header title="michellerogers.ca" />
       {user && <Dashboard />}
-      <Hero title="Hi, I'm Michelle" tagline="Freelance Web Developer. Tech enthusiast. Cat person." />
+      <Hero title="Hi, I'm Michelle." tagline="Freelance Web Developer. Tech enthusiast. Cat person." />
       <Projects />
       <About />
       <Contact />

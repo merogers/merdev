@@ -14,10 +14,7 @@ import { logout, reset } from '../../features/auth/authSlice';
 
 import { toggleMenu } from '../../features/menu/menuSlice';
 
-import {
-  toggleLoginModal,
-  toggleRegisterModal,
-} from '../../features/modal/modalSlice';
+import { toggleLoginModal, toggleRegisterModal } from '../../features/modal/modalSlice';
 
 const Header = ({ title }) => {
   const { user } = useSelector((state) => state.auth);
@@ -36,96 +33,80 @@ const Header = ({ title }) => {
   };
 
   return (
-    <header className='header'>
+    <header className="header">
       <Container>
-        <div className='header__content'>
-          <Link className='header__logo' to='hero' smooth={true}>
+        <div className="header__content">
+          <Link className="header__logo" to="hero" smooth={true}>
             {title}
           </Link>
-          <nav className='header__nav'>
-            <ul
-              className={`header__nav-list${
-                isOpen ? '' : ' header__nav-list--close'
-              }`}
-            >
-              <li className='header__nav-item'>
+          <nav className="header__nav">
+            <ul className={`header__nav-list${isOpen ? '' : ' header__nav-list--close'}`}>
+              <li className="header__nav-item">
                 <Link
-                  to='hero'
+                  to="hero"
                   smooth={true}
                   spy={true}
                   offset={-64}
-                  className='header__nav-link'
-                  activeClass='header__nav-link--active'
+                  className="header__nav-link"
+                  activeClass="header__nav-link--active"
                 >
                   Home
                 </Link>
               </li>
-              <li className='header__nav-item'>
+              <li className="header__nav-item">
                 <Link
-                  to='projects'
+                  to="projects"
                   smooth={true}
                   spy={true}
                   offset={-64}
-                  className='header__nav-link'
-                  activeClass='header__nav-link--active'
+                  className="header__nav-link"
+                  activeClass="header__nav-link--active"
                 >
                   Projects
                 </Link>
               </li>
-              <li className='header__nav-item'>
+              <li className="header__nav-item">
                 <Link
-                  to='about'
+                  to="about"
                   smooth={true}
                   spy={true}
                   offset={-64}
-                  className='header__nav-link'
-                  activeClass='header__nav-link--active'
+                  className="header__nav-link"
+                  activeClass="header__nav-link--active"
                 >
                   About
                 </Link>
               </li>
-              <li className='header__nav-item'>
+              <li className="header__nav-item">
                 <Link
-                  to='contact'
+                  to="contact"
                   smooth={true}
                   spy={true}
                   offset={-64}
-                  className='header__nav-link'
-                  activeClass='header__nav-link--active'
+                  className="header__nav-link"
+                  activeClass="header__nav-link--active"
                 >
                   Contact
                 </Link>
               </li>
-              <li className='header__nav-item'>
-                <button
-                  className='header__nav-link'
-                  onClick={() => dispatch(toggleRegisterModal())}
-                >
+              <li className="header__nav-item">
+                <button className="header__nav-link" onClick={() => dispatch(toggleRegisterModal())}>
                   Register
                 </button>
               </li>
-              <li className='header__nav-item'>
+              <li className="header__nav-item">
                 {user ? (
-                  <button
-                    className='header__button-sm-outline'
-                    onClick={handleLogout}
-                  >
+                  <button className="header__button-sm-solid" onClick={handleLogout}>
                     Logout
                   </button>
                 ) : (
-                  <button
-                    className='header__button-sm-outline'
-                    onClick={() => dispatch(toggleLoginModal())}
-                  >
+                  <button className="header__button-sm-solid" onClick={() => dispatch(toggleLoginModal())}>
                     Login
                   </button>
                 )}
               </li>
             </ul>
-            <div
-              className='header__nav-toggle'
-              onClick={() => dispatch(toggleMenu())}
-            >
+            <div className="header__nav-toggle" onClick={() => dispatch(toggleMenu())}>
               {isOpen ? <FaTimes /> : <FaBars />}
             </div>
           </nav>

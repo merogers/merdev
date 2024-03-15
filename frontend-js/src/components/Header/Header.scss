@@ -2,6 +2,7 @@
 @use '../../styles/partials/media' as *;
 @use '../../styles/partials/utility' as *;
 @use '../../styles/partials/buttons' as *;
+@use '../../styles/partials/font' as *;
 
 .header {
   background-color: $secondary;
@@ -17,6 +18,7 @@
   top: 0;
   z-index: 4;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  letter-spacing: 1px;
   &__content {
     display: flex;
     justify-content: space-between;
@@ -97,7 +99,7 @@
     font-size: 1.3rem;
     padding: 0.5rem 2rem;
     cursor: pointer;
-    font-family: 'Poppins', sans-serif;
+    font-family: $font-stack;
 
     &--active {
       color: $accent;

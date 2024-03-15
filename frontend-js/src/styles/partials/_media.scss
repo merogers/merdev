@@ -1,6 +1,9 @@
-@use './variables' as *;
+/* --- Breakpoints --- */
 
-// Media Query Mixins
+$breakpoint-desktop: 1280px;
+$breakpoint-tablet: 800px;
+$breakpoint-mobile: 375px;
+
 @mixin tablet {
   @media (min-width: $breakpoint-tablet) {
     @content;

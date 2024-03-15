@@ -1,0 +1,6 @@
+// Typography Mixins
+@mixin h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+}

@@ -2,8 +2,6 @@ import React from 'react';
 
 import Container from '../Container/Container';
 
-import { FaSmile } from 'react-icons/fa';
-
 import './About.scss';
 
 const About = () => {
@@ -27,8 +25,7 @@ const About = () => {
             my services as a freelance web developer.
           </p>
           <p className="section__p">
-            Feel free to send me a message if you want to take your website or web application to the next level{' '}
-            <FaSmile />
+            Feel free to send me a message if you want to take your website or web application to the next level
           </p>
         </Container>
       </div>

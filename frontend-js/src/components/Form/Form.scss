@@ -15,7 +15,7 @@
     padding: 1rem 2rem 2rem 2rem;
 
     max-width: 30rem;
-    border-radius: 0.25rem;
+    border-radius: 1rem;
 
     background: white;
   }
@@ -40,11 +40,12 @@
     border: none;
     outline: 1px solid#ccc;
     background-color: $background;
-    border-radius: 0.25rem;
+    border-radius: 1rem;
     padding: 1rem;
     width: 100%;
     font-family: $font-stack;
     font-size: 1rem;
+    margin-top: 0.5rem;
     &--error {
       outline: 1px solid $error;
       background-color: $error-bg;
@@ -81,6 +82,7 @@
   &__button-lg-secondary {
     @include button-lg-solid($secondary, $secondary-hover);
     margin-left: 2rem;
+    color: #fff;
   }
 
   &__button-icon {

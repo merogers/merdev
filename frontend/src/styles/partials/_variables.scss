@@ -1,0 +1,21 @@
+@use './fonts' as *;
+
+// Breakpoints
+$breakpoint-desktop: 1280px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 375px;
+
+// Font Stack
+$font-stack: 'Inter', sans-serif;
+
+// Colors
+$color-primary: #5cc3ff;
+$color-secondary: #1d1d20;
+
+$color-primary-50: lighten($color-primary, 5%);
+$color-primary-100: $color-primary;
+$color-primary-200: darken($color-primary, 5%);
+
+$color-secondary-50: lighten($color-secondary, 5%);
+$color-secondary-100: $color-secondary;
+$color-secondary-200: darken($color-secondary, 5%);
