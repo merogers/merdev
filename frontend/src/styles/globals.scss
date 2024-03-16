@@ -13,8 +13,12 @@
 html {
   // Small Screen Font Size
   font-size: 16px;
-  // Medium+ Screen Font Size
+  // Medium Screen Font Size
   @include tablet {
+    font-size: 18px;
+  }
+  // Large+ Screen Font Size
+  @include desktop {
     font-size: 20px;
   }
 }

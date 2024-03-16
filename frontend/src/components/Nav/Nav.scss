@@ -1,0 +1,136 @@
+@use '../../styles/partials/utility' as *;
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/media' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/buttons' as *;
+
+.nav {
+  position: relative;
+  display: flex;
+
+  &__item {
+    margin: 0;
+    display: flex;
+    @include tablet {
+      margin: 0 0 0 1rem;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-secondary-50;
+    transition: color 0.25s;
+    margin: 0;
+    line-height: 4rem;
+    font-weight: 400;
+    outline: none;
+    background: transparent;
+    border: none;
+    font-family: $font-stack;
+    font-size: 1rem;
+    padding: 0;
+    letter-spacing: 1px;
+
+    @include tablet {
+      font-size: 0.9rem;
+    }
+
+    cursor: pointer;
+    &:hover {
+      color: $color-primary-100;
+    }
+  }
+  &__links-main {
+    display: none;
+    @include tablet {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+  }
+  &__links-mobile {
+    background-color: $color-white;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: -16rem;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    // border-left: solid 1px $color-primary-100;
+    transition: right 0.25s;
+    margin: 0;
+    padding: 0;
+    box-shadow: $shadow-regular;
+    @include tablet {
+      display: none;
+    }
+    &--open {
+      right: 0;
+    }
+  }
+  &__toggle {
+    border: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    width: 4rem;
+    height: 4rem;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: color 0.25s;
+    &:hover .nav__line-one,
+    &:hover .nav__line-two,
+    &:hover .nav__line-three {
+      background-color: $color-primary-100;
+    }
+    @include tablet {
+      display: none;
+    }
+  }
+  &__line-one {
+    @include line;
+    transform: translateY(-10px);
+
+    &--active {
+      transform: translateY(0px) rotate(45deg);
+    }
+  }
+  &__line-two {
+    @include line;
+    opacity: 1;
+
+    &--active {
+      opacity: 0;
+    }
+  }
+  &__line-three {
+    @include line;
+    transform: translateY(10px);
+
+    &--active {
+      transform: translateY(0px) rotate(-45deg);
+    }
+  }
+
+  &__button-primary {
+    @include button-primary;
+    font-size: 0.9rem;
+    margin: 1rem 0 0 0;
+    @include tablet {
+      margin: 0;
+    }
+  }
+}

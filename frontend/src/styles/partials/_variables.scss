@@ -11,11 +11,16 @@ $font-stack: 'Inter', sans-serif;
 // Colors
 $color-primary: #5cc3ff;
 $color-secondary: #1d1d20;
+$color-white: #ffffff;
 
-$color-primary-50: lighten($color-primary, 5%);
+$color-primary-50: lighten($color-primary, 40%);
 $color-primary-100: $color-primary;
-$color-primary-200: darken($color-primary, 5%);
+$color-primary-200: darken($color-primary, 10%);
 
-$color-secondary-50: lighten($color-secondary, 5%);
-$color-secondary-100: $color-secondary;
-$color-secondary-200: darken($color-secondary, 5%);
+$color-secondary-50: lighten($color-secondary, 50%);
+$color-secondary-100: lighten($color-secondary, 40%);
+$color-secondary-200: $color-secondary;
+$color-secondary-300: darken($color-secondary, 10%);
+
+// Shadows
+$shadow-regular: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;

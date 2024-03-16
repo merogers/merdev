@@ -1,0 +1,94 @@
+@use '../../styles/partials/utility' as *;
+@use '../../styles/partials/media' as *;
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/typography' as *;
+
+.home {
+  &__main {
+    @include main;
+  }
+  &__container {
+    @include container;
+  }
+  &__hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+    height: 20rem;
+    border-radius: 1rem;
+    padding: 0;
+    @include tablet {
+      padding: 0 2rem;
+      height: 25rem;
+    }
+  }
+
+  &__hero-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    @include tablet {
+      align-items: flex-start;
+    }
+  }
+
+  &__hero-feature {
+    display: none;
+    max-width: fit-content;
+    @include tablet {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+
+  &__hero-image {
+    margin-left: 2rem;
+    width: 15rem;
+    @include desktop {
+      width: 20rem;
+    }
+  }
+
+  &__h1 {
+    @include h1;
+  }
+
+  &__h2 {
+    @include h2;
+    margin: 0 auto 1rem auto;
+    color: $color-white;
+  }
+
+  &__p {
+    @include p;
+    color: $color-white;
+  }
+
+  &__tagline {
+    color: $color-secondary-100;
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 400;
+    @include tablet {
+      text-align: left;
+    }
+  }
+
+  &__about {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    background-color: $color-primary-200;
+  }
+
+  &__wave {
+    background-color: $color-white;
+  }
+}

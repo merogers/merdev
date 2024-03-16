@@ -1,6 +1,34 @@
+@use './variables' as *;
+
 // Typography Mixins
 @mixin h1 {
   font-size: 3rem;
+  font-weight: 600;
+  font-family: $font-stack;
+  color: $color-secondary-200;
+}
+
+@mixin h2 {
+  font-size: 2.5rem;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-family: $font-stack;
+  color: $color-secondary-200;
+}
+
+@mixin h3 {
+  font-size: 2rem;
+  font-weight: 500;
+  font-family: $font-stack;
+  color: $color-secondary-200;
+}
+
+@mixin p {
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: $font-stack;
+  line-height: 1.5rem;
+}
+
+@mixin link {
+  text-decoration: none;
 }

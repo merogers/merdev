@@ -4,10 +4,25 @@
 // Utility Mixins
 @mixin container {
   display: flex;
+  flex-direction: column;
   margin: 0 auto;
   padding: 0 1rem;
   max-width: $breakpoint-desktop;
+  width: 100%;
   @include desktop {
     padding: 0;
   }
+}
+
+@mixin line {
+  position: absolute;
+  background-color: $color-secondary-50;
+  height: 4px;
+  width: 30px;
+  border-radius: 4px;
+  transition: 0.25s;
+}
+
+@mixin main {
+  margin-top: 4rem;
 }

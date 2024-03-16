@@ -1,13 +1,19 @@
-import './styles/globals.scss';
+import Header from './components/Header/Header';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
+import './styles/globals.scss';
+import Home from './pages/Home/Home';
+import Dashboard from './pages/Dashboard/Dashboard';
+
+export default function App() {
   return (
-    <>
-      <div className="container">
-        <h1>Test</h1>
-      </div>
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+      <div className="container"></div>
+    </Router>
   );
 }
-
-export default App;
