@@ -1,12 +1,12 @@
 import createError from 'http-errors';
-
+import type { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/user.model.js';
-import handleGenerateToken from '../util/token.util.js';
+import User from '../models/user.model';
+import handleGenerateToken from '../util/token.util';
 
-import { testEmail, testPassword } from '../util/regex.util.js';
+import { testEmail, testPassword } from '../util/regex.util';
 
-export const handleLogin = async (req, res, next) => {
+export const handleLogin: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
 
   const validEmail = testEmail(email);

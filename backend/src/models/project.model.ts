@@ -1,6 +1,16 @@
 import mongoose from 'mongoose';
 
-const ProjectSchema = mongoose.Schema(
+export interface ProjectInterface {
+  screenshot: string;
+  userid: mongoose.Schema.Types.ObjectId;
+  title: string;
+  description: string;
+  demoUrl: string;
+  codeUrl: string;
+  tags: mongoose.Schema.Types.Array;
+}
+
+const ProjectSchema = new mongoose.Schema<ProjectInterface>(
   {
     screenshot: {
       type: String,

@@ -1,20 +1,20 @@
 import 'dotenv/config';
-import connectDB from './config/db.config.js';
+import connectDB from './config/db.config';
 import express from 'express';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import helmet from 'helmet';
 
-import authRouter from './routes/auth.routes.js';
-import emailRouter from './routes/email.routes.js';
-import projectRouter from './routes/project.routes.js';
-import userRouter from './routes/user.routes.js';
-import healthRouter from './routes/health.routes.js';
-import imageRouter from './routes/image.routes.js';
+import authRouter from './routes/auth.routes';
+import emailRouter from './routes/email.routes';
+import projectRouter from './routes/project.routes';
+import userRouter from './routes/user.routes';
+import healthRouter from './routes/health.routes';
+import imageRouter from './routes/image.routes';
 
-import logger from './util/logger.util.js';
-import swaggerSpec from './config/docs.config.js';
-import handleErrors from './middleware/error.middleware.js';
+import logger from './util/logger.util';
+import swaggerSpec from './config/docs.config';
+import handleErrors from './middleware/error.middleware';
 
 connectDB();
 

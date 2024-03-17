@@ -1,7 +1,7 @@
 import express from 'express';
-import { handleHealthCheck } from '../controllers/health.controller.js';
+import { handleHealthCheck } from '../controllers/health.controller';
 
-import rateLimiter from '../middleware/rate.limit.middleware.js';
+import rateLimiter from '../middleware/rate.limit.middleware';
 
 const router = express.Router();
 

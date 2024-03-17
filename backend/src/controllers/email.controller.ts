@@ -1,15 +1,16 @@
 import createError from 'http-errors';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
-import { testEmail, testName, testPhone, testMessage } from '../util/regex.util.js';
+import { testEmail, testName, testPhone, testMessage } from '../util/regex.util';
+import { RequestHandler } from 'express';
 
 // AWS Config
-const AWS_REGION = process.env.AWS_REGION;
-const AWS_SES_TO = process.env.AWS_SES_TO;
-const AWS_SES_FROM = process.env.AWS_SES_FROM;
+const AWS_REGION = process.env.AWS_REGION as string;
+const AWS_SES_TO = process.env.AWS_SES_TO as string;
+const AWS_SES_FROM = process.env.AWS_SES_FROM as string;
 
 const sesClient = new SESClient(AWS_REGION);
 
-export const handleEmail = async (req, res, next) => {
+export const handleEmail: RequestHandler = async (req, res, next) => {
   const { name, email, phone, message, jobRole } = req.body;
 
   const validName = testName(name);
