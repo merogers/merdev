@@ -1,10 +1,10 @@
 import express from 'express';
-import { handleImageUpload, handleImageDelete } from '../controllers/image.controller.js';
-import { upload } from '../middleware/image.middleware.js';
+import { handleImageUpload, handleImageDelete } from '../controllers/image.controller';
+import { upload } from '../middleware/image.middleware';
 
-import { handleProtectRoute } from '../middleware/auth.middleware.js';
+import { handleProtectRoute } from '../middleware/auth.middleware';
 
-import rateLimiter from '../middleware/rate.limit.middleware.js';
+import rateLimiter from '../middleware/rate.limit.middleware';
 
 const router = express.Router();
 

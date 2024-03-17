@@ -1,35 +1,35 @@
-export const testEmail = (email) => {
+export const testEmail = (email: string) => {
   const regex = /([\d\w._-]+@[\d\w._-]+\.[\d\w_-]+)/gi;
   return regex.test(email);
 };
 
-export const testName = (name) => {
+export const testName = (name: string) => {
   const regex = /^[a-zA-Z ]{1,25}$/gi;
   return regex.test(name);
 };
 
-export const testPassword = (password) => {
+export const testPassword = (password: string) => {
   const regex = /^.{8,25}$/gi;
   return regex.test(password);
 };
 
-export const testMessage = (password) => {
+export const testMessage = (password: string) => {
   const regex = /^[a-zA-Z0-9 .,!?]{1,25}$/gi;
   return regex.test(password);
 };
 
-export const testPhone = (phone) => {
+export const testPhone = (phone: string) => {
   const regex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/gi;
   return regex.test(phone);
 };
 
-export const testUrl = (url) => {
+export const testUrl = (url: string) => {
   const regex =
     /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
   return regex.test(url);
 };
 
-export const testTags = (tags) => {
+export const testTags = (tags: string) => {
   const regex = /^[a-zA-Z0-9 -_.,]{1,100}$/gi;
   return regex.test(tags);
 };

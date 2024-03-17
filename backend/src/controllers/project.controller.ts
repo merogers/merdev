@@ -1,10 +1,11 @@
 import createError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
 
-import Project from '../models/project.model.js';
-import { testName, testMessage, testUrl, testTags } from '../util/regex.util.js';
+import Project from '../models/project.model';
+import { testName, testMessage, testUrl, testTags } from '../util/regex.util';
+import { RequestHandler } from 'express';
 
-export const handleLatestProjects = async (_req, res, next) => {
+export const handleLatestProjects: RequestHandler = async (_req, res, next) => {
   try {
     const projects = await Project.find().sort({ updatedAt: -1 }).limit(5);
 
@@ -34,7 +35,7 @@ export const handleLatestProjects = async (_req, res, next) => {
 //   }
 // });
 
-export const handleProjectDetails = async (req, res, next) => {
+export const handleProjectDetails: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
 
   if (isValidObjectId(id) === false) {
@@ -55,7 +56,7 @@ export const handleProjectDetails = async (req, res, next) => {
   }
 };
 
-export const handleNewProject = async (req, res, next) => {
+export const handleNewProject: RequestHandler = async (req, res, next) => {
   const { title, description, tags, codeUrl, demoUrl, userid, screenshot } = req.body;
 
   if (isValidObjectId(userid) === false) {
@@ -89,7 +90,7 @@ export const handleNewProject = async (req, res, next) => {
   try {
     // Split tags string into array
     const tagsArray = tags.split(',');
-    tagsArray.map((tag) => tag.trim());
+    tagsArray.map((tag: string) => tag.trim());
 
     const newProjectData = {
       screenshot,
@@ -109,7 +110,7 @@ export const handleNewProject = async (req, res, next) => {
   }
 };
 
-export const handleUpdateProject = async (req, res, next) => {
+export const handleUpdateProject: RequestHandler = async (req: any, res, next) => {
   const { id } = req.params;
   const { title, description, tags, codeUrl, demoUrl, screenshot } = req.body;
 
@@ -148,7 +149,7 @@ export const handleUpdateProject = async (req, res, next) => {
       return next(createError(404, 'Project not found'));
     }
 
-    if (req.user !== project.userid) {
+    if (req.user?.toString() !== project.userid.toString()) {
       return next(createError(403, 'Unauthorized'));
     }
 
@@ -173,7 +174,7 @@ export const handleUpdateProject = async (req, res, next) => {
   }
 };
 
-export const handleDeleteProject = async (req, res, next) => {
+export const handleDeleteProject: RequestHandler = async (req: any, res, next) => {
   const { id } = req.params;
 
   if (isValidObjectId(id) === false) {
@@ -187,7 +188,7 @@ export const handleDeleteProject = async (req, res, next) => {
       return next(createError(404, 'Project not found'));
     }
 
-    if (req.user !== project.userid) {
+    if (req.user?.toString() !== project.userid.toString()) {
       return next(createError(403, 'Unauthorized'));
     }
 
