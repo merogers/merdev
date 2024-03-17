@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import createError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
+import { RequestHandler } from 'express';
 
-import User from '../models/user.model.js';
-import { testEmail, testName, testPassword } from '../util/regex.util.js';
+import User from '../models/user.model';
+import { testEmail, testName, testPassword } from '../util/regex.util';
 
-export const handleCreateUser = async (req, res, next) => {
+export const handleCreateUser: RequestHandler = async (req, res, next) => {
   const { email, password, firstName, lastName } = req.body;
 
   const validEmail = testEmail(email);
@@ -50,7 +51,7 @@ export const handleCreateUser = async (req, res, next) => {
   }
 };
 
-export const handleUserDetails = async (req, res, next) => {
+export const handleUserDetails: RequestHandler = async (req: any, res, next) => {
   const { id } = req.params;
 
   if (isValidObjectId(id) === false) {
@@ -75,7 +76,7 @@ export const handleUserDetails = async (req, res, next) => {
   }
 };
 
-export const handleUpdateUser = async (req, res, next) => {
+export const handleUpdateUser: RequestHandler = async (req: any, res, next) => {
   const { id } = req.params;
   const { firstName, lastName, email, password } = req.body;
 
@@ -125,7 +126,7 @@ export const handleUpdateUser = async (req, res, next) => {
   }
 };
 
-export const handleDeleteUser = async (req, res, next) => {
+export const handleDeleteUser: RequestHandler = async (req: any, res, next) => {
   const { id } = req.params;
 
   if (isValidObjectId(id) === false) {

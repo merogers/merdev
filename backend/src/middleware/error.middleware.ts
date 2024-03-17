@@ -1,6 +1,7 @@
-import logger from '../util/logger.util.js';
+import type { ErrorRequestHandler } from 'express';
+import logger from '../util/logger.util';
 
-const handleErrors = async (error, _req, res, next) => {
+const handleErrors: ErrorRequestHandler = async (error, _req, res, next) => {
   const errorStatus = error.statusCode || 500;
   const errorMessage = error.message || 'Something went wrong';
   const env = process.env.NODE_ENV || 'development';

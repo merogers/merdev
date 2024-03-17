@@ -5,9 +5,9 @@ import {
   handleDeleteProject,
   handleProjectDetails,
   handleUpdateProject,
-} from '../controllers/project.controller.js';
+} from '../controllers/project.controller';
 
-import { handleProtectRoute } from '../middleware/auth.middleware.js';
+import { handleProtectRoute } from '../middleware/auth.middleware';
 
 const router = express.Router();
 

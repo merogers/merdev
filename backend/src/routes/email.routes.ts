@@ -1,6 +1,6 @@
 import express from 'express';
-import { handleEmail } from '../controllers/email.controller.js';
-import rateLimiter from '../middleware/rate.limit.middleware.js';
+import { handleEmail } from '../controllers/email.controller';
+import rateLimiter from '../middleware/rate.limit.middleware';
 
 const router = express.Router();
 
