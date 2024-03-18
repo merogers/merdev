@@ -1,29 +1,49 @@
-import type { RequestHandler } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
-
 import User from '../models/user.model';
 
-export const handleProtectRoute: RequestHandler = async (req: any, _res, next) => {
+import type { JwtPayload } from 'jsonwebtoken';
+
+export interface UserRequest extends Request {
+  user: string | undefined;
+}
+
+export const handleProtectRoute = async (req: any, _res: Response, next: NextFunction) => {
   const authToken = req.headers.authorization;
-  const jwtSecret = process.env.JWT_SECRET as string;
+  const jwtSecret = process.env.JWT_SECRET;
+
+  if (jwtSecret === undefined) {
+    next(createError(500, 'No JWT Secret defined'));
+    return;
+  }
 
   if (authToken === null || authToken === undefined) {
-    return next(createError(401, 'Unauthorized'));
+    next(createError(401, 'Unauthorized'));
+    return;
   }
 
   if (!authToken.startsWith('Bearer')) {
-    return next(createError(401, 'Invalid Token Format'));
+    next(createError(401, 'Invalid Token Format'));
+    return;
   }
 
   try {
-    const bearer = authToken.split(' ')[1];
-    const decoded: any = jwt.verify(bearer, jwtSecret);
+    const bearer: string = authToken.split(' ')[1];
 
-    const user = await User.findById(decoded.id).select('_id');
-    req.user = user?._id.toString();
+    const decoded = jwt.verify(bearer, jwtSecret) as JwtPayload;
+
+    const userExists = await User.findById(decoded.id).select('_id');
+
+    if (userExists === null) {
+      next(createError(404, 'User Not Found'));
+      return;
+    }
+
+    const userID = String(userExists._id);
+
+    req.user = userID;
     next();
-    return null;
   } catch (error) {
     next(error);
     return null;

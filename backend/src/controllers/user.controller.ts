@@ -1,13 +1,23 @@
 import bcrypt from 'bcrypt';
 import createError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
-import { RequestHandler } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
 import User from '../models/user.model';
 import { testEmail, testName, testPassword } from '../util/regex.util';
 
-export const handleCreateUser: RequestHandler = async (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+export const handleCreateUser = async (req: Request, res: Response, next: NextFunction) => {
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+  }: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  } = req.body;
 
   const validEmail = testEmail(email);
   const validPassword = testPassword(password);
@@ -15,20 +25,22 @@ export const handleCreateUser: RequestHandler = async (req, res, next) => {
   const validLastName = testName(lastName);
 
   // Validate user input
-  if (validEmail === false || validPassword === false || validFirstName === false || validLastName === false) {
-    return next(
+  if (!validEmail || !validPassword || !validFirstName || !validLastName) {
+    next(
       createError(
         400,
         'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
       ),
     );
+    return;
   }
 
   try {
     const userExists = await User.findOne({ email });
 
     if (userExists !== null) {
-      return next(createError(400, 'User already exists'));
+      next(createError(400, 'User already exists'));
+      return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -51,22 +63,28 @@ export const handleCreateUser: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const handleUserDetails: RequestHandler = async (req: any, res, next) => {
+export const handleUserDetails = async (req: any, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  const user = req.user;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid User ID format'));
+  if (isValidObjectId(id)) {
+    next(createError(400, 'Invalid User ID format'));
+    return;
   }
 
   try {
-    const user = await User.findById(id).select('-password');
+    const userExists = await User.findById(id).select('-password');
 
-    if (user === null) {
-      return next(createError(404, 'User not found'));
+    if (userExists === null) {
+      next(createError(404, 'User not found'));
+      return;
     }
 
-    if (req.user !== user._id.toString()) {
-      return next(createError(403, 'Unauthorized'));
+    const userID = String(userExists._id);
+
+    if (user !== userID) {
+      next(createError(403, 'Unauthorized'));
+      return;
     }
 
     return res.status(200).json(user);
@@ -76,12 +94,18 @@ export const handleUserDetails: RequestHandler = async (req: any, res, next) => 
   }
 };
 
-export const handleUpdateUser: RequestHandler = async (req: any, res, next) => {
+export const handleUpdateUser = async (req: any, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  const { firstName, lastName, email, password } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+  }: { firstName: string; lastName: string; email: string; password: string } = req.body;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid User ID format'));
+  if (isValidObjectId(id)) {
+    next(createError(400, 'Invalid User ID format'));
+    return;
   }
 
   const validEmail = testEmail(email);
@@ -90,24 +114,27 @@ export const handleUpdateUser: RequestHandler = async (req: any, res, next) => {
   const validLastName = testName(lastName);
 
   // Validate user input
-  if (validEmail === false || validPassword === false || validFirstName === false || validLastName === false) {
-    return next(
+  if (!validEmail || !validPassword || !validFirstName || !validLastName) {
+    next(
       createError(
         400,
         'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
       ),
     );
+    return;
   }
 
   try {
     const user = await User.findById(id);
 
     if (user === null) {
-      return next(createError(404, 'User not found'));
+      next(createError(404, 'User not found'));
+      return;
     }
 
     if (req.user !== user._id.toString()) {
-      return next(createError(403, 'Unauthorized'));
+      next(createError(403, 'Unauthorized'));
+      return;
     }
 
     const updatedUserBody = {
@@ -126,22 +153,28 @@ export const handleUpdateUser: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-export const handleDeleteUser: RequestHandler = async (req: any, res, next) => {
+export const handleDeleteUser = async (req: any, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  const user = req.user;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid User ID format'));
+  if (!isValidObjectId(id)) {
+    next(createError(400, 'Invalid User ID format'));
+    return;
   }
 
   try {
-    const user = await User.findById(id);
+    const userExists = await User.findById(id);
 
-    if (user === null) {
-      return next(createError(404, 'User not found'));
+    if (userExists === null) {
+      next(createError(404, 'User not found'));
+      return;
     }
 
-    if (req.user !== user._id.toString()) {
-      return next(createError(403, 'Unauthorized'));
+    const userID = String(userExists._id);
+
+    if (user !== userID) {
+      next(createError(403, 'Unauthorized'));
+      return;
     }
 
     await User.deleteOne({ _id: id });

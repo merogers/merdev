@@ -1,11 +1,17 @@
 import jwt from 'jsonwebtoken';
-import { Types } from 'mongoose';
+import type { Types } from 'mongoose';
+import createError from 'http-errors';
 
-const jwtSecret = process.env.JWT_SECRET as string;
+const handleGenerateToken = (id: Types.ObjectId) => {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    createError(500, 'No JWT Secret');
+    return;
+  }
 
-const handleGenerateToken = (id: Types.ObjectId) =>
-  jwt.sign({ id }, jwtSecret, {
+  return jwt.sign({ id }, jwtSecret, {
     expiresIn: '1d',
   });
+};
 
 export default handleGenerateToken;
