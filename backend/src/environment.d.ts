@@ -1,5 +1,3 @@
-import { Request as ExpressRequest } from 'express';
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -13,10 +11,10 @@ declare global {
       AWS_SECRET_ACCESS_KEY: string;
     }
   }
-  namespace Express {
-    interface Request extends ExpressRequest {
-      user?: string | undefined;
-      file?: File | undefined;
-    }
-  }
+  // namespace Express {
+  //   interface Request extends ExpressRequest {
+  //     user?: string | undefined;
+  //     file?: File | undefined;
+  //   }
+  // }
 }

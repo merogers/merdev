@@ -3,14 +3,15 @@ import { isValidObjectId } from 'mongoose';
 
 import Project from '../models/project.model';
 import { testName, testMessage, testUrl, testTags } from '../util/regex.util';
-import { RequestHandler } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 
-export const handleLatestProjects: RequestHandler = async (_req, res, next) => {
+export const handleLatestProjects = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const projects = await Project.find().sort({ updatedAt: -1 }).limit(5);
 
     if (!projects) {
-      return next(createError(404, 'No Projects'));
+      next(createError(404, 'No Projects'));
+      return;
     }
 
     return res.status(200).json(projects);
@@ -35,18 +36,20 @@ export const handleLatestProjects: RequestHandler = async (_req, res, next) => {
 //   }
 // });
 
-export const handleProjectDetails: RequestHandler = async (req, res, next) => {
+export const handleProjectDetails = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid Project ID format'));
+  if (!isValidObjectId(id)) {
+    next(createError(400, 'Invalid Project ID format'));
+    return;
   }
 
   try {
     const project = await Project.findById(id);
 
     if (!project) {
-      return next(createError(404, 'Cannot find project'));
+      next(createError(404, 'Cannot find project'));
+      return;
     }
 
     return res.status(200).json(project);
@@ -56,11 +59,28 @@ export const handleProjectDetails: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const handleNewProject: RequestHandler = async (req, res, next) => {
-  const { title, description, tags, codeUrl, demoUrl, userid, screenshot } = req.body;
+export const handleNewProject = async (req: Request, res: Response, next: NextFunction) => {
+  const {
+    title,
+    description,
+    tags,
+    codeUrl,
+    demoUrl,
+    userid,
+    screenshot,
+  }: {
+    title: string;
+    description: string;
+    tags: string;
+    codeUrl: string;
+    demoUrl: string;
+    userid: string;
+    screenshot: string;
+  } = req.body;
 
-  if (isValidObjectId(userid) === false) {
-    return next(createError(400, 'Invalid User ID format'));
+  if (!isValidObjectId(userid)) {
+    next(createError(400, 'Invalid User ID format'));
+    return;
   }
 
   const validTitle = testName(title);
@@ -71,20 +91,14 @@ export const handleNewProject: RequestHandler = async (req, res, next) => {
   const validScreenshot = testUrl(screenshot);
 
   // Validate user input
-  if (
-    validTitle === false ||
-    validDescription === false ||
-    validTags === false ||
-    validCodeUrl === false ||
-    validDemoUrl === false ||
-    validScreenshot === false
-  ) {
-    return next(
+  if (!validTitle || !validDescription || !validTags || !validCodeUrl || !validDemoUrl || !validScreenshot) {
+    next(
       createError(
         400,
         'Invalid Project. Title must be between 1 and 25 characters long, description must be between 1 and 250 characters long, tags must be a comma-separated string, codeUrl, demoUrl and screenshot must be valid urls.',
       ),
     );
+    return;
   }
 
   try {
@@ -110,12 +124,29 @@ export const handleNewProject: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const handleUpdateProject: RequestHandler = async (req: any, res, next) => {
+export const handleUpdateProject = async (req: any, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  const { title, description, tags, codeUrl, demoUrl, screenshot } = req.body;
+  const user = req.user;
+  const {
+    title,
+    description,
+    tags,
+    codeUrl,
+    demoUrl,
+    screenshot,
+  }: {
+    title: string;
+    description: string;
+    tags: string;
+    codeUrl: string;
+    demoUrl: string;
+    userid: string;
+    screenshot: string;
+  } = req.body;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid User ID format'));
+  if (!isValidObjectId(id)) {
+    next(createError(400, 'Invalid User ID format'));
+    return;
   }
 
   const validTitle = testName(title);
@@ -126,31 +157,29 @@ export const handleUpdateProject: RequestHandler = async (req: any, res, next) =
   const validScreenshot = testUrl(screenshot);
 
   // Validate user input
-  if (
-    validTitle === false ||
-    validDescription === false ||
-    validTags === false ||
-    validCodeUrl === false ||
-    validDemoUrl === false ||
-    validScreenshot === false
-  ) {
-    return next(
+  if (!validTitle || !validDescription || !validTags || !validCodeUrl || !validDemoUrl || !validScreenshot) {
+    next(
       createError(
         400,
         'Invalid Project. Title must be between 1 and 25 characters long, description must be between 1 and 250 characters long, tags must be a comma-separated string, codeUrl, demoUrl and screenshot must be valid urls.',
       ),
     );
+    return;
   }
 
   try {
     const project = await Project.findById(id);
 
     if (!project) {
-      return next(createError(404, 'Project not found'));
+      next(createError(404, 'Project not found'));
+      return;
     }
 
-    if (req.user?.toString() !== project.userid.toString()) {
-      return next(createError(403, 'Unauthorized'));
+    const projectUserID: string = String(project.userid);
+
+    if (user !== projectUserID) {
+      next(createError(403, 'Unauthorized'));
+      return;
     }
 
     const tagsArray = tags.split(',');
@@ -174,22 +203,28 @@ export const handleUpdateProject: RequestHandler = async (req: any, res, next) =
   }
 };
 
-export const handleDeleteProject: RequestHandler = async (req: any, res, next) => {
+export const handleDeleteProject = async (req: any, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  const user = req.user;
 
-  if (isValidObjectId(id) === false) {
-    return next(createError(400, 'Invalid Project ID format'));
+  if (isValidObjectId(id)) {
+    next(createError(400, 'Invalid Project ID format'));
+    return;
   }
 
   try {
     const project = await Project.findById(id);
 
     if (!project) {
-      return next(createError(404, 'Project not found'));
+      next(createError(404, 'Project not found'));
+      return;
     }
 
-    if (req.user?.toString() !== project.userid.toString()) {
-      return next(createError(403, 'Unauthorized'));
+    const projectUserID: string = String(project.userid);
+
+    if (user !== projectUserID) {
+      next(createError(403, 'Unauthorized'));
+      return;
     }
 
     await Project.deleteOne({ _id: id });

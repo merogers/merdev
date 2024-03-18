@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes';
 import emailRouter from './routes/email.routes';
@@ -16,12 +17,11 @@ import logger from './util/logger.util';
 import swaggerSpec from './config/docs.config';
 import handleErrors from './middleware/error.middleware';
 
-connectDB();
-
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 // Middleware
+app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
@@ -43,6 +43,11 @@ app.use(handleErrors);
 app.use('*', (_req, res) => res.sendStatus(404));
 
 // Hey, Listen!
-app.listen(port, () => {
+app.listen(port, async () => {
+  if (!port) {
+    logger.error('No Port Specified');
+    process.exit(1);
+  }
+  await connectDB();
   logger.info(`Server listening on port: ${port}...`);
 });

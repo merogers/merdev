@@ -2,20 +2,27 @@ import sharp from 'sharp';
 import createError from 'http-errors';
 import { PutObjectCommand, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import generateFileName from '../util/file.util';
-import { Request, Response, NextFunction } from 'express';
 
-// AWS Config
-const AWS_REGION = process.env.AWS_REGION as string;
-const AWS_BUCKET = process.env.AWS_BUCKET as string;
-const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID as string;
-const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY as string;
+import type { Request, Response, NextFunction } from 'express';
+import type { PutObjectAclCommandOutput } from '@aws-sdk/client-s3';
 
-export const handleImageUpload = async (req: any, res: Response, next: NextFunction) => {
+export const handleImageUpload = async (req: Request, res: Response, next: NextFunction) => {
+  const AWS_REGION = process.env.AWS_REGION;
+  const AWS_BUCKET = process.env.AWS_BUCKET;
+  const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+  const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+
+  if (!AWS_REGION || !AWS_BUCKET || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    next(createError(500, 'AWS environment variables missing'));
+    return;
+  }
+
   try {
-    const file = req.file;
+    const file: Express.Multer.File | undefined = req.file;
 
     if (file === null) {
-      return next(createError(400, 'No image specified'));
+      next(createError(400, 'No image specified'));
+      return;
     }
     const buffer = await sharp(file?.buffer)
       .resize({ height: 720, width: 1280, fit: 'contain' })
@@ -27,12 +34,16 @@ export const handleImageUpload = async (req: any, res: Response, next: NextFunct
     const client = new S3Client({
       region: AWS_REGION,
       credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
         secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        accessKeyId: AWS_ACCESS_KEY_ID,
       },
     });
 
-    const uploadFile = async (fileBuffer: any, fileName: string, mimetype: any) => {
+    const uploadFile = async (
+      fileBuffer: any,
+      fileName: string,
+      mimetype: string | undefined,
+    ): Promise<PutObjectAclCommandOutput> => {
       const uploadParams = {
         Bucket: AWS_BUCKET,
         Body: fileBuffer,
@@ -44,21 +55,32 @@ export const handleImageUpload = async (req: any, res: Response, next: NextFunct
     };
 
     await uploadFile(buffer, newName, file?.mimetype);
-    res.status(200).json({ filename: newName });
+    return res.status(200).json({ filename: newName });
   } catch (error) {
     next(error);
     return null;
   }
 };
 
-export const handleImageDelete = async (req: any, res: Response, next: NextFunction) => {
+export const handleImageDelete = async (req: Request, res: Response, next: NextFunction) => {
   const { filename } = req.params;
+
+  const AWS_REGION = process.env.AWS_REGION;
+  const AWS_BUCKET = process.env.AWS_BUCKET;
+  const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+  const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+
+  if (!AWS_REGION || !AWS_BUCKET || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    next(createError(500, 'AWS environment variables missing'));
+    return;
+  }
+
   try {
     const client = new S3Client({
       region: AWS_REGION,
       credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
         secretAccessKey: AWS_SECRET_ACCESS_KEY,
+        accessKeyId: AWS_ACCESS_KEY_ID,
       },
     });
 

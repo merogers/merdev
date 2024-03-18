@@ -1,10 +1,10 @@
-import type { ErrorRequestHandler } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import logger from '../util/logger.util';
 
-const handleErrors: ErrorRequestHandler = async (error, _req, res, next) => {
-  const errorStatus = error.statusCode || 500;
-  const errorMessage = error.message || 'Something went wrong';
-  const env = process.env.NODE_ENV || 'development';
+const handleErrors = async (error: any, _req: Request, res: Response, next: NextFunction) => {
+  const errorStatus: number = error.statusCode || 500;
+  const errorMessage: string = error.message || 'Something went wrong';
+  const env = process.env.NODE_ENV;
 
   try {
     // Log that error
@@ -17,7 +17,6 @@ const handleErrors: ErrorRequestHandler = async (error, _req, res, next) => {
       message: errorMessage,
       stack: env !== 'production' ? error.stack : {},
     });
-    // eslint-disable-next-line
   } catch (error) {
     next(error);
     return null;
