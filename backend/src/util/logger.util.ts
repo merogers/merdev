@@ -3,7 +3,7 @@ import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const { combine, timestamp, cli, align, printf, errors } = winston.format;
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 
 // Production Logging
 const logger = winston.createLogger({
