@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth.routes';
 import emailRouter from './routes/email.routes';
@@ -20,6 +21,7 @@ const app = express();
 const port = process.env.PORT;
 
 // Middleware
+app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
 app.use(express.json());

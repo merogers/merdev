@@ -23,7 +23,7 @@ export const handleProtectRoute = async (req: any, _res: Response, next: NextFun
     return;
   }
 
-  if (!authToken.startsWith('Bearer')) {
+  if (!authToken.startsWith('Bearer') || authToken === 'Bearer') {
     next(createError(401, 'Invalid Token Format'));
     return;
   }
@@ -32,6 +32,8 @@ export const handleProtectRoute = async (req: any, _res: Response, next: NextFun
     const bearer: string = authToken.split(' ')[1];
 
     const decoded = jwt.verify(bearer, jwtSecret) as JwtPayload;
+
+    console.log(decoded);
 
     const userExists = await User.findById(decoded.id).select('_id');
 
