@@ -10,7 +10,7 @@ const AWS_SES_FROM = process.env.AWS_SES_FROM;
 
 const sesClient = new SESClient({ region: AWS_REGION });
 
-export const handleEmail = async (req: Request, res: Response, next: NextFunction) => {
+export const handleEmail = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const {
     name,
     email,
@@ -26,19 +26,15 @@ export const handleEmail = async (req: Request, res: Response, next: NextFunctio
 
   // Validate user input
   if (!validName || !validEmail || !validPhone || !validMessage) {
-    next(
-      createError(
-        400,
-        'Invalid Input. Name must be between 1 and 25 characters long, message must be between 1 and 250 characters long with no special characters, email and phone must be valid',
-      ),
+    throw createError(
+      400,
+      'Invalid Input. Name must be between 1 and 25 characters long, message must be between 1 and 250 characters long with no special characters, email and phone must be valid',
     );
-    return;
   }
 
   // Honeypot - Spam Protection
-  if (jobRole) {
-    next(createError(400, 'Cannot send message'));
-    return;
+  if (jobRole !== '') {
+    throw createError(400, 'Cannot send message');
   }
 
   // Email generation command
@@ -71,6 +67,5 @@ export const handleEmail = async (req: Request, res: Response, next: NextFunctio
     return res.status(200).json(response);
   } catch (error) {
     next(error);
-    return null;
   }
 };
