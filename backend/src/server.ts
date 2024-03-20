@@ -44,7 +44,7 @@ app.use('*', (_req, res) => res.sendStatus(404));
 
 // Hey, Listen!
 app.listen(port, async () => {
-  if (!port) {
+  if (port === undefined) {
     logger.error('No Port Specified');
     process.exit(1);
   }

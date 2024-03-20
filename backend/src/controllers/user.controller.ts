@@ -6,7 +6,7 @@ import type { Request, Response, NextFunction } from 'express';
 import User from '../models/user.model';
 import { testEmail, testName, testPassword } from '../util/regex.util';
 
-export const handleCreateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const handleCreateUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const {
     email,
     password,
@@ -26,21 +26,17 @@ export const handleCreateUser = async (req: Request, res: Response, next: NextFu
 
   // Validate user input
   if (!validEmail || !validPassword || !validFirstName || !validLastName) {
-    next(
-      createError(
-        400,
-        'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
-      ),
+    throw createError(
+      400,
+      'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
     );
-    return;
   }
 
   try {
     const userExists = await User.findOne({ email });
 
     if (userExists !== null) {
-      next(createError(400, 'User already exists'));
-      return;
+      throw createError(400, 'User already exists');
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -59,25 +55,22 @@ export const handleCreateUser = async (req: Request, res: Response, next: NextFu
     return res.status(201).json(newUserJson);
   } catch (error) {
     next(error);
-    return null;
   }
 };
 
-export const handleUserDetails = async (req: any, res: Response, next: NextFunction) => {
+export const handleUserDetails = async (req: any, res: Response, next: NextFunction): Promise<any> => {
   const { id } = req.params;
   const user = req.user;
 
   if (isValidObjectId(id)) {
-    next(createError(400, 'Invalid User ID format'));
-    return;
+    throw createError(400, 'Invalid User ID format');
   }
 
   try {
     const userExists = await User.findById(id).select('-password');
 
     if (userExists === null) {
-      next(createError(404, 'User not found'));
-      return;
+      throw createError(404, 'User not found');
     }
 
     const userID = String(userExists._id);
@@ -90,11 +83,10 @@ export const handleUserDetails = async (req: any, res: Response, next: NextFunct
     return res.status(200).json(user);
   } catch (error) {
     next(error);
-    return null;
   }
 };
 
-export const handleUpdateUser = async (req: any, res: Response, next: NextFunction) => {
+export const handleUpdateUser = async (req: any, res: Response, next: NextFunction): Promise<any> => {
   const { id } = req.params;
   const {
     firstName,
@@ -104,8 +96,7 @@ export const handleUpdateUser = async (req: any, res: Response, next: NextFuncti
   }: { firstName: string; lastName: string; email: string; password: string } = req.body;
 
   if (isValidObjectId(id)) {
-    next(createError(400, 'Invalid User ID format'));
-    return;
+    throw createError(400, 'Invalid User ID format');
   }
 
   const validEmail = testEmail(email);
@@ -115,26 +106,21 @@ export const handleUpdateUser = async (req: any, res: Response, next: NextFuncti
 
   // Validate user input
   if (!validEmail || !validPassword || !validFirstName || !validLastName) {
-    next(
-      createError(
-        400,
-        'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
-      ),
+    throw createError(
+      400,
+      'Invalid User. Email must be valid, password must be between 8 and 25 charactgers long, firstName and lastName must be between 1 and 25 characters long with no special characters',
     );
-    return;
   }
 
   try {
     const user = await User.findById(id);
 
     if (user === null) {
-      next(createError(404, 'User not found'));
-      return;
+      throw createError(404, 'User not found');
     }
 
     if (req.user !== user._id.toString()) {
-      next(createError(403, 'Unauthorized'));
-      return;
+      throw createError(403, 'Unauthorized');
     }
 
     const updatedUserBody = {
@@ -149,25 +135,22 @@ export const handleUpdateUser = async (req: any, res: Response, next: NextFuncti
     return res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
-    return null;
   }
 };
 
-export const handleDeleteUser = async (req: any, res: Response, next: NextFunction) => {
+export const handleDeleteUser = async (req: any, res: Response, next: NextFunction): Promise<any> => {
   const { id } = req.params;
   const user = req.user;
 
   if (!isValidObjectId(id)) {
-    next(createError(400, 'Invalid User ID format'));
-    return;
+    throw createError(400, 'Invalid User ID format');
   }
 
   try {
     const userExists = await User.findById(id);
 
     if (userExists === null) {
-      next(createError(404, 'User not found'));
-      return;
+      throw createError(404, 'User not found');
     }
 
     const userID = String(userExists._id);
@@ -182,6 +165,5 @@ export const handleDeleteUser = async (req: any, res: Response, next: NextFuncti
     return res.status(200).json({ id });
   } catch (error) {
     next(error);
-    return null;
   }
 };

@@ -6,7 +6,7 @@ import handleGenerateAuthToken, { handleGenerateRefreshToken } from '../util/tok
 import jwt from 'jsonwebtoken';
 import { testEmail, testPassword } from '../util/regex.util';
 
-export const handleLogin = async (req: Request, res: Response, next: NextFunction) => {
+export const handleLogin = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const { email, password }: { email: string; password: string } = req.body;
 
   const validEmail = testEmail(email);
@@ -14,23 +14,20 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
 
   // Validate user input
   if (!validEmail || !validPassword) {
-    next(createError(400, 'Invalid Login. Email must be valid, and password must be between 8 and 25 characters long'));
-    return;
+    throw createError(400, 'Invalid Login. Email must be valid, and password must be between 8 and 25 characters long');
   }
 
   try {
     const user = await User.findOne({ email });
 
     if (user === null) {
-      next(createError(404, 'User not found'));
-      return;
+      throw createError(404, 'User not found');
     }
 
     const result = await bcrypt.compare(password, user.password);
 
     if (!result) {
-      next(createError(400, 'Invalid password'));
-      return;
+      throw createError(400, 'Invalid password');
     }
 
     const id = String(user._id);
@@ -47,36 +44,28 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
       });
   } catch (error) {
     next(error);
-    return null;
   }
 };
 
-export const handleRefresh = async (req: Request, res: Response, next: NextFunction) => {
+export const handleRefresh = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   const refreshToken: string = req.cookies.refreshToken;
   const jwtSecret = process.env.JWT_SECRET;
 
-  if (!jwtSecret) {
-    next(createError(500, 'No JWT Secret Defined'));
-    return;
+  if (jwtSecret === undefined) {
+    throw createError(500, 'No JWT Secret Defined');
   }
 
-  if (!refreshToken) {
-    next(createError(401, 'No Refresh Token'));
-    return;
+  if (refreshToken === undefined) {
+    throw createError(401, 'No Refresh Token');
   }
 
   try {
     const decoded: any = jwt.verify(refreshToken, jwtSecret);
-    if (!decoded) {
-      next(createError(500, 'No JWT Secret Defined'));
-      return;
-    }
 
     const userExists = await User.findById(decoded.id).select('-password');
 
-    if (!userExists) {
-      next(createError(404, 'User not found'));
-      return;
+    if (userExists === null) {
+      throw createError(404, 'User not found');
     }
 
     const id = String(decoded.id);
@@ -93,6 +82,5 @@ export const handleRefresh = async (req: Request, res: Response, next: NextFunct
       });
   } catch (error) {
     next(error);
-    return null;
   }
 };
