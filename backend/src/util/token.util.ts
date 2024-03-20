@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
 
-const handleGenerateAuthToken = (id: string) => {
+const handleGenerateAuthToken = (id: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    createError(500, 'No JWT Secret');
-    return;
+  if (jwtSecret === undefined) {
+    throw createError(500, 'No JWT Secret');
   }
 
   return jwt.sign({ id }, jwtSecret, {
@@ -13,11 +12,10 @@ const handleGenerateAuthToken = (id: string) => {
   });
 };
 
-export const handleGenerateRefreshToken = (id: string) => {
+export const handleGenerateRefreshToken = (id: string): string => {
   const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
-    createError(500, 'No JWT Secret');
-    return;
+  if (jwtSecret === undefined) {
+    throw createError(500, 'No JWT Secret');
   }
 
   return jwt.sign({ id }, jwtSecret, {
