@@ -1,13 +1,15 @@
 import createError from 'http-errors';
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/user.model';
+
 import handleGenerateAuthToken, { handleGenerateRefreshToken } from '../util/token.util';
 import jwt from 'jsonwebtoken';
 import { testEmail, testPassword } from '../util/regex.util';
 
 import type { ResponseType, LoginBody } from '../express';
 import type { JwtPayload } from 'jsonwebtoken';
+
+import prisma from '../config/db.config';
 
 export const handleLogin = async (req: Request, res: Response, next: NextFunction): ResponseType => {
   const { email, password }: LoginBody = req.body;
@@ -24,24 +26,27 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
       );
     }
 
-    // Check if user exists, also populate user projects
-    const user = await User.findOne({ email }).populate('projects');
+    // Check if user exists
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
     if (user === null) throw createError(404, 'User not found');
 
     // Check password matches
-    const result = await bcrypt.compare(password, user.password);
+    const result = await bcrypt.compare(password, user.password as string);
     if (!result) throw createError(400, 'Invalid password');
 
     return res
       .status(200)
-      .cookie('refreshToken', handleGenerateRefreshToken(String(user._id)), { httpOnly: true, sameSite: 'strict' })
+      .cookie('refreshToken', handleGenerateRefreshToken(String(user.id)), { httpOnly: true, sameSite: 'strict' })
       .json({
-        _id: user._id,
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        authtoken: handleGenerateAuthToken(String(user._id)),
-        projects: user.projects,
+        authtoken: handleGenerateAuthToken(String(user.id)),
       });
   } catch (error) {
     next(error);
@@ -62,17 +67,21 @@ export const handleRefresh = async (req: Request, res: Response, next: NextFunct
     const decoded = jwt.verify(refreshToken, jwtSecret) as JwtPayload;
 
     // Get user from token
-    const userExists = await User.findById(decoded.id).select('-password');
-    if (userExists === null) throw createError(404, 'User not found');
+    const user = await prisma.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+    });
+    if (user === null) throw createError(404, 'User not found');
 
     res
       .header('Authorization', handleGenerateAuthToken(String(decoded.id)))
       .status(200)
       .json({
-        _id: userExists._id,
-        firstName: userExists.firstName,
-        lastName: userExists.lastName,
-        email: userExists.email,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
         authtoken: handleGenerateAuthToken(String(decoded.id)),
       });
   } catch (error) {
