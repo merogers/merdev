@@ -40,6 +40,12 @@ const UserSchema = new mongoose.Schema<UserInterface>(
   },
 );
 
+UserSchema.virtual('projects', {
+  ref: 'project',
+  localField: '_id',
+  foreignField: 'userid',
+});
+
 const User = mongoose.model('user', UserSchema);
 
 export default User;

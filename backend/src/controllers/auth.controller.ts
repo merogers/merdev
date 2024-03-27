@@ -24,8 +24,8 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
       );
     }
 
-    // Check if user exists
-    const user = await User.findOne({ email });
+    // Check if user exists, also populate user projects
+    const user = await User.findOne({ email }).populate('projects');
     if (user === null) throw createError(404, 'User not found');
 
     // Check password matches
@@ -41,6 +41,7 @@ export const handleLogin = async (req: Request, res: Response, next: NextFunctio
         lastName: user.lastName,
         email: user.email,
         authtoken: handleGenerateAuthToken(String(user._id)),
+        projects: user.projects,
       });
   } catch (error) {
     next(error);

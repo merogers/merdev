@@ -13,4 +13,5 @@ export interface UserInterface {
   lastName: string;
   email: string;
   password: string;
+  projects: UserInterface[];
 }
