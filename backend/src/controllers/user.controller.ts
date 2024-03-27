@@ -1,18 +1,21 @@
 import bcrypt from 'bcrypt';
 import createError from 'http-errors';
-import { isValidObjectId } from 'mongoose';
 import type { Request, Response, NextFunction } from 'express';
 
-import User from '../models/user.model';
-
 import type { ResponseType, UserBody } from '../express';
+
+import prisma from '../config/db.config';
 
 export const handleCreateUser = async (req: Request, res: Response, next: NextFunction): ResponseType => {
   const { email, password, firstName, lastName }: UserBody = req.body;
 
   try {
     // Check if user exists
-    const userExists = await User.findOne({ email });
+    const userExists = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
     if (userExists !== null) throw createError(400, 'User already exists');
 
     // Create hash of password
@@ -20,10 +23,23 @@ export const handleCreateUser = async (req: Request, res: Response, next: NextFu
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user, and return without password
-    const newUser = await User.create({ email, password: hashedPassword, firstName, lastName });
-    const newUserJson = newUser.toJSON();
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        firstName,
+        lastName,
+        password: hashedPassword,
+      },
+    });
 
-    return res.status(201).json(newUserJson);
+    return res.status(201).json({
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -34,15 +50,12 @@ export const handleUserDetails = async (req: any, res: Response, next: NextFunct
   const user = req.user;
 
   try {
-    // Check if id supplied is a valid MongoDB ID
-    if (isValidObjectId(id)) throw createError(400, 'Invalid User ID format');
-
     // Check if user exists
-    const userExists = await User.findById(id).select('-password');
+    const userExists = await prisma.user.findUnique({ where: { id } });
     if (userExists === null) throw createError(404, 'User not found');
 
     // Check whether requesting user is owner
-    if (user !== String(userExists._id)) throw createError(403, 'Unauthorized');
+    if (user !== String(userExists.id)) throw createError(403, 'Unauthorized');
 
     return res.status(200).json(user);
   } catch (error) {
@@ -55,29 +68,32 @@ export const handleUpdateUser = async (req: any, res: Response, next: NextFuncti
   const { firstName, lastName, email, password }: UserBody = req.body;
 
   try {
-    // Check if id supplied is a valid MongoDB ID
-    if (isValidObjectId(id)) throw createError(400, 'Invalid User ID format');
-
     // Check if user exists
-    const user = await User.findById(id);
-    if (user === null) throw createError(404, 'User not found');
+    const userExists = await prisma.user.findUnique({ where: { id } });
+    if (userExists === null) throw createError(404, 'User not found');
 
     // Check whether requesting user is owner
-    if (req.user !== user._id.toString()) throw createError(403, 'Unauthorized');
+    if (req.user !== userExists.id) throw createError(403, 'Unauthorized');
 
-    // Update user data
-    const updatedUser = await User.findByIdAndUpdate(
-      { _id: id },
-      {
+    const updateUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
         firstName,
         lastName,
         email,
         password,
       },
-      { new: true },
-    ).select('-password');
+    });
 
-    return res.status(200).json(updatedUser);
+    return res.status(200).json({
+      user: {
+        firstName: updateUser.firstName,
+        lastName: updateUser.lastName,
+        email: updateUser.email,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -88,20 +104,19 @@ export const handleDeleteUser = async (req: any, res: Response, next: NextFuncti
   const user = req.user;
 
   try {
-    // Check if id supplied is a valid MongoDB ID
-    if (!isValidObjectId(id)) throw createError(400, 'Invalid User ID format');
-
     // Check if user exists
-    const userExists = await User.findById(id);
+    const userExists = await prisma.user.findUnique({ where: { id } });
     if (userExists === null) throw createError(404, 'User not found');
 
     // Check whether requesting user is owner
-    if (user !== String(userExists._id)) throw createError(403, 'Unauthorized');
+    if (user !== String(userExists.id)) throw createError(403, 'Unauthorized');
 
     // Delete user
-    await User.deleteOne({ _id: id });
+    await prisma.user.delete({
+      where: { id },
+    });
 
-    return res.status(200).json({ id });
+    return res.sendStatus(200);
   } catch (error) {
     next(error);
   }

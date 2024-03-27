@@ -11,7 +11,7 @@ export interface ProjectBody {
   tags: string;
   codeUrl: string;
   demoUrl: string;
-  userid: string;
+  userId: number;
   screenshot: string;
 }
 
