@@ -1,10 +1,11 @@
 import type { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
-import User from '../models/user.model';
 
 import type { JwtPayload } from 'jsonwebtoken';
 import type { ResponseType } from '../express';
+
+import prisma from '../config/db.config';
 
 export const handleProtectRoute = async (req: any, _res: Response, next: NextFunction): ResponseType => {
   const authToken = req.headers.authorization;
@@ -24,11 +25,13 @@ export const handleProtectRoute = async (req: any, _res: Response, next: NextFun
     // Decode token, get user
     const bearer: string = authToken.split(' ')[1];
     const decoded = jwt.verify(bearer, jwtSecret) as JwtPayload;
-    const userExists = await User.findById(decoded.id).select('_id');
+
+    const userExists = await prisma.user.findUnique({ where: { id: decoded.id }, select: { id: true } });
+
     if (userExists === null) throw createError(404, 'User Not Found');
 
     // Set user in middleware
-    req.user = String(userExists._id);
+    req.user = String(userExists.id);
     next();
   } catch (error) {
     next(error);

@@ -1,7 +1,4 @@
 import express from 'express';
-import swaggerUI from 'swagger-ui-express';
-
-import swaggerSpec from '../config/docs.config';
 
 import authRouter from './auth.routes';
 import emailRouter from './email.routes';
@@ -17,7 +14,6 @@ router.use('/email', emailRouter);
 router.use('/project', projectRouter);
 router.use('/user', userRouter);
 router.use('/health', healthRouter);
-router.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 router.use('/image', imageRouter);
 
 export default router;
