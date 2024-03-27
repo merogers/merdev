@@ -3,39 +3,22 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { testEmail, testName, testPhone, testMessage } from '../util/regex.util';
 import type { Request, Response, NextFunction } from 'express';
 
-// AWS Config
-const AWS_REGION = process.env.AWS_REGION;
-const AWS_SES_TO = process.env.AWS_SES_TO;
-const AWS_SES_FROM = process.env.AWS_SES_FROM;
+import type { ResponseType, EmailBody } from '../express';
 
-const sesClient = new SESClient({ region: AWS_REGION });
-
-export const handleEmail = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const {
-    name,
-    email,
-    phone,
-    message,
-    jobRole,
-  }: { name: string; email: string; phone: string; message: string; jobRole: string } = req.body;
+export const handleEmail = async (req: Request, res: Response, next: NextFunction): ResponseType => {
+  const { name, email, phone, message, jobRole }: EmailBody = req.body;
 
   const validName = testName(name);
   const validEmail = testEmail(email);
   const validPhone = testPhone(phone);
   const validMessage = testMessage(message);
 
-  // Validate user input
-  if (!validName || !validEmail || !validPhone || !validMessage) {
-    throw createError(
-      400,
-      'Invalid Input. Name must be between 1 and 25 characters long, message must be between 1 and 250 characters long with no special characters, email and phone must be valid',
-    );
-  }
+  // AWS Config
+  const AWS_REGION = process.env.AWS_REGION;
+  const AWS_SES_TO = process.env.AWS_SES_TO;
+  const AWS_SES_FROM = process.env.AWS_SES_FROM;
 
-  // Honeypot - Spam Protection
-  if (jobRole !== '') {
-    throw createError(400, 'Cannot send message');
-  }
+  const sesClient = new SESClient({ region: AWS_REGION });
 
   // Email generation command
   const command = new SendEmailCommand({
@@ -63,8 +46,21 @@ export const handleEmail = async (req: Request, res: Response, next: NextFunctio
   });
 
   try {
-    const response = await sesClient.send(command);
-    return res.status(200).json(response);
+    // Validate user input
+    if (!validName || !validEmail || !validPhone || !validMessage) {
+      throw createError(
+        400,
+        'Invalid Input. Name must be between 1 and 25 characters long, message must be between 1 and 250 characters long with no special characters, email and phone must be valid',
+      );
+    }
+
+    // Honeypot - Spam Protection
+    if (jobRole !== '') throw createError(400, 'Cannot send message');
+
+    // Send email
+    await sesClient.send(command);
+
+    return res.sendStatus(200);
   } catch (error) {
     next(error);
   }
