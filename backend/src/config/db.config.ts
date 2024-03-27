@@ -3,11 +3,13 @@ import logger from '../util/logger.util';
 
 const connectDB = async (): Promise<any> => {
   const mongoURI = process.env.MONGO_URI;
+  // If no MongoDB URI, then exit
   if (mongoURI === undefined) {
     logger.error('Mongo URI is not defined');
     process.exit(1);
   }
   try {
+    // Connect to DB
     const mongoDBConnect = await mongoose.connect(mongoURI);
     logger.info(`MongoDB Connected to: ${mongoDBConnect.connection.host}`);
   } catch (error) {

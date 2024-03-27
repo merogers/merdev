@@ -1,30 +1,34 @@
 import mongoose from 'mongoose';
 
-export interface UserInterface {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { testEmail } from '../util/regex.util';
+
+import type { UserInterface } from '../mongoose';
 
 const UserSchema = new mongoose.Schema<UserInterface>(
   {
     firstName: {
       type: String,
-      required: true,
+      required: [true, 'First Name is required'],
+      min: [1, 'First Name must be longer than 1 character'],
+      max: [25, 'First Name must be shorter than 25 characters'],
     },
     lastName: {
       type: String,
-      required: true,
+      required: [true, 'First Name is required'],
+      min: [1, 'First Name must be longer than 1 character'],
+      max: [25, 'First Name must be shorter than 25 characters'],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required'],
       unique: true,
+      validate: [testEmail, 'Email must be valid'],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
+      min: [8, 'Password must be longer than 8 characters'],
+      max: [25, 'Password must be shorter than 25 characters'],
     },
   },
   {
@@ -35,6 +39,12 @@ const UserSchema = new mongoose.Schema<UserInterface>(
     },
   },
 );
+
+UserSchema.virtual('projects', {
+  ref: 'project',
+  localField: '_id',
+  foreignField: 'userid',
+});
 
 const User = mongoose.model('user', UserSchema);
 
