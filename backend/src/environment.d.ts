@@ -11,10 +11,4 @@ declare global {
       AWS_SECRET_ACCESS_KEY: string;
     }
   }
-  // namespace Express {
-  //   interface Request extends ExpressRequest {
-  //     user?: string | undefined;
-  //     file?: File | undefined;
-  //   }
-  // }
 }
