@@ -1,0 +1,64 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/media' as *;
+
+.toggle {
+  position: absolute;
+  display: flex;
+  height: 2rem;
+
+  align-items: center;
+  right: 2rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  @include desktop {
+    position: relative;
+    right: 0;
+    top: 0;
+    transform: none;
+  }
+  &__checkbox {
+    display: none;
+  }
+  &__container {
+    display: flex;
+    position: relative;
+    background: $color-secondary-100;
+    height: 100%;
+    width: 4rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    &--on {
+      background: $color-primary-100;
+    }
+  }
+  &__indicator {
+    position: absolute;
+    left: 25%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 1rem;
+    width: 1rem;
+    background-color: $color-white;
+    border-radius: 1rem;
+    transition: left 0.25s;
+    &--on {
+      left: 75%;
+    }
+  }
+
+  &__light {
+    position: absolute;
+    height: 1.2rem;
+    left: 70%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__dark {
+    position: absolute;
+    height: 1.2rem;
+    left: 30%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

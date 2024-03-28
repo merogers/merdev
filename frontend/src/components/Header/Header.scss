@@ -13,11 +13,13 @@
   left: 0;
   width: 100%;
   z-index: 2;
-  transition: all 0.2s;
+  transition: all 0.25s;
   &__items {
     display: flex;
-    justify-content: space-between;
     width: 100%;
+    z-index: 2;
+    position: relative;
+    align-items: center;
   }
   &__container {
     @include container;

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import Nav from '../Nav/Nav';
+import ToggleSwitch from '../ThemeToggle/ThemeToggle';
 
 import './Header.scss';
 
@@ -51,6 +52,7 @@ export default function Header() {
             Header
           </Link>
           <Nav links={NavigationLinks} />
+          <ToggleSwitch />
         </div>
       </div>
     </header>
